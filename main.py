@@ -95,7 +95,7 @@ while True:
       elif opt_sel == 2:
         # print()
         os.system("printf '%b' 'updating... '; git pull")
-        print('Restart to finish updating', end='')
+        print('Restart to finish updating')
         time.sleep(2)
       continue
 
