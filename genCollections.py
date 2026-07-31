@@ -10,7 +10,7 @@ print('generating collections...')
 for i in os.scandir('./content/'):
   if i.is_dir():
     if 'folders' in os.listdir(i):
-      os.system('cd ./content/' + i.name)
+      # os.system('cd ./content/' + i.name)
       os.chdir('./content/' + i.name)
 
       folders = readfile('./folders').splitlines()
@@ -23,7 +23,7 @@ for i in os.scandir('./content/'):
               direct = direct.replace("'", "\\'")
               print(direct)
               os.system('ln -s ' + folder + str(direct))
-      os.system('cd ../../')
+      # os.system('cd ../../')
       os.chdir(os.path.expanduser('~/.local/share/prokid/text-porn'))
 
 print('done')
