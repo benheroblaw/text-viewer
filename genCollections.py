@@ -24,6 +24,6 @@ for i in os.scandir('./content/'):
               print(direct)
               os.system('ln -s ' + folder + str(direct))
       # os.system('cd ../../')
-      os.chdir(os.path.expanduser('~/.local/share/prokid/text-porn'))
+      os.chdir(os.path.expanduser('~/.local/share/prokid/text-viewer'))
 
 print('done')
