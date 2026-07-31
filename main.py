@@ -141,45 +141,48 @@ while True:
         chap_story = extra.readfile('./content/' + folders[sel] + '/' + chapters[chap_sel]).splitlines()
         for i in chap_story:
           i = i.strip()
-          if '/RED' in i:
-            i = i.replace('/RED', '')
-            print('\033[0;31m', end='')
-          if '/GRN' in i:
-            i = i.replace('/GRN', '')
-            print('\033[0;32m', end="")
-          if '/YLW' in i:
-            i=i.replace('/YLW', '')
-            print('\033[0;33m', end='')
-          if '/BLU' in i:
-            i = i.replace('/BLU', '')
-            print('\033[0;34m', end='')
-          if '/BLD' in i:
-            i = i.replace('/b', '')
-            i = i.replace('/BLD', '')
-            i = i.replace('/B', '')
-            print('\033[1m', end='')
-          elif '#' in i:
-            continue
-          if '/NOBR' in i:
-            i = i.replace('/NOBR', '')
-          if '/CONT' in i:
-            i = i.replace('/CONT', '')
-            text.noinput(i)
-            continue
-          if '/CLRA' in i:
-            i = i.replace('/CLRA', '')
-            text.clearAfter(i)
-            continue
-          if '/CLRB' in i:
-            i = i.replace('/CLRB', '')
-            text.clearBefore(i)
-            continue
-          else:
-            text.noClear(i)
-          if '/NOBR' in i:
-            print('\033[0;0;0m', end='')
-          else:
-            print('\033[0;0;0m', end='\n')
+          if i != '':
+            nobr = False
+            if '/RED' in i:
+              i = i.replace('/RED', '')
+              print('\033[0;31m', end='')
+            if '/GRN' in i:
+              i = i.replace('/GRN', '')
+              print('\033[0;32m', end="")
+            if '/YLW' in i:
+              i=i.replace('/YLW', '')
+              print('\033[0;33m', end='')
+            if '/BLU' in i:
+              i = i.replace('/BLU', '')
+              print('\033[0;34m', end='')
+            if '/BLD' in i:
+              i = i.replace('/b', '')
+              i = i.replace('/BLD', '')
+              i = i.replace('/B', '')
+              print('\033[1m', end='')
+            elif '#' in i:
+              continue
+            if '/NOBR' in i:
+              i = i.replace('/NOBR', '')
+              nobr = True
+            if '/CONT' in i:
+              i = i.replace('/CONT', '')
+              text.noinput(i)
+              continue
+            if '/CLRA' in i:
+              i = i.replace('/CLRA', '')
+              text.clearAfter(i)
+              continue
+            if '/CLRB' in i:
+              i = i.replace('/CLRB', '')
+              text.clearBefore(i)
+              continue
+            else:
+              text.noClear(i)
+            if nobr:
+              print('\033[0;0;0m', end='')
+            else:
+              print('\033[0;0;0m')
           # print()
         input('> Return ')
         extra.clear()
