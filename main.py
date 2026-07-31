@@ -120,8 +120,50 @@ while True:
       chapter_last = len(chapters)
       print(folders_pretty[sel])
       print('Folder: ./content/' + folders[sel] + '/')
-      if 'author' in os.listdir('./content/' + folders[sel]):
-        print('Author: ' + extra.readline('./content/' + folders[sel] + '/author', 1))
+
+      def readmeta(line=1):
+        return extra.readline('./content/' + folders[sel] + '/.meta', line)
+
+      # meta handling
+      if '.meta' in os.listdir('./content/' + folders[sel]):
+        meta_lines = extra.getlines('./content/' + folders[sel] + '/.meta')
+        if meta_lines >= 1:
+          meta_author = extra.readline('./content/' + folders[sel] + '/.meta', 1)
+          if 'authors: ' in meta_author or 'authors:' in meta_author:
+            meta_author = meta_author.replace('authors: ', '')
+            meta_author = meta_author.replace('authors:', '')
+            print('Authors: ' + meta_author)
+          else:
+            meta_author = meta_author.replace('author: ', '')
+            meta_author = meta_author.replace('author:', '')
+            print('Author: ' + meta_author)
+
+        if meta_lines >= 2:
+          meta_rating = extra.readline('./content/' + folders[sel] + '/.meta', 2)
+          if 'rating: ' or 'rating:' in meta_rating:
+            meta_rating = meta_rating.replace('rating: ', '')
+            meta_rating = meta_rating.replace('rating:', '')
+
+          if meta_rating == 'error': print('Rating: ???')
+          elif meta_rating == '': print('Rating: Unset; options are: g, t, e, a')
+          elif 'g' in meta_rating: print('Rating: General Audiences')
+          elif 't' in meta_rating: print('Rating: Teen')
+          elif 'e' in meta_rating: print('Rating: Explicit')
+          elif 'a' in meta_rating: print('Rating: Adult')
+          else: print('Rating: ???')
+
+        if meta_lines >= 4:
+          meta_warnings = readmeta(4)
+          if 'warnings: ' in meta_warnings: meta_warnings = meta_warnings.replace('warnings: ', '')
+          if 'warnings:' in meta_warnings: meta_warnings = meta_warnings.replace('warnings:', '')
+          print('Warnings: ' + meta_warnings)
+
+        if meta_lines >= 3:
+          meta_links = extra.readline('./content/' + folders[sel] + '/.meta', 3)
+          if 'links: ' in meta_links: meta_links = meta_links.replace('links: ', '')
+          if 'links:' in meta_links: meta_links = meta_links.replace('links:', '')
+          print('Links: ' + meta_links)
+
       print('\n0. Back')
       for i, x in enumerate(chapters):
         print(str(i+1) + '. ' + str(chapters_pretty[i])) #'Chapter ' + str(i+1) + ': ' +
