@@ -23,7 +23,12 @@ for i in os.scandir('./content/'):
               direct = direct.replace("'", "\\'")
               print(direct)
               os.system('ln -s ' + folder + str(direct))
+<<<<<<< Updated upstream
       # os.system('cd ../../')
       os.chdir(os.path.expanduser('~/.local/share/prokid/text-porn'))
+=======
+      os.system('cd ../../')
+      os.chdir(os.path.expanduser('~/.local/share/prokid/text-viewer'))
+>>>>>>> Stashed changes
 
 print('done')
