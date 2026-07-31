@@ -4,6 +4,7 @@ sys.path += '~/.local/share/prokid/text-porn/'
 import extra
 try: extra.createfile('options.txt', '0.025')
 except: print('options.txt exists, continuing...')
+import genCollections
 import text, os, sys, time, textwrap, threading
 
 def checkSpeed():
@@ -37,7 +38,7 @@ while True:
     output = output.removeprefix('_')
     output = output.replace("_", ' ')
     output = output.replace('zzz-', '_')
-    # output = output[0].upper() + output[1:]
+    output = output[0].upper() + output[1:]
     # folders_pretty[i] = x.replace('_', ' ')
     folders_pretty[i] = output
     # print(i)
@@ -110,7 +111,7 @@ while True:
         output = x.replace("_", ' ')
         output = output.replace('zzz-', '_')
         output = output.removesuffix('.scri')
-        # output = output[0].upper() + output[1:]
+        output = output[0].upper() + output[1:]
         chapters_pretty[i] = output
       chapters = []
       for i, x in enumerate(chapters_list):
@@ -184,6 +185,7 @@ while True:
         for i in chap_story:
           i = i.strip()
           if i != '':
+            nobr = False
             if '/RED' in i:
               i = i.replace('/RED', '')
               print('\033[0;31m', end='')
@@ -205,6 +207,7 @@ while True:
               continue
             if '/NOBR' in i:
               i = i.replace('/NOBR', '')
+              nobr = True
             if '/CONT' in i:
               i = i.replace('/CONT', '')
               text.noinput(i)
@@ -219,10 +222,10 @@ while True:
               continue
             else:
               text.noClear(i)
-            if '/NOBR' in i:
+            if nobr:
               print('\033[0;0;0m', end='')
             else:
-              print('\033[0;0;0m', end='\n')
+              print('\033[0;0;0m')
           # print()
         input('> Return ')
         extra.clear()
