@@ -67,7 +67,7 @@ while True:
   if selection == 0:
     while True:
       extra.clear()
-      print('Options\n\n0. Back\n1. Change text speed')
+      print('Options\n\n0. Back\n1. Change text speed\n2. Update')
       try: opt_sel = input('\n> ')
       except KeyboardInterrupt: break
       try:
@@ -92,7 +92,15 @@ while True:
           continue
         extra.writeline('options.txt', 1, speed)
         text.speed = float(extra.readline("options.txt", 1))
+      elif opt_sel == 2:
+        # print()
+        os.system("printf '%b' 'updating... '; git pull")
+        print('Restart to finish updating', end='')
+        time.sleep(2)
       continue
+
+  # if selection == 'update':
+  #   os.system('git pull')
 
   # if sel
 
