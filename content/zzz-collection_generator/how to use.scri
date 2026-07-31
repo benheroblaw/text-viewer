@@ -1,2 +1,0 @@
-Add file paths to ./folders, place genCollection.py in the folder and run it
-genCollection.py is meant to add links to files in other directories, but at some point I may add a genCollections.py that searches for 'folders' files in all directories in ./content and adds links there
