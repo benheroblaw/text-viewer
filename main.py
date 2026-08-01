@@ -21,6 +21,7 @@ print('\33]0;benheroblaw\'s text-based pornography viewer\a', end='', flush=True
 # speedCheck.join()
 
 while True:
+  genCollections.generate(False)
   folder = os.scandir('./content')
   folders = []
   for entry in folder:
@@ -38,7 +39,7 @@ while True:
     output = output.removeprefix('_')
     output = output.replace("_", ' ')
     output = output.replace('zzz-', '_')
-    output = output[0].upper() + output[1:]
+    # output = output[0].upper() + output[1:]
     # folders_pretty[i] = x.replace('_', ' ')
     folders_pretty[i] = output
     # print(i)
@@ -61,7 +62,7 @@ while True:
     selection = int(selection)
     extra.clear()
   except ValueError:
-    print("Input a number")
+    print("")
     continue
 
   if selection == 0:
@@ -75,7 +76,8 @@ while True:
         # selection = int(selection)
         extra.clear()
       except ValueError:
-        print("Input a number")
+        # print("Input a number")
+        extra.clear()
         continue
       if opt_sel == 0:
         break
@@ -119,7 +121,7 @@ while True:
         output = x.replace("_", ' ')
         output = output.replace('zzz-', '_')
         output = output.removesuffix('.scri')
-        output = output[0].upper() + output[1:]
+        # output = output[0].upper() + output[1:]
         chapters_pretty[i] = output
       chapters = []
       for i, x in enumerate(chapters_list):
@@ -139,13 +141,15 @@ while True:
         if meta_lines >= 1:
           meta_author = extra.readline('./content/' + folders[sel] + '/.meta', 1)
           if 'authors: ' in meta_author or 'authors:' in meta_author:
-            meta_author = meta_author.replace('authors: ', '')
-            meta_author = meta_author.replace('authors:', '')
-            print('Authors: ' + meta_author)
+            if meta_author != '':
+              meta_author = meta_author.replace('authors: ', '')
+              meta_author = meta_author.replace('authors:', '')
+              print('Authors: ' + meta_author)
           else:
-            meta_author = meta_author.replace('author: ', '')
-            meta_author = meta_author.replace('author:', '')
-            print('Author: ' + meta_author)
+            if meta_author != '':
+              meta_author = meta_author.replace('author: ', '')
+              meta_author = meta_author.replace('author:', '')
+              print('Author: ' + meta_author)
 
         if meta_lines >= 2:
           meta_rating = extra.readline('./content/' + folders[sel] + '/.meta', 2)
@@ -165,13 +169,17 @@ while True:
           meta_warnings = readmeta(4)
           if 'warnings: ' in meta_warnings: meta_warnings = meta_warnings.replace('warnings: ', '')
           if 'warnings:' in meta_warnings: meta_warnings = meta_warnings.replace('warnings:', '')
-          print('Warnings: ' + meta_warnings)
+          # if 'warning: ' in meta_warnings: meta_warnings = meta_warnings.replace('warning: ', '')
+          # if 'warning:' in meta_warnings: meta_warnings = meta_warnings.replace('warning:', '')
+          if meta_warnings != '':
+            print('Warnings: ' + meta_warnings)
 
         if meta_lines >= 3:
           meta_links = extra.readline('./content/' + folders[sel] + '/.meta', 3)
           if 'links: ' in meta_links: meta_links = meta_links.replace('links: ', '')
           if 'links:' in meta_links: meta_links = meta_links.replace('links:', '')
-          print('Links: ' + meta_links)
+          if meta_links != '':
+            print('Links: ' + meta_links)
 
       print('\n0. Back')
       for i, x in enumerate(chapters):
@@ -182,7 +190,7 @@ while True:
         chap_sel = int(chap_select)-1
         chap_select = int(chap_select)
       except ValueError:
-        print("Input a number")
+        # print("")
         extra.clear()
         continue
       extra.clear()
@@ -207,9 +215,7 @@ while True:
               i = i.replace('/BLU', '')
               print('\033[0;34m', end='')
             if '/BLD' in i:
-              i = i.replace('/b', '')
               i = i.replace('/BLD', '')
-              i = i.replace('/B', '')
               print('\033[1m', end='')
             elif '#' in i:
               continue
@@ -219,6 +225,10 @@ while True:
             if '/CONT' in i:
               i = i.replace('/CONT', '')
               text.noinput(i)
+              if nobr:
+                print('\033[0;0;0m', end='')
+              else:
+                print('\033[0;0;0m')
               continue
             if '/CLRA' in i:
               i = i.replace('/CLRA', '')

@@ -1,0 +1,8 @@
+Scripts are stored in named folders inside the 'content' directory.
+In the selection dialogue, you choose a folder, then a file.
+The file name is displayed as the chapter name.
+Underscores are converted to spaces.
+If you write 'zzz-' before your folder name, it gets displayed as an underscore.
+This is to help sort folders as 'less important'.
+A folder name starting with an underscore will not display the first underscore and be sorted to the top.
+Next- writing scripts.
