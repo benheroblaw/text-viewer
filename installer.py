@@ -12,5 +12,5 @@ if not os.path.exists(terminalPath):
 os.chdir(terminalPath)
 
 os.system('git clone -b release https://github.com/benheroblaw/text-viewer')
-print('\nSuccessfully installed!')
+input('\nSuccessfully installed!')
 time.sleep(4)
