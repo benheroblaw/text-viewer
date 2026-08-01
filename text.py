@@ -67,7 +67,7 @@ def noinput(msg="", msgSpeed=speed):
                 #     ""
                 else:
                     time.sleep(msgSpeed)
-            print()
+            print('')
             # cursor.hide()
         else:
             print(msg, flush=True)
