@@ -4,8 +4,12 @@ sys.path += '~/.local/share/prokid/text-porn/'
 import extra
 try: extra.createfile('options.txt', '0.025')
 except: print('options.txt exists, continuing...')
+import os
+os.system('./chkdeps.bash')
 import genCollections
-import text, os, sys, time, textwrap, threading
+import text, sys, time, textwrap, threading
+import colorama
+from colorama import *
 
 def checkSpeed():
   while True:
@@ -14,7 +18,7 @@ def checkSpeed():
     time.sleep(0.1)
 speedCheck = threading.Thread(target=checkSpeed)
 
-print('\33]0;benheroblaw\'s text-based pornography viewer\a', end='', flush=True)
+print('\33]0;benheroblaw\'s text viewer\a', end='', flush=True)
 
 
 # speedCheck.start()
