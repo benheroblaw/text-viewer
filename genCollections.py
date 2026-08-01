@@ -22,7 +22,7 @@ for i in os.scandir('./content/'):
             if direct.endswith('.scri'):
               direct = direct.replace("'", "\\'")
               print(direct)
-              os.system('ln -s ' + folder + str(direct))
+              os.system('ln -s -f ' + folder + str(direct))
       # os.system('cd ../../')
       os.chdir(os.path.expanduser('~/.local/share/prokid/text-porn'))
 
