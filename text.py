@@ -33,8 +33,9 @@ def clearBefore(msg=''):
     """Clears the terminal, then shows text"""
     clear()
     noclear(msg, speed)
-def noclear(msg="", msgSpeed=speed):
+def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", ""))):
     """Prints out text and waits for input."""
+    msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
@@ -57,6 +58,7 @@ def noClear(msg=""):
     noclear(msg, speed)
 def noinput(msg="", msgSpeed=speed):
     """Prints out text."""
+    msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
     # cursor.show()
