@@ -19,7 +19,7 @@ battlemsgSpeed = 0
 if battlemsgSpeed <= 0:
     battlemsgSpeed = 0.0075
 
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z"]
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
 def text(msg=""):
     """Prints out text and waits for input, then clears the terminal."""
@@ -35,6 +35,7 @@ def clearBefore(msg=''):
     noclear(msg, speed)
 def noclear(msg="", msgSpeed=speed):
     """Prints out text and waits for input."""
+    # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
@@ -44,7 +45,7 @@ def noclear(msg="", msgSpeed=speed):
                     time.sleep(msgSpeed*4)
                 # elif char == "\"" or char == "?" or char == "!":
                 #     ""
-                else:
+                elif char in alphabet:
                     time.sleep(msgSpeed)
             input()
             # print()
@@ -67,10 +68,12 @@ def noinput(msg="", msgSpeed=speed):
                 #     ""
                 else:
                     time.sleep(msgSpeed)
+            # time.sleep(msgSpeed**msgSpeed*0.25)
             print('')
             # cursor.hide()
         else:
             print(msg, flush=True)
+            time.sleep(msgSpeed**msgSpeed/2)
 
 def face(portrait="", msg=""):
     """Prints out text with a portrait."""
