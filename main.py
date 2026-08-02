@@ -8,8 +8,8 @@ import os
 os.system('./chkdeps.bash')
 import genCollections
 import text, sys, time, textwrap, threading
-import colorama
-from colorama import *
+# import colorama
+# from colorama import *
 
 def checkSpeed():
   while True:
@@ -97,7 +97,7 @@ while True:
           print("Input a number")
           continue
         extra.writeline('options.txt', 1, speed)
-        text.speed = float(extra.readline("options.txt", 1))
+        text.speed = float(speed)
       elif opt_sel == 2:
         # print()
         os.system("printf '%b' 'updating... '; git pull")
@@ -221,7 +221,7 @@ while True:
             if '/BLD' in i:
               i = i.replace('/BLD', '')
               print('\033[1m', end='')
-            elif '#' in i:
+            elif '#' in i or '//' in i and '/ESC' not in i:
               continue
             if '/NOBR' in i:
               i = i.replace('/NOBR', '')
