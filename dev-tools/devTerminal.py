@@ -10,7 +10,7 @@ def runCommands(command=''):
     date = datetime.datetime.now()
     os.system('cd ~/.local/share/prokid/text-porn; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
 
-  if command == 'test' or command == 'viewer':
+  elif command == 'test' or command == 'viewer':
     os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/prokid/text-porn/ ;bash\"'")
 
   else: os.system(command)
