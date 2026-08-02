@@ -5,17 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "collection generator",
-      "type": "debugpy",
-      "request": "launch",
-      "program": "genCollections.py",
-      "console": "integratedTerminal"
-    },
-    {
       "name": "Testing",
       "type": "debugpy",
       "request": "launch",
       "program": "main.py",
+      "console": "integratedTerminal"
+    },
+    // {
+    //   "name": "collection generator",
+    //   "type": "debugpy",
+    //   "request": "launch",
+    //   "program": "genCollections.py",
+    //   "console": "integratedTerminal"
+    // },
+    {
+      "name": "debug terminal",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "./devtools/devTerminal.py",
       "console": "integratedTerminal"
     },
   ]
