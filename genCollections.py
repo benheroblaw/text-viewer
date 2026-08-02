@@ -29,7 +29,7 @@ def generate(logging=True):
                   print(direct)
                 os.system('ln -s -f ' + folder + str(direct))
         # os.system('cd ../../')
-        os.chdir(os.path.expanduser('~/.local/share/prokid/text-viewer'))
+        os.chdir(os.path.expanduser('../../'))
 
   if logging:
     print('done')
