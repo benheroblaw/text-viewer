@@ -1,6 +1,13 @@
 import os, datetime
 
+def getTerminalWidth():
+  save = os.get_terminal_size()
+  return int(save.columns)
+
+
 def runCommands(command=''):
+  dashes = '-' * getTerminalWidth()
+
   if command == 'copypush' or command == 'releasepush':
     os.system('shopt -s dotglob; cd ~/.local/share/prokid/text-porn; cp --verbose * ~/.local/share/prokid/text-viewer;')
     date = datetime.datetime.now()
@@ -13,7 +20,22 @@ def runCommands(command=''):
   elif command == 'test' or command == 'viewer':
     os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/prokid/text-porn/ ;bash\"'")
 
-  else: os.system(command)
+  elif command == 'fullpush':
+    print('dev')
+    date = datetime.datetime.now()
+    os.system('cd ~/.local/share/prokid/text-porn; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
+
+    print(dashes)
+
+    print('release')
+    os.system('shopt -s dotglob; cd ~/.local/share/prokid/text-porn; cp --verbose * ~/.local/share/prokid/text-viewer;')
+    date = datetime.datetime.now()
+    os.system('cd ' + os.path.expanduser('~/.local/share/prokid/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin release')
+
+
+  else:
+    try: exec(command)
+    except: os.system(command)
 
 def parse():
   output = []
