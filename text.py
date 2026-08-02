@@ -51,7 +51,7 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
             input()
             # print()
         else:
-            print(msg, flush=True)
+            print(msg, flush=True, end='')
             input()
     # cursor.hide()
 def noClear(msg=""):
