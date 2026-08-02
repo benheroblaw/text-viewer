@@ -100,7 +100,7 @@ while True:
         text.speed = float(speed)
       elif opt_sel == 2:
         # print()
-        os.system("printf '%b' 'updating... '; git pull")
+        os.system("printf '%b' 'updating... '; git pull origin release")
         print('Restart to finish updating')
         time.sleep(2)
       continue
