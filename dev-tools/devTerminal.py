@@ -21,7 +21,7 @@ def runCommands(command=''):
     os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/prokid/text-porn/ ;bash\"'")
 
   elif command == 'fullpush':
-    print('dev\n')
+    print(dashes + '\ndev\n')
     date = datetime.datetime.now()
     os.system('cd ~/.local/share/prokid/text-porn; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
 
