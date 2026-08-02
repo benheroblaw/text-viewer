@@ -206,6 +206,8 @@ while True:
           i = i.strip()
           if i != '':
             nobr = False
+            if '#' in i or '//' in i and '/ESC' not in i:
+              continue
             if '/RED' in i:
               i = i.replace('/RED', '')
               print('\033[0;31m', end='')
@@ -221,8 +223,6 @@ while True:
             if '/BLD' in i:
               i = i.replace('/BLD', '')
               print('\033[1m', end='')
-            elif '#' in i or '//' in i and '/ESC' not in i:
-              continue
             if '/NOBR' in i:
               i = i.replace('/NOBR', '')
               nobr = True
