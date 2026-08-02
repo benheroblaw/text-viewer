@@ -3,10 +3,10 @@ import os, datetime
 def getTerminalWidth():
   save = os.get_terminal_size()
   return int(save.columns)
+dashes = '-' * getTerminalWidth()
 
 
 def runCommands(command=''):
-  dashes = '-' * getTerminalWidth()
 
   if command == 'copypush' or command == 'releasepush':
     os.system('shopt -s dotglob; cd ~/.local/share/prokid/text-porn; cp --verbose * ~/.local/share/prokid/text-viewer;')
