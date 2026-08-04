@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-sys.path += '~/.local/share/prokid/text-porn/'
+# sys.path += '~/.local/share/prokid/text-porn/'
 import extra
 try: extra.createfile('options.txt', '0.025')
 except: print('options.txt exists, continuing...')
