@@ -55,6 +55,8 @@ def runCommands(command=''):
     date = datetime.datetime.now()
     os.system('cd ' + os.path.expanduser('~/.local/share/prokid/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin release')
 
+  elif command == 'copyrelease' or command == 'releasecopy':
+    os.system('shopt -s dotglob; cd ~/.local/share/prokid/text-porn; cp --verbose * ~/.local/share/prokid/text-viewer;')
 
   else:
     try: exec(command)
