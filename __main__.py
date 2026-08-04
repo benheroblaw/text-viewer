@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import main, importlib, os
+import viewer, importlib, os
 
 def readfile(file=""):
   """Reads a file."""
@@ -17,7 +17,7 @@ def readline(file="", line=1):
 
 while __name__ == '__main__':
   os.system('printf "%b" "Updating... "; git pull origin ' + readfile('extra/origin'))
-  main.main()
-  print('\nreloading main...')
-  importlib.reload(main)
+  viewer.main()
+  print('\nreloading viewer...')
+  importlib.reload(viewer)
   print('reloaded!')

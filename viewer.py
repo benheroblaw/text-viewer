@@ -55,8 +55,9 @@ def main():
     # folders_pretty.sort()
 
     extra.clear()
-    print('Folders in ./content: ' + str(folders))
-    print('\n0. Options')
+    size = os.get_terminal_size()
+    print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+    # print()
     for i, x in enumerate(folders):
       print(str(i+1) + '. ' + folders_pretty[i])
     try: selection = input('\n> ')
@@ -135,8 +136,8 @@ def main():
             chapters.append(str(x))
         chapters.sort()
         chapter_last = len(chapters)
-        print(folders_pretty[sel])
-        print('Folder: ./content/' + folders[sel] + '/')
+        print('Title:    ' + folders_pretty[sel])
+        print('Folder:   ./content/' + folders[sel] + '/')
 
         def readmeta(line=1):
           return extra.readline('./content/' + folders[sel] + '/.meta', line)
@@ -150,12 +151,12 @@ def main():
               if meta_author != '':
                 meta_author = meta_author.replace('authors: ', '')
                 meta_author = meta_author.replace('authors:', '')
-                print('Authors: ' + meta_author)
+                print('Authors:  ' + meta_author)
             else:
               if meta_author != '':
                 meta_author = meta_author.replace('author: ', '')
                 meta_author = meta_author.replace('author:', '')
-                print('Author: ' + meta_author)
+                print('Author:   ' + meta_author)
 
           if meta_lines >= 2:
             meta_rating = extra.readline('./content/' + folders[sel] + '/.meta', 2)
@@ -164,11 +165,11 @@ def main():
               meta_rating = meta_rating.replace('rating:', '')
 
             if meta_rating == 'error': print('Rating: ???')
-            elif meta_rating == '': print('Rating: Unset; options are: g, t, e, a')
-            elif 'g' in meta_rating: print('Rating: General Audiences')
-            elif 't' in meta_rating: print('Rating: Teen')
-            elif 'e' in meta_rating: print('Rating: Explicit')
-            elif 'a' in meta_rating: print('Rating: Adult')
+            elif meta_rating == '': print('Rating:   Unset; options are: g, t, e, a')
+            elif 'g' in meta_rating: print('Rating:   General Audiences')
+            elif 't' in meta_rating: print('Rating:   Teen')
+            elif 'e' in meta_rating: print('Rating:   Explicit')
+            elif 'a' in meta_rating: print('Rating:   Adult')
             else: print('Rating: ???')
 
           if meta_lines >= 4:
@@ -185,7 +186,7 @@ def main():
             if 'links: ' in meta_links: meta_links = meta_links.replace('links: ', '')
             if 'links:' in meta_links: meta_links = meta_links.replace('links:', '')
             if meta_links != '':
-              print('Links: ' + meta_links)
+              print('Links:    ' + meta_links)
 
         print('\n0. Back')
         for i, x in enumerate(chapters):
