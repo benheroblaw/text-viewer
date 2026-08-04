@@ -15,6 +15,7 @@ def generate(logging=True):
       if '.folders' in os.listdir(i):
         # os.system('cd ./content/' + i.name)
         os.chdir('./content/' + i.name)
+        print('./content/' + i.name)
 
         folders = readfile('./.folders').splitlines()
         for folder in folders:
