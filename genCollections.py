@@ -23,11 +23,11 @@ def generate(logging=True):
             if logging:
               print(i.name + ': commented, skipping...')
           else:
-            if './' not in folder:
-              folder = './' + folder
+            # if './' not in folder:
+            #   folder = './' + folder
             for direct in os.listdir(folder):
               if '../' not in folder:
-                folder = '.' + folder
+                folder = '../' + folder
               if direct.endswith('.scri'):
                 direct = direct.replace("'", "\\'")
                 if logging:
