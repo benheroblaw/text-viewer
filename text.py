@@ -1,4 +1,4 @@
-import os, time, cursor, threading
+import os, time, cursor, threading, textwrap
 
 def clear():
     os.system("clear")
@@ -10,6 +10,10 @@ def readline(file="", line=1):
             data = f.readlines()
             return data[line].replace("\n", "")
     except: return "error"
+
+size = os.get_terminal_size()
+class terminal:
+    width = size.columns
 
 speed = float(readline("options.txt", 1).replace("text-speed = ", ""))
 # battlemsgSpeed = float(readline("options.txt", 2).replace("battle-msgSpeed = ", ""))
@@ -35,6 +39,8 @@ def clearBefore(msg=''):
     noclear(msg, speed)
 def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", ""))):
     """Prints out text and waits for input."""
+    size = os.get_terminal_size()
+    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True)
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     # noinput(msg, msgSpeed)
     # cursor.show()
@@ -58,6 +64,8 @@ def noClear(msg=""):
     noclear(msg, speed)
 def noinput(msg="", msgSpeed=speed):
     """Prints out text."""
+    size = os.get_terminal_size()
+    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True)
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
