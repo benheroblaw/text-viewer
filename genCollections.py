@@ -18,13 +18,13 @@ def generate(logging=True):
 
         folders = readfile('./.folders').splitlines()
         for folder in folders:
-          if '../' not in folder:
-            folder = '../' + folder
           if folder.startswith('#'):
             if logging:
               print(i.name + ': commented, skipping...')
           else:
             for direct in os.listdir(folder):
+              if '../' not in folder:
+                folder = '../' + folder
               if direct.endswith('.scri'):
                 direct = direct.replace("'", "\\'")
                 if logging:
