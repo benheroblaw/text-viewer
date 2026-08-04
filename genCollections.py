@@ -15,7 +15,8 @@ def generate(logging=True):
       if '.folders' in os.listdir(i):
         # os.system('cd ./content/' + i.name)
         os.chdir('./content/' + i.name)
-        print('./content/' + i.name)
+        # print('./content/' + i.name)
+        os.system('rm *.scri')
 
         folders = readfile('./.folders').splitlines()
         for folder in folders:
@@ -25,9 +26,9 @@ def generate(logging=True):
           else:
             # if './' not in folder:
             #   folder = './' + folder
+            if '../' not in folder:
+              folder = '../' + folder
             for direct in os.listdir(folder):
-              if '../' not in folder:
-                folder = '../' + folder
               if direct.endswith('.scri'):
                 direct = direct.replace("'", "\\'")
                 if logging:
