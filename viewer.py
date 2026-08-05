@@ -224,9 +224,9 @@ def main():
 
           for x in meta_file:
             if 'authors:' in x:
-              meta_author = x.replace('authors: ', '')
-              meta_author = meta_author.replace('authors:', '')
-              meta_author = meta_author.strip()
+              meta_authors = x.replace('authors: ', '')
+              meta_authors = meta_authors.replace('authors:', '')
+              meta_authors = meta_authors.strip()
             elif 'author:' in x:
               meta_author = x.replace('author: ', '')
               meta_author = meta_author.replace('author:', '')
@@ -248,12 +248,13 @@ def main():
 
           # print meta
           # elif meta_rating == '': print(textwrap.fill('Rating:   Unset; options are: g, t, e, a', size.columns))
-          if 'g' in meta_rating: print(textwrap.fill('Rating:   \033[1;32mGeneral Audiences', size.columns))
-          elif 't' in meta_rating: print(textwrap.fill('Rating:   \033[1;36mTeen', size.columns))
-          elif 'e' in meta_rating: print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
-          elif 'a' in meta_rating: print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
+          if meta_rating == 'g' or meta_rating == 'G': print(textwrap.fill('Rating:   \033[1;32mGeneral Audiences', size.columns))
+          elif meta_rating == 't' or meta_rating == 'T': print(textwrap.fill('Rating:   \033[1;36mTeen', size.columns))
+          elif meta_rating == 'e' or meta_rating == 'E': print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
+          elif meta_rating == 'a' or meta_rating == 'A': print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
           else: print('Rating:   ???')
           print('\033[0;0;0m', end='')
+
           if meta_warnings != '':
             size = os.get_terminal_size()
             print(textwrap.fill('Warnings: ' + meta_warnings, size.columns))
