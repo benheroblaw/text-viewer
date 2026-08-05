@@ -40,7 +40,7 @@ def clearBefore(msg=''):
 def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", ""))):
     """Prints out text and waits for input."""
     size = os.get_terminal_size()
-    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True)
+    msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     # noinput(msg, msgSpeed)
     # cursor.show()
@@ -65,7 +65,7 @@ def noClear(msg=""):
 def noinput(msg="", msgSpeed=speed):
     """Prints out text."""
     size = os.get_terminal_size()
-    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True)
+    msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
