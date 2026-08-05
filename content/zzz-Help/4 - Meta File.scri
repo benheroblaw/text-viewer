@@ -11,9 +11,19 @@ The third line is for links to your pages. Add 'links: {your links}' here.
 
 The fourth line is for warnings. Add 'warnings: {your warnings}' here.
 
-A fully-filled-out .meta file would look like this:
+The fifth line is for credits. Add 'credits: {your credits}' here.
+
+A fully-filled-out .meta file would look like this:/CLRB
 
 author: benheroblaw/NOBR/CONT
 rating: t/NOBR/CONT
-links: https://benheroblaw.github.io/NOBR/CONT
-warnings: swearing/NOBR
+links: https://benheroblaw.github.io/NOBR/CONT/ESC
+warnings: swearing/NOBR/CONT
+credits: benheroblaw for coding the whole thing/CONT
+
+And display as this:
+Author:   benheroblaw/NOBR/CONT
+Rating:   Teen/NOBR/CONT
+Links:    https://benheroblaw.github.io/ESC/NOBR/CONT
+Warnings: swearing/NOBR/CONT
+Credits:  benheroblaw for coding the whole thing/NOBR/CONT

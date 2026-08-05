@@ -3,10 +3,13 @@ Like bold your text.../BLD
 Or clear the terminal./CLRB
 Function strings use a slash (/) followed by one to five characters./CONT/NOBR
 They will be found and removed from anywhere in the line.
-Currently implemented- CLRA, CLRB, BLD, RED, YLW, GRN, BLU, CONT, NOBR/CLRB
+Currently implemented- CLRA, CLRB, BLD, RED, YLW, GRN, BLU, CONT, NOBR, ESC, ESCSTR/CLRB
 CLRA clears the terminal after the line is displayed.
 CLRB clears the terminal before the line is displayed.
 BLD renders the text as bold.
 RED, GRN, YLW, and BLU change the text color
-CONT makes the text continue without waiting for input./CONT
-NOBR removes the full line between text./NOBR
+CONT makes the text continue without waiting for input.
+NOBR removes the full line between text.
+ESC makes the line ignore comments.
+ESCSTRS makes the line ignore all of these neat functions.
+Next- meta file
