@@ -66,12 +66,12 @@ def runCommands(command=''):
 def parse():
   output = []
   command = input('devtools@text-viewer> ')
-  output += command.split('; ')
   output += command.split(';')
 
-  output = list(set(output))
+  # output = output.strip()
   # print(output)
   for i in output:
+    i = i.strip()
     runCommands(i)
 
 os.system('clear')
