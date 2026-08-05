@@ -105,8 +105,8 @@ def main():
         elif opt_sel == 2:
           # print()
           os.system("printf '%b' 'updating... '; git pull origin release")
-          print('Restart to finish updating')
-          time.sleep(2)
+          input('Restart to finish updating')
+          # time.sleep(2)
         continue
 
     # if selection == 'update':
