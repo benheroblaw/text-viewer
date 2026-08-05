@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os, datetime, textwrap
 
 os.chdir(os.path.expanduser('~/.local/share/prokid/text-porn/devtools'))
