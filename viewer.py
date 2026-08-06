@@ -18,7 +18,6 @@ def checkSpeed():
     time.sleep(0.1)
 speedCheck = threading.Thread(target=checkSpeed)
 
-print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
 
 
 # speedCheck.start()
@@ -27,6 +26,7 @@ print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
 def main():
 
   while True:
+    print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
     genCollections.generate(False)
     folder = os.scandir('./content')
     folders = []
@@ -56,10 +56,22 @@ def main():
 
     extra.clear()
     size = os.get_terminal_size()
-    print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
-    # print()
-    for i, x in enumerate(folders):
-      print(str(i+1) + '. ' + folders_pretty[i])
+    if extra.readline('options.txt', 2) == '1':
+      print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+    elif extra.readline('options.txt', 2) == '0':
+      print('./content/...\n\n0. Options')
+    else:
+      extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
+      continue
+
+    # raw
+    if extra.readline('options.txt', 2) == '1':
+      for i, x in enumerate(folders):
+        print(str(i+1) + '. ' + folders_pretty[i])
+    else:
+      for i, x in enumerate(folders):
+        print(str(i+1) + '. .../' + folders[i])
+
     try: selection = input('\n> ')
     except KeyboardInterrupt: break
     try:
@@ -72,11 +84,12 @@ def main():
       print("")
       continue
 
+    # settings
     if selection == 0:
       while True:
         extra.clear()
         size = os.get_terminal_size()
-        print('Options\n\n0. Back\n1. Change text speed\n2. Update')
+        print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display')
         try: opt_sel = input('\n> ')
         except KeyboardInterrupt: break
         try:
@@ -87,9 +100,15 @@ def main():
           # print("Input a number")
           extra.clear()
           continue
+
         if opt_sel == 0:
           break
+
         elif opt_sel == 1:
+          os.system("printf '%b' 'updating... '; git pull origin release")
+          input('> Restart to finish updating')
+
+        elif opt_sel == 2:
           print('Options\n\nCurrent speed: ' + str(text.speed))
           print('New speed (in seconds):')
           try: speed = input('\n> ')
@@ -102,11 +121,36 @@ def main():
             continue
           extra.writeline('options.txt', 1, speed)
           text.speed = float(speed)
-        elif opt_sel == 2:
-          # print()
-          os.system("printf '%b' 'updating... '; git pull origin release")
-          input('Restart to finish updating')
-          # time.sleep(2)
+          input('> succeeded!')
+
+        elif opt_sel == 3:
+          while True:
+            extra.clear()
+            print('Options\n\nDisplaying file names: ', end='')
+            if extra.readline('options.txt', 2) == '0':
+              print('raw')
+            else:
+              print('formatted')
+            print('Display as:\n\n1. Formatted\n2. Raw\n')
+            try: file_display = input('> ')
+            except KeyboardInterrupt: break
+            try:
+              file_display = float(file_display)
+              # selection = int(selection)
+            except ValueError:
+              print("Input a number")
+              continue
+
+            if file_display == 1:
+              extra.writeline('options.txt', 2, '1')
+              input('> succeeded!')
+              break
+            elif file_display == 2:
+              extra.writeline('options.txt', 2, '0')
+              input('> succeeded!')
+              break
+            else: continue
+
         continue
 
     # if selection == 'update':
@@ -179,14 +223,17 @@ def main():
             if 'credits:' in x: meta_credits = x.replace('credits: ', ''); meta_credits.replace('credits:', '')
             meta_credits = meta_credits.strip()
 
-            # if 'title:' in x: meta_title = x.replace('title: ', ''); meta_title = meta_title.replace('title:', '')
-            # meta_title = meta_title.strip()
+            if 'title:' in x: meta_title = x.replace('title: ', ''); meta_title = meta_title.replace('title:', '')
+            meta_title = meta_title.strip()
 
         if meta_title != '':
-          print('Title:    ' + meta_title)
+          size = os.get_terminal_size()
+          print(textwrap.fill('Title:    ' + meta_title, size.columns))
         else:
-          print('Title:    ' + folders_pretty[sel])
-        print('Folder:   ./content/' + folders[sel] + '/\n')
+          size = os.get_terminal_size()
+          print(textwrap.fill('Title:    ' + folders_pretty[sel], size.columns))
+        size = os.get_terminal_size()
+        print(textwrap.fill('Folder:   ./content/' + folders[sel] + '/', size.columns))
         if meta_rating == 'g' or meta_rating == 'G': print(textwrap.fill('Rating:   \033[0;32mGeneral Audiences', size.columns))
         elif meta_rating == 't' or meta_rating == 'T': print(textwrap.fill('Rating:   \033[0;36mTeen', size.columns))
         elif meta_rating == 'e' or meta_rating == 'E': print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
@@ -196,7 +243,7 @@ def main():
 
         if meta_warnings != '':
           size = os.get_terminal_size()
-          print(textwrap.fill('Warnings: ' + meta_warnings, size.columns))
+          print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns))
 
         if meta_authors != '':
           size = os.get_terminal_size()
@@ -213,81 +260,6 @@ def main():
         if meta_credits != '':
           size = os.get_terminal_size()
           print(textwrap.fill('Credits:  ' + meta_credits, size.columns))
-
-        # def readmeta(line=1):
-        #   return extra.readline('./content/' + folders[sel] + '/.meta', line)
-
-        # old meta handling
-        # if '.meta' in os.listdir('./content/' + folders[sel]):
-        #   meta_lines = extra.getlines('./content/' + folders[sel] + '/.meta')
-        #   if meta_lines >= 1:
-        #     meta_author = extra.readline('./content/' + folders[sel] + '/.meta', 1)
-        #     if 'authors: ' in meta_author or 'authors:' in meta_author:
-        #       if meta_author != '':
-        #         meta_author = meta_author.replace('authors: ', '')
-        #         meta_author = meta_author.replace('authors:', '')
-        #         meta_author = meta_author.strip()
-        #         size = os.get_terminal_size()
-        #         print(textwrap.fill('Authors:  ' + meta_author, size.columns))
-        #     else:
-        #       if meta_author != '':
-        #         meta_author = meta_author.replace('author: ', '')
-        #         meta_author = meta_author.replace('author:', '')
-        #         meta_author = meta_author.strip()
-        #         size = os.get_terminal_size()
-        #         print(textwrap.fill('Author:   ' + meta_author, size.columns))
-
-        #   if meta_lines >= 2:
-        #     meta_rating = extra.readline('./content/' + folders[sel] + '/.meta', 2)
-        #     meta_rating = meta_rating.strip()
-        #     if 'rating: ' or 'rating:' in meta_rating:
-        #       meta_rating = meta_rating.replace('rating: ', '')
-        #       meta_rating = meta_rating.replace('rating:', '')
-
-        #     size = os.get_terminal_size()
-        #     if meta_rating == 'error': print('Rating: ???')
-        #     elif meta_rating == '': print(textwrap.fill('Rating:   Unset; options are: g, t, e, a', size.columns))
-        #     elif 'g' in meta_rating: print(textwrap.fill('Rating:   \033[1;32mGeneral Audiences', size.columns))
-        #     elif 't' in meta_rating: print(textwrap.fill('Rating:   \033[1;36mTeen', size.columns))
-        #     elif 'e' in meta_rating: print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
-        #     elif 'a' in meta_rating: print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
-        #     else: print('Rating: ???')
-        #     print('\033[0;0;0m', end='')
-
-        #   if meta_lines >= 4:
-        #     meta_warnings = readmeta(4)
-        #     if 'warnings: ' in meta_warnings: meta_warnings = meta_warnings.replace('warnings: ', '')
-        #     if 'warnings:' in meta_warnings: meta_warnings = meta_warnings.replace('warnings:', '')
-        #     # if 'warning: ' in meta_warnings: meta_warnings = meta_warnings.replace('warning: ', '')
-        #     # if 'warning:' in meta_warnings: meta_warnings = meta_warnings.replace('warning:', '')
-        #     meta_warnings = meta_warnings.strip()
-        #     if meta_warnings != '':
-        #       size = os.get_terminal_size()
-        #       print('Warnings: ' + meta_warnings)
-
-        #   if meta_lines >= 3:
-        #     meta_links = extra.readline('./content/' + folders[sel] + '/.meta', 3)
-        #     if 'links: ' in meta_links: meta_links = meta_links.replace('links: ', '')
-        #     if 'links:' in meta_links: meta_links = meta_links.replace('links:', '')
-        #     meta_links.strip()
-        #     if meta_links != '':
-        #       size = os.get_terminal_size()
-        #       print(textwrap.fill('Links:    ' + meta_links, size.columns))
-
-        #   if meta_lines >= 5:
-        #     meta_credits = readmeta(5)
-        #     if 'credits: ' in meta_credits: meta_credits = meta_credits.replace('credits: ')
-        #     if 'credits:' in meta_credits: meta_credits = meta_credits.replace('credits:')
-        #     meta_credits = meta_credits.strip()
-        #     if meta_credits != '':
-        #       size = os.get_terminal_size()
-        #       print(textwrap.fill('Credits:  ' + meta_credits, size.columns))
-
-
-          # print meta
-          # elif meta_rating == '': print(textwrap.fill('Rating:   Unset; options are: g, t, e, a', size.columns))
-
-
 
         print('\n0. Back')
         for i, x in enumerate(chapters):
@@ -371,5 +343,5 @@ def main():
             extra.clear()
           except KeyboardInterrupt: break
 
-while __name__ == '__main__':
-  main()
+# while __name__ == '__main__':
+#   main()
