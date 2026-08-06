@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+print('\33]0;loading... please wait :3\a', end='')
 import viewer, importlib, os
 
 def readfile(file=""):
@@ -16,8 +17,12 @@ def readline(file="", line=1):
   except: return "error"
 
 while __name__ == '__main__':
+  print('\33]0;loading... please wait :3\a', end='')
   os.system('printf "%b" "Updating... "; git pull origin ' + readfile('extra/origin'))
+  # input()
   viewer.main()
-  print('\nreloading viewer...')
+  print('\33]0;loading... please wait :3\a', end='')
+  os.system('clear')
+  print('reloading viewer...')
   importlib.reload(viewer)
   print('reloaded!')
