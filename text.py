@@ -61,10 +61,8 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
             # input()
             # print()
         else:
-            # raw_msg = r'{}'.format(msg)
-            to_raw(msg)
-            msg = msg.replace('\\\\', '\\')
-            os.system('echo -n -e "' + to_raw(msg).replace('\\\\', '\\') + '"') # print(msg, flush=False, end='')
+            raw_msg = fr'{msg}'
+            os.system('echo -n "' + raw_msg + '"') # print(msg, flush=False, end='')
         input()
     # cursor.hide()
 def noClear(msg=""):
