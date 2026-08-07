@@ -1,29 +1,35 @@
-The .meta file allows you to add authors, ratings, warnings, links, and credits.
+The meta.json file allows you to set authors, title, ratings, warnings, links, and credits.
 
-If you add 'author:' before your name, it will display in the author section./NOBR
-If you instead write 'authors:' it will display 'Authors: {meta_authors}' instead of 'Author: {meta_author}'.
+If you add "author": "your_name", it will display in the author section./NOBR
+If you instead write "authors" it will display 'Authors: {meta_authors}' instead of 'Author: {meta_author}'.
 
-Write 'rating: {rating}' to add a rating./NOBR
-Ratings are: g, t, e, a./NOBR
-G = General Audiences, T = Teen, E = Explicit, A = Adult
+Add "rating": "your_rating" to set a rating./NOBR
+Ratings are 0-3./NOBR
+0 = General Audiences, 1 = Teen, 2 = Explicit, 3 = Adult
 
-Write 'links: {your links}' to add links to your pages.
+Add "links": "your_links" to set links to your pages.
 
-Write 'warnings: {your warnings}' to add warnings.
+Add "warnings": "your_warnings" to set warnings.
 
-Write 'credits: {your credits}' to add credits.
+Add "credits": "your_credits" to set credits.
 
-A fully-filled-out .meta file would look like this:/CLRB
+Add "title": "your_title" to set the title.
 
-author: benheroblaw/NOBR/CONT
-rating: t/NOBR/CONT
-links: https://benheroblaw.github.io/NOBR/CONT/ESC
-warnings: swearing/NOBR/CONT
-credits: benheroblaw for coding the whole thing/CONT
+A fully-filled-out meta.json would look like this:/CLRB
+{/NOBR/CONT
+  "author": "benheroblaw",/NOBR/CONT
+  "title": "testing stuff",/NOBR/CONT
+  "rating": 1,/NOBR/CONT
+  "links": "https://benheroblaw.github.io",/NOBR/CONT/ESC
+  "warnings": "swearing",/NOBR/CONT
+  "credits": "benheroblaw for coding the whole thing"/NOBR/CONT
+}/CONT
 
 And display as this:
-Author:   benheroblaw/NOBR/CONT
+Title:    testing stuff/NOBR/CONT
+Folder:   ./content/zzz-testing//NOBR/CONT
 Rating:   Teen/NOBR/CONT
-Links:    https://benheroblaw.github.io/ESC/NOBR/CONT
 Warnings: swearing/NOBR/CONT
+Author:   benheroblaw/NOBR/CONT
+Links:    https://benheroblaw.github.io/ESC/NOBR/CONT
 Credits:  benheroblaw for coding the whole thing/NOBR/CONT

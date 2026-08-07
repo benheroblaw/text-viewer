@@ -56,18 +56,24 @@ def main():
 
     extra.clear()
     size = os.get_terminal_size()
+    # raw
     if extra.readline('options.txt', 2) == '1':
       print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+    # pretty
     elif extra.readline('options.txt', 2) == '0':
       print('./content/...\n\n0. Options')
+    # neither
     else:
       extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
       continue
 
+    folder_display = extra.readline('options.txt', 2)
+
     # raw
-    if extra.readline('options.txt', 2) == '1':
+    if folder_display == '1':
       for i, x in enumerate(folders):
         print(str(i+1) + '. ' + folders_pretty[i])
+    # pretty
     else:
       for i, x in enumerate(folders):
         print(str(i+1) + '. .../' + folders[i])
@@ -121,7 +127,7 @@ def main():
             continue
           extra.writeline('options.txt', 1, speed)
           text.speed = float(speed)
-          input('> succeeded!')
+          input('succeeded! > ')
 
         elif opt_sel == 3:
           while True:
@@ -143,11 +149,11 @@ def main():
 
             if file_display == 1:
               extra.writeline('options.txt', 2, '1')
-              input('> succeeded!')
+              input('succeeded! > ')
               break
             elif file_display == 2:
               extra.writeline('options.txt', 2, '0')
-              input('> succeeded!')
+              input('succeeded! > ')
               break
             else: continue
 
@@ -234,8 +240,8 @@ def main():
           if 'authors' in meta_json:
             meta_authors = meta_json["authors"]
 
-          elif 'author' in meta_json:
-            meta_authors = meta_json["author"]
+          if 'author' in meta_json:
+            meta_author = meta_json["author"]
 
           if 'rating' in meta_json:
             meta_rating = meta_json["rating"]
@@ -259,8 +265,11 @@ def main():
         else:
           size = os.get_terminal_size()
           print(textwrap.fill('Title:    ' + folders_pretty[sel], size.columns))
-        size = os.get_terminal_size()
-        print(textwrap.fill('Folder:   ./content/' + folders[sel] + '/', size.columns))
+
+        if folder_display == '0':
+          size = os.get_terminal_size()
+          print(textwrap.fill('Folder:   ./content/' + folders[sel] + '/', size.columns))
+
         if meta_rating == 'g' or meta_rating == 'G' or meta_rating == 0: print(textwrap.fill('Rating:   \033[0;32mGeneral Audiences', size.columns))
         elif meta_rating == 't' or meta_rating == 'T' or meta_rating == 1: print(textwrap.fill('Rating:   \033[0;36mTeen', size.columns))
         elif meta_rating == 'e' or meta_rating == 'E' or meta_rating == 2: print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
@@ -272,12 +281,14 @@ def main():
           size = os.get_terminal_size()
           print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns))
 
-        if meta_authors != '':
+        if meta_authors != '' and meta_author == '':
           size = os.get_terminal_size()
+          print()
           print(textwrap.fill('Authors:  ' + meta_authors, size.columns))
 
-        if meta_author != '' and meta_authors == '':
+        if meta_author != '':
           size = os.get_terminal_size()
+          print()
           print(textwrap.fill('Author:   ' + meta_author, size.columns))
 
         if meta_links != '':
@@ -307,7 +318,7 @@ def main():
           chap_story = extra.readfile('./content/' + folders[sel] + '/' + chapters[chap_sel]).splitlines()
           try:
             for i in chap_story:
-              i = i.strip()
+              # i = i.strip()
               italic_temp = ''
               i = i.replace('/i*', '\e[3m')
               i = i.replace('*i/', '\e[23m')
@@ -369,7 +380,7 @@ def main():
                 else:
                   text.noclear(i)
               # print()
-            input('> Return ')
+            input('Return > ')
             extra.clear()
           except KeyboardInterrupt: break
 
