@@ -281,6 +281,9 @@ def main():
           try:
             for i in chap_story:
               i = i.strip()
+              italic_temp = ''
+              i = i.replace('/i*', '\e[3m')
+              i = i.replace('*i/', '\e[23m')
               if i != '':
                 nobr = False
                 if '#' in i or '//' in i and '/ESC' not in i:
