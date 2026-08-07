@@ -1,5 +1,6 @@
 /bash
-/__pycache__
+__pycache__
+/*/__pycache__/
 *.kate-swp
 content/Hilda_and_her_Mother
 content/Hilda_Collection

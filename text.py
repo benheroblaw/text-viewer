@@ -41,11 +41,15 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
     """Prints out text and waits for input."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
+    # msg = r'{msg}'/
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
+            if '\e[3m' in i or '\ep[23m' in i:
+                i_list = []
+                i_list += i.split('\e[3m')
             for char in msg:
                 print(char, end="", flush=True)
                 if char == ",":
@@ -54,11 +58,14 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
                 #     ""
                 elif char in alphabet:
                     time.sleep(msgSpeed)
-            input()
+            # input()
             # print()
         else:
-            print(msg, flush=True, end='')
-            input()
+            # raw_msg = r'{}'.format(msg)
+            to_raw(msg)
+            msg = msg.replace('\\\\', '\\')
+            os.system('echo -n -e "' + to_raw(msg).replace('\\\\', '\\') + '"') # print(msg, flush=False, end='')
+        input()
     # cursor.hide()
 def noClear(msg=""):
     noclear(msg, speed)
