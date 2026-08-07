@@ -7,7 +7,7 @@ except: print('options.txt exists, continuing...')
 import os
 os.system('./chkdeps.bash')
 import genCollections
-import text, sys, time, textwrap, threading
+import text, sys, time, textwrap, threading, json
 # import colorama
 # from colorama import *
 
@@ -190,13 +190,13 @@ def main():
         meta_credits =  ''
         meta_title =    ''
         if '.meta' in os.listdir('./content/' + folders[sel]):
-          meta_author =   ''
-          meta_authors =   ''
-          meta_rating =   ''
-          meta_warnings = ''
-          meta_links =    ''
-          meta_credits =  ''
-          meta_title =    ''
+          # meta_author =   ''
+          # meta_authors =  ''
+          # meta_rating =   ''
+          # meta_warnings = ''
+          # meta_links =    ''
+          # meta_credits =  ''
+          # meta_title =    ''
 
           meta_file = extra.readfile('./content/' + folders[sel] + '/.meta').splitlines()
 
@@ -226,6 +226,33 @@ def main():
             if 'title:' in x: meta_title = x.replace('title: ', ''); meta_title = meta_title.replace('title:', '')
             meta_title = meta_title.strip()
 
+        # newer json meta file
+        if 'meta.json' in os.listdir('./content/' + folders[sel]):
+          decoder = json.JSONDecoder()
+          meta_json = json.loads(extra.readfile(f'./content/{folders[sel]}/meta.json'))
+
+          if 'authors' in meta_json:
+            meta_authors = meta_json["authors"]
+
+          elif 'author' in meta_json:
+            meta_authors = meta_json["author"]
+
+          if 'rating' in meta_json:
+            meta_rating = meta_json["rating"]
+
+          if 'warnings' in meta_json:
+            meta_warnings = meta_json["warnings"]
+
+          if 'title' in meta_json:
+            meta_title = meta_json["title"]
+
+          if 'links' in meta_json:
+            meta_links = meta_json["links"]
+
+          if 'credits' in meta_json:
+            meta_credits = meta_json["credits"]
+
+        # print meta
         if meta_title != '':
           size = os.get_terminal_size()
           print(textwrap.fill('Title:    ' + meta_title, size.columns))
@@ -234,10 +261,10 @@ def main():
           print(textwrap.fill('Title:    ' + folders_pretty[sel], size.columns))
         size = os.get_terminal_size()
         print(textwrap.fill('Folder:   ./content/' + folders[sel] + '/', size.columns))
-        if meta_rating == 'g' or meta_rating == 'G': print(textwrap.fill('Rating:   \033[0;32mGeneral Audiences', size.columns))
-        elif meta_rating == 't' or meta_rating == 'T': print(textwrap.fill('Rating:   \033[0;36mTeen', size.columns))
-        elif meta_rating == 'e' or meta_rating == 'E': print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
-        elif meta_rating == 'a' or meta_rating == 'A': print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
+        if meta_rating == 'g' or meta_rating == 'G' or meta_rating == 0: print(textwrap.fill('Rating:   \033[0;32mGeneral Audiences', size.columns))
+        elif meta_rating == 't' or meta_rating == 'T' or meta_rating == 1: print(textwrap.fill('Rating:   \033[0;36mTeen', size.columns))
+        elif meta_rating == 'e' or meta_rating == 'E' or meta_rating == 2: print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
+        elif meta_rating == 'a' or meta_rating == 'A' or meta_rating == 3: print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
         else: print('Rating:   ???')
         print('\033[0;0;0m', end='')
 
@@ -249,7 +276,7 @@ def main():
           size = os.get_terminal_size()
           print(textwrap.fill('Authors:  ' + meta_authors, size.columns))
 
-        if meta_author != '':
+        if meta_author != '' and meta_authors == '':
           size = os.get_terminal_size()
           print(textwrap.fill('Author:   ' + meta_author, size.columns))
 
