@@ -224,7 +224,7 @@ def main():
             meta_warnings = meta_warnings.strip()
 
             if 'links:' in x: meta_links = x.replace('links: ', ''); meta_links.replace('links:', '')
-            meta_lnks = meta_links.strip()
+            meta_links = meta_links.strip()
 
             if 'credits:' in x: meta_credits = x.replace('credits: ', ''); meta_credits.replace('credits:', '')
             meta_credits = meta_credits.strip()
@@ -236,6 +236,27 @@ def main():
         if 'meta.json' in os.listdir('./content/' + folders[sel]):
           decoder = json.JSONDecoder()
           meta_json = json.loads(extra.readfile(f'./content/{folders[sel]}/meta.json'))
+
+          if 'authors'.capitalize() in meta_json:
+            meta_authors = meta_json["authors".capitalize()]
+
+          if 'author'.capitalize() in meta_json:
+            meta_author = meta_json["author".capitalize()]
+
+          if 'rating'.capitalize() in meta_json:
+            meta_rating = meta_json["rating".capitalize()]
+
+          if 'warnings'.capitalize() in meta_json:
+            meta_warnings = meta_json["warnings".capitalize()]
+
+          if 'title'.capitalize() in meta_json:
+            meta_title = meta_json["title".capitalize()]
+
+          if 'links'.capitalize() in meta_json:
+            meta_links = meta_json["links".capitalize()]
+
+          if 'credits'.capitalize() in meta_json:
+            meta_credits = meta_json["credits".capitalize()]
 
           if 'authors' in meta_json:
             meta_authors = meta_json["authors"]

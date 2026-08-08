@@ -19,7 +19,7 @@ def readline(file="", line=1):
 while __name__ == '__main__':
   print('\33]0;loading... please wait :3\a', end='')
   os.system('printf "%b" "Updating... "; git pull origin ' + readfile('extra/origin'))
-  # input()
+  # input('> ')
   viewer.main()
   print('\33]0;loading... please wait :3\a', end='')
   os.system('clear')
