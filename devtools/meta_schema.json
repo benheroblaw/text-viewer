@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "examples": [
+        ""
+      ]
+    },
+    "author": {
+      "type": "string",
+      "examples": [
+        "benheroblaw"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "examples": [
+        "test stuff"
+      ]
+    },
+    "rating": {
+      "type": "integer",
+      "examples": [
+        1
+      ]
+    },
+    "warnings": {
+      "type": "string",
+      "examples": [
+        "swearing and obscenities"
+      ]
+    },
+    "credits": {
+      "type": "string",
+      "examples": [
+        "benheroblaw for writing the text viewer"
+      ]
+    },
+    "links": {
+      "type": "string",
+      "examples": [
+        "https://benheroblaw.github.io/"
+      ],
+      "format": "uri"
+    }
+  },
+  "required": [
+    "rating"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
