@@ -77,7 +77,7 @@ def main():
       pass
     # neither
     else:
-      extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n' + extra.readline('options.txt', 2) + '\n0')
+      extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n0')
       continue
 
     # sort tags
@@ -90,7 +90,7 @@ def main():
       pass
     # neither
     else:
-      extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n' + extra.readline('options.txt', 2) + '\n' + extra.readline('options.txt', 3) + '\n0')
+      extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
       continue
 
     folder_display = extra.readline('options.txt', 2)
