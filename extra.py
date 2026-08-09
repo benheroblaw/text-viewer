@@ -4,19 +4,10 @@ from importlib import reload
 
 os.system('clear')
 print('loading extra...')
+# print(os.curdir)
 
 textReset = '\033[0;0;0m'
 dev = 'dev'
-
-if os.name == "posix":
-  # terminalPath = os.path.expanduser("~/.local/share/prokid/text-porn")
-  ""
-elif os.name == "nt":
-  # terminalPath = os.path.expanduser("~\\AppData\\Local\\prokid\\text-terminal")
-  print('you\'re fucked buddy :\'(')
-# if not os.path.exists(terminalPath):
-#   os.makedirs(terminalPath)
-# os.chdir(terminalPath)
 
 # file management
 def createfile(file="", contents=""):
