@@ -67,7 +67,34 @@ def main():
       extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
       continue
 
+    # show tags
+    if extra.readline('options.txt', 3) == '1':
+      # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+      pass
+    # don't show tags
+    elif extra.readline('options.txt', 3) == '0':
+      # print('./content/...\n\n0. Options')
+      pass
+    # neither
+    else:
+      extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n' + extra.readline('options.txt', 2) + '\n0')
+      continue
+
+    # sort tags
+    if extra.readline('options.txt', 4) == '1':
+      # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+      pass
+    # don't sort tags
+    elif extra.readline('options.txt', 4) == '0':
+      # print('./content/...\n\n0. Options')
+      pass
+    # neither
+    else:
+      extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n' + extra.readline('options.txt', 2) + '\n' + extra.readline('options.txt', 3) + '\n0')
+      continue
+
     folder_display = extra.readline('options.txt', 2)
+    show_tags = extra.readline('options.txt', 3)
 
     # raw
     if folder_display == '1':
@@ -95,7 +122,7 @@ def main():
       while True:
         extra.clear()
         size = os.get_terminal_size()
-        print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display')
+        print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags\n5. Sort Tags')
         try: opt_sel = input('\n> ')
         except KeyboardInterrupt: break
         try:
@@ -141,7 +168,7 @@ def main():
             try: file_display = input('> ')
             except KeyboardInterrupt: break
             try:
-              file_display = float(file_display)
+              file_display = int(file_display)
               # selection = int(selection)
             except ValueError:
               print("Input a number")
@@ -156,6 +183,62 @@ def main():
               input('succeeded! > ')
               break
             else: continue
+
+        elif opt_sel == 4:
+          while True:
+            extra.clear()
+            print('Options\n\nShowing tags: ', end='')
+            if extra.readline('options.txt', 3) == '0':
+              print('false')
+            else:
+              print('true')
+
+            print('Display as:\n\n1. Hidden\n2. Shown')
+            try: tags_shown = input('> ')
+            except KeyboardInterrupt: break
+
+            try:
+              tags_shown = int(tags_shown)
+            except ValueError: continue
+
+            if tags_shown == 1:
+              extra.writeline('options.txt', 3, 0)
+              input('succeeded! > ')
+              break
+            elif tags_shown == 2:
+              extra.writeline('options.txt', 3, 1)
+              input('succeeded! > ')
+              break
+            else:
+              continue
+
+        elif opt_sel == 5:
+          while True:
+            extra.clear()
+            print('Options\n\nSort tags: ', end='')
+            if extra.readline('options.txt', 4) == '0':
+              print('false')
+            else:
+              print('true')
+
+            print('Display as:\n\n1. Don\'t sort\n2. Sort')
+            try: tags_shown = input('> ')
+            except KeyboardInterrupt: break
+
+            try:
+              tags_shown = int(tags_shown)
+            except ValueError: continue
+
+            if tags_shown == 1:
+              extra.writeline('options.txt', 4, 0)
+              input('succeeded! > ')
+              break
+            elif tags_shown == 2:
+              extra.writeline('options.txt', 4, 1)
+              input('succeeded! > ')
+              break
+            else:
+              continue
 
         continue
 
@@ -195,6 +278,9 @@ def main():
         meta_links =    ''
         meta_credits =  ''
         meta_title =    ''
+        meta_desc =     ''
+        meta_tags =     []
+        meta_indent =   '           '
         if '.meta' in os.listdir('./content/' + folders[sel]):
           # meta_author =   ''
           # meta_authors =  ''
@@ -232,6 +318,9 @@ def main():
             if 'title:' in x: meta_title = x.replace('title: ', ''); meta_title = meta_title.replace('title:', '')
             meta_title = meta_title.strip()
 
+            if 'description:' in x: meta_desc = x.replace('description: ', ''); meta_desc = meta_desc.replace('description:', '')
+            meta_desc = meta_desc.strip()
+
         # newer json meta file
         if 'meta.json' in os.listdir('./content/' + folders[sel]):
           decoder = json.JSONDecoder()
@@ -258,6 +347,12 @@ def main():
           if 'credits'.capitalize() in meta_json:
             meta_credits = meta_json["credits".capitalize()]
 
+          if 'description'.capitalize() in meta_json:
+            meta_desc = meta_json["description".capitalize()]
+
+          if 'tags'.capitalize() in meta_json:
+            meta_tags = list(meta_json["tags".capitalize()])
+
           if 'authors' in meta_json:
             meta_authors = meta_json["authors"]
 
@@ -278,6 +373,12 @@ def main():
 
           if 'credits' in meta_json:
             meta_credits = meta_json["credits"]
+
+          if 'description' in meta_json:
+            meta_desc = meta_json["description"]
+
+          if 'tags' in meta_json:
+            meta_tags = list(meta_json["tags"])
 
         # print meta
         if meta_title != '':
@@ -300,25 +401,47 @@ def main():
 
         if meta_warnings != '':
           size = os.get_terminal_size()
-          print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns))
+          print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns, subsequent_indent=meta_indent))
+
+        if meta_tags != [] and extra.readline('options.txt', 3) == '1':
+          print('\nTags: ', end='')
+          if extra.readline('options.txt', 4) == '1':
+            meta_tags.sort()
+          meta_tags_display = str(meta_tags).removeprefix('[')
+          meta_tags_display = meta_tags_display.removesuffix(']')
+          meta_tags_display = meta_tags_display.replace('\\\'', '\'')
+          size = os.get_terminal_size()
+          print(textwrap.fill(meta_tags_display, size.columns, subsequent_indent='        '))
 
         if meta_authors != '' and meta_author == '':
           size = os.get_terminal_size()
           print()
-          print(textwrap.fill('Authors:  ' + meta_authors, size.columns))
+          print(textwrap.fill('Authors:  ' + meta_authors, size.columns, subsequent_indent=meta_indent))
 
         if meta_author != '':
           size = os.get_terminal_size()
           print()
-          print(textwrap.fill('Author:   ' + meta_author, size.columns))
+          print(textwrap.fill('Author:   ' + meta_author, size.columns, subsequent_indent=meta_indent))
 
         if meta_links != '':
           size = os.get_terminal_size()
-          print(textwrap.fill('Links:    ' + meta_links, size.columns))
+          print(textwrap.fill('Links:    ' + meta_links, size.columns, subsequent_indent=meta_indent))
 
         if meta_credits != '':
           size = os.get_terminal_size()
-          print(textwrap.fill('Credits:  ' + meta_credits, size.columns))
+          print(textwrap.fill('Credits:  ' + meta_credits, size.columns, subsequent_indent=meta_indent))
+
+        if meta_desc != '':
+          size = os.get_terminal_size()
+          print('\nDesc: ', end='')
+          meta_desc = meta_desc.splitlines()
+          for i, x in enumerate(meta_desc):
+            if x == '':
+              continue
+            if i != 0:
+              print('       ', end='')
+            # else: print(' ', end='')
+            print(textwrap.fill(x, size.columns))
 
         print('\n0. Back')
         for i, x in enumerate(chapters):
