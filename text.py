@@ -58,7 +58,7 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
                     time.sleep(msgSpeed*4)
                 # elif char == "\"" or char == "?" or char == "!":
                 #     ""
-                elif char in alphabet:
+                else:
                     time.sleep(msgSpeed)
             # input()
             # print()
@@ -94,14 +94,26 @@ def noinput(msg="", msgSpeed=speed):
 
 def face(portrait="", msg=""):
     """Prints out text with a portrait."""
-    print(" (" + portrait + ") ", end="")
-    cursor.show()
-    for char in msg:
-        print(char, end="", flush=True)
-        time.sleep(msgSpeed)
-    input()
-    cursor.hide()
-    clear()
+    print(f"({portrait}) ", end="")
+    # cursor.show()
+    # for char in msg:
+    #     print(char, end="", flush=True)
+    #     time.sleep(msgSpeed)
+    # input()
+    noclear(msg)
+    # cursor.hide()
+    # clear()
+def faceCont(portrait="", msg=""):
+    """Prints out text with a portrait."""
+    print(f"({portrait}) ", end="")
+    # cursor.show()
+    # for char in msg:
+    #     print(char, end="", flush=True)
+    #     time.sleep(msgSpeed)
+    # input()
+    noinput(msg)
+    # cursor.hide()
+    # clear()
 
 def answer(options="", ans1="", ans2="", ans3=""):
     """Pretty input function."""

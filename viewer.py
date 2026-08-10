@@ -2,7 +2,7 @@
 import sys
 # sys.path += '~/.local/share/prokid/text-porn/'
 import extra
-try: extra.createfile('options.txt', '0.025')
+try: extra.createfile('options.txt', '0.05')
 except: print('options.txt exists, continuing...')
 import os
 os.system('./chkdeps.bash')
@@ -122,7 +122,7 @@ def main():
       while True:
         extra.clear()
         size = os.get_terminal_size()
-        print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags\n5. Sort Tags')
+        print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags (experimental)\n5. Sort Tags (experimental)')
         try: opt_sel = input('\n> ')
         except KeyboardInterrupt: break
         try:
@@ -215,13 +215,13 @@ def main():
         elif opt_sel == 5:
           while True:
             extra.clear()
-            print('Options\n\nSort tags: ', end='')
+            print('Options\n\nSorting tags: ', end='')
             if extra.readline('options.txt', 4) == '0':
               print('false')
             else:
               print('true')
 
-            print('Display as:\n\n1. Don\'t sort\n2. Sort')
+            print('Display as:\n\n1. Not sorted\n2. Sorted')
             try: tags_shown = input('> ')
             except KeyboardInterrupt: break
 
@@ -491,6 +491,38 @@ def main():
                   if '/NOBR' in i:
                     i = i.replace('/NOBR', '')
                     nobr = True
+                  if '/PORT' in i:
+                    plit = i.split('/PORT')
+                    msg = str(plit[0])
+                    portrait = str(plit[1]).replace('/PORT', '')
+                    if '/CONT' in msg:
+                      msg = msg.replace('/CONT', '')
+                      if '/CLRA' in msg:
+                        msg = msg.replace('/CLRA', '')
+                        text.faceCont(portrait, msg)
+                        extra.clear()
+                        continue
+                      elif '/CLRB' in msg:
+                        msg = msg.replace('/CLRB', '')
+                        extra.clear()
+                        # text.faceCont(portrait)
+                      text.faceCont(portrait, msg)
+                      continue
+                    else:
+                      if '/CLRA' in msg:
+                        msg = msg.replace('/CLRA', '')
+                        text.face(portrait, msg)
+                        extra.clear()
+                        continue
+                      elif '/CLRB' in msg:
+                        msg = msg.replace('/CLRB', '')
+                        extra.clear()
+                      text.face(portrait, msg)
+                    if nobr:
+                      print('\033[0;0;0m', end='')
+                    else:
+                      print('\033[0;0;0m')
+                    continue
                   if '/CONT' in i:
                     i = i.replace('/CONT', '')
                     text.noinput(i)

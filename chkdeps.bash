@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-REQUIRED_PKGS=("python3-colorama")
+REQUIRED_PKGS=("python3"         )
 green='\033[0;32m'
 red='\033[0;31m'
 white='\033[0;0;0m'
