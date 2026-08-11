@@ -96,11 +96,11 @@ def main():
     folder_display = extra.readline('options.txt', 2)
     show_tags = extra.readline('options.txt', 3)
 
-    # raw
+    # pretty
     if folder_display == '1':
       for i, x in enumerate(folders):
         print(str(i+1) + '. ' + folders_pretty[i])
-    # pretty
+    # raw
     else:
       for i, x in enumerate(folders):
         print(str(i+1) + '. .../' + folders[i])
