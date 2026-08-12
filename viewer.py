@@ -438,10 +438,11 @@ def main():
           for i, x in enumerate(meta_desc):
             if x == '':
               continue
-            if i != 0:
-              print('       ', end='')
+            if i == 0:
+              print(textwrap.fill(x, size.columns))
             # else: print(' ', end='')
-            print(textwrap.fill(x, size.columns))
+            else:
+              print(textwrap.fill(x, size.columns, initial_indent='       ', subsequent_indent='       ', ))
 
         print('\n0. Back')
         for i, x in enumerate(chapters):

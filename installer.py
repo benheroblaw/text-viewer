@@ -6,11 +6,12 @@ if os.name == "posix":
 elif os.name == "nt":
   while True:
     input('youre fucked buddy :(')
-  exit()
+    exit()
 if not os.path.exists(terminalPath):
   os.makedirs(terminalPath)
 os.chdir(terminalPath)
 
 os.system('git clone -b release https://github.com/benheroblaw/text-viewer')
-input('\nSuccessfully installed!\n\nEnter to continue')
-time.sleep(4)
+print("\nSuccessfully installed!")
+time.sleep(1)
+input("\nPress Enter to continue")
