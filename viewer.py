@@ -96,11 +96,11 @@ def main():
     folder_display = extra.readline('options.txt', 2)
     show_tags = extra.readline('options.txt', 3)
 
-    # raw
+    # pretty
     if folder_display == '1':
       for i, x in enumerate(folders):
         print(str(i+1) + '. ' + folders_pretty[i])
-    # pretty
+    # raw
     else:
       for i, x in enumerate(folders):
         print(str(i+1) + '. .../' + folders[i])
@@ -438,10 +438,11 @@ def main():
           for i, x in enumerate(meta_desc):
             if x == '':
               continue
-            if i != 0:
-              print('       ', end='')
+            if i == 0:
+              print(textwrap.fill(x, size.columns))
             # else: print(' ', end='')
-            print(textwrap.fill(x, size.columns))
+            else:
+              print(textwrap.fill(x, size.columns, initial_indent='       ', subsequent_indent='       ', ))
 
         print('\n0. Back')
         for i, x in enumerate(chapters):
