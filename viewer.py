@@ -27,7 +27,13 @@ def main():
 
   while True:
     print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
-    genCollections.generate(False)
+    if 'devtools' in os.listdir('./'):
+      if 'debug' in extra.readfile('options.txt'):
+        genCollections.generate(True, True)
+      else:
+        genCollections.generate(True, False)
+    else:
+      genCollections.generate()
     folder = os.scandir('./content')
     folders = []
     for entry in folder:
@@ -58,7 +64,12 @@ def main():
     size = os.get_terminal_size()
     # raw
     if extra.readline('options.txt', 2) == '1':
-      print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+      output = str(folders)
+      output = output.removeprefix('[')
+      output = output.removesuffix(']')
+      files_indent = '  '
+      print('Folders in ./content: ')
+      print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' ') + '\n\n0. Options')
     # pretty
     elif extra.readline('options.txt', 2) == '0':
       print('./content/...\n\n0. Options')
@@ -251,6 +262,13 @@ def main():
 
     if not sel > folder_last:
       while True:
+        if 'devtools' in os.listdir('./'):
+          if 'debug' in extra.readfile('options.txt'):
+            genCollections.generate(True, True)
+          else:
+            genCollections.generate(True)
+        else:
+          genCollections.generate()
         chapters_list = os.listdir('./content/' + folders[sel] + '')
         chapters = []
         for i, x in enumerate(chapters_list):
@@ -381,6 +399,7 @@ def main():
             meta_tags = list(meta_json["tags"])
 
         # print meta
+        extra.clear()
         if meta_title != '':
           size = os.get_terminal_size()
           print(textwrap.fill('Title:    ' + meta_title, size.columns))
