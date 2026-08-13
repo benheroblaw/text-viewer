@@ -5,18 +5,21 @@ def readfile(file=""):
   with open(file) as f:
     return f.read()
 
-def generate(logging=True):
-
+def generate(logging=False, debug=False):
+  extra_path = readfile('extra/path').strip()
   if logging:
     print('generating collections...')
-
+    print(f'first directory: {str(os.getcwd())}\nfolders with .folders:')
   for i in os.scandir('./content/'):
     if i.is_dir():
       if '.folders' in os.listdir(i):
         # os.system('cd ./content/' + i.name)
         os.chdir('./content/' + i.name)
+        if logging:
+          print(f'  {str(os.getcwd())}')
+        # os.system(f'find ./content/{i.name}/ -xtype l -delete')
         # print('./content/' + i.name)
-        os.system('rm *.scri')
+        # os.system('rm *.scri')
 
         folders = readfile('./.folders').splitlines()
         for folder in folders:
@@ -26,17 +29,30 @@ def generate(logging=True):
           else:
             # if './' not in folder:
             #   folder = './' + folder
-            if '../' not in folder:
-              folder = '../' + folder
-            for direct in os.listdir(folder):
-              if direct.endswith('.scri'):
-                direct = direct.replace("'", "\\'")
-                if logging:
-                  print(direct)
-                os.system('ln -s -f ' + folder + str(direct))
-        # os.system('cd ../../')
-        os.chdir(os.path.expanduser('../../'))
+            # if '../' not in folder:
+            #   folder = '../' + folder
+            folder = os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}/content/{folder}')
+            print(f'file path to search: {folder}')
+            try:
+              print('files to link:')
+              for direct in os.listdir(folder):
+                if direct.endswith('.scri'):
+                  direct = direct.replace("'", "\\'")
+                  if logging:
+                    print(f'  {direct}')
+                  os.system(f'ln -s -f {folder}{str(direct)}')
 
-  if logging:
-    print('done')
+            except FileNotFoundError:
+              if logging: print(f'could not link files in: {folder}')
+
+            for i in os.listdir(os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}/content/')):
+              print(i)
+              output = i.replace('\'', '\\\'')
+              output = output.replace('"', '\\"')
+              os.system(f'find ~/.local/share/bhrobla/{extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
+        # os.system('cd ../../')
+        os.chdir(os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}'))
+
+  if debug:
+    input('done, waiting for input: ')
 # generate()
