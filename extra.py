@@ -72,6 +72,7 @@ def clear(force=''):
   """Clears the terminal."""
   # if dev not in cmd.name and force == '':
   os.system("clear")
+  print(textReset, end='')
   # elif dev in cmd.name and force != '':
   #   print('\n\033[1;37;40mforcing clear through \033[1;30m_dev_login_\033[1;37m...' + textReset + '\n')
   # else: print('\n\033[1;37;40mextra.clear blocked by \033[1;30m_dev_login_' + textReset + '\n')

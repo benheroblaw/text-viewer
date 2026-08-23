@@ -505,6 +505,10 @@ def main():
                   if '/BLU' in i:
                     i = i.replace('/BLU', '')
                     print('\033[0;34m', end='')
+                  if '/WHI' in i or i.startswith('WHI>'):
+                    i = i.replace('/WHI', '')
+                    i = i.removeprefix('WHI>')
+                    print('\033[0;37m', end='')
                   if '/BLD' in i:
                     i = i.replace('/BLD', '')
                     print('\033[1m', end='')
