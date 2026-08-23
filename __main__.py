@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
 print('\33]0;loading... please wait :3\a', end='')
-import os
-
-if os.name == "posix":
-  terminalPath = os.path.expanduser("~/.local/share/bhrobla/text-porn")
-  ""
-elif os.name == "nt":
-  # terminalPath = os.path.expanduser("~\\AppData\\Local\\prokid\\text-terminal")
-  print('you\'re fucked buddy :\'(')
-if not os.path.exists(terminalPath):
-  os.makedirs(terminalPath)
-os.chdir(terminalPath)
-
-import viewer, importlib
-
 def readfile(file=""):
   """Reads a file."""
   with open(file) as f:
@@ -27,6 +13,21 @@ def readline(file="", line=1):
       data = f.readlines()
       return data[line].replace("\n", "")
   except: return "error"
+
+import os
+
+if os.name == "posix":
+  terminalPath = os.path.expanduser(f"~/.local/share/bhrobla/{readline('./extra/path', 1)}")
+  ""
+elif os.name == "nt":
+  # terminalPath = os.path.expanduser("~\\AppData\\Local\\prokid\\text-terminal")
+  print('you\'re fucked buddy :\'(')
+if not os.path.exists(terminalPath):
+  os.makedirs(terminalPath)
+os.chdir(terminalPath)
+
+import viewer, importlib
+
 
 while __name__ == '__main__':
   # print(os.curdir)
