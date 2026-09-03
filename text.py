@@ -15,7 +15,7 @@ size = os.get_terminal_size()
 class terminal:
     width = size.columns
 
-speed = float(readline("options.txt", 1).replace("text-speed = ", ""))
+# speed = float(readline("options.txt", 1).replace("text-speed = ", ""))
 # battlemsgSpeed = float(readline("options.txt", 2).replace("battle-msgSpeed = ", ""))
 battlemsgSpeed = 0
 # if msgSpeed == 0.0:
@@ -25,19 +25,55 @@ if battlemsgSpeed <= 0:
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
-def text(msg=""):
+def text(msg="", msgSpeed=0, cont=False, clear='none'):
+    """All-purpose text thing."""
+    size = os.get_terminal_size()
+    msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
+    # msg = r'{msg}'/
+    # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
+    if clear == 'fore':
+        os.system('clear')
+    # noinput(msg, msgSpeed)
+    # cursor.show()
+    if msg != '':
+        if msgSpeed > 0 or msgSpeed > 0.0:
+            if '\e[3m' in msg or '\e[23m' in msg:
+                i_list = []
+                i_list += msg.split('\e[3m')
+                msg = msg.replace('\e[3m', '')
+                msg = msg.replace('\e[23m', '')
+            for char in msg:
+                print(char, end="", flush=True)
+                if char == ",":
+                    time.sleep(msgSpeed*4)
+                # elif char == "\"" or char == "?" or char == "!":
+                #     ""
+                else:
+                    time.sleep(msgSpeed)
+            # input()
+            # print()
+        else:
+            raw_msg = fr'{msg}'
+            os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
+
+        if not cont:
+            input()
+        # else:
+        #     print()
+
+        # print()
+
+        if clear == 'after':
+            os.system('clear')
+def clearAfter(msg="", cont=False):
     """Prints out text and waits for input, then clears the terminal."""
-    noclear(msg, speed)
+    noclear(msg, speed, cont)
     os.system('clear')
-def clearAfter(msg=""):
-    """Prints out text and waits for input, then clears the terminal."""
-    noclear(msg, speed)
-    os.system('clear')
-def clearBefore(msg=''):
+def clearBefore(msg='', cont=False):
     """Clears the terminal, then shows text"""
     clear()
-    noclear(msg, speed)
-def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", ""))):
+    noclear(msg, speed, cont)
+def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", "")), cont=False):
     """Prints out text and waits for input."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
@@ -65,11 +101,14 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
         else:
             raw_msg = fr'{msg}'
             os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
-        input()
+        if cont:
+            input()
+        else:
+            print()
     # cursor.hide()
 def noClear(msg=""):
     noclear(msg, speed)
-def noinput(msg="", msgSpeed=speed):
+def noclearinput(msg="", msgSpeed=0):
     """Prints out text."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)

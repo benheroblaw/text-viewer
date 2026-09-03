@@ -15,21 +15,21 @@ Add "credits": "your_credits" to set credits.
 
 Add "title": "your_title" to set the title.
 
-A fully-filled-out meta.json would look like this:/CLRB
-{/NOBR/CONT
-  "author": "benheroblaw",/NOBR/CONT
-  "title": "testing stuff",/NOBR/CONT
-  "rating": 1,/NOBR/CONT
-  "links": "https://benheroblaw.github.io",/NOBR/CONT/ESC
-  "warnings": "swearing",/NOBR/CONT
-  "credits": "benheroblaw for coding the whole thing"/NOBR/CONT
-}/CONT
+CLRB>A fully-filled-out meta.json would look like this:
+{CONT>/NOBR
+  "author": "benheroblaw",/NOBRCONT>
+  "title": "testing stuff",/NOBRCONT>
+  "rating": 1,/NOBRCONT>
+  "links": "https://benheroblaw.github.io",/NOBRCONT>/ESC
+  "warnings": "swearing",/NOBRCONT>
+  "credits": "benheroblaw for coding the whole thing"/NOBRCONT>
+}CONT>
 
 And display as this:
-Title:    testing stuff/NOBR/CONT
-Folder:   ./content/zzz-testing//NOBR/CONT
-Rating:   Teen/NOBR/CONT
-Warnings: swearing/NOBR/CONT
-Author:   benheroblaw/NOBR/CONT
-Links:    https://benheroblaw.github.io/ESC/NOBR/CONT
-Credits:  benheroblaw for coding the whole thing/NOBR/CONT
+Title:    testing stuff/NOBRCONT>
+Folder:   .CONT>ent/zzz-testing//NOBRCONT>
+Rating:   Teen/NOBRCONT>
+Warnings: swearing/NOBRCONT>
+Author:   benheroblaw/NOBRCONT>
+Links:    https://benheroblaw.github.io/ESC/NOBRCONT>
+Credits:  benheroblaw for coding the whole thing/NOBRCONT>

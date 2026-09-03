@@ -11,12 +11,12 @@ import text, sys, time, textwrap, threading, json
 # import colorama
 # from colorama import *
 
-def checkSpeed():
-  while True:
-    text.speed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
-    # print('text.speed is ' + str(text.speed))
-    time.sleep(0.1)
-speedCheck = threading.Thread(target=checkSpeed)
+# def checkSpeed():
+#   while True:
+#     text.speed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
+#     # print('text.speed is ' + str(text.speed))
+#     time.sleep(0.1)
+# speedCheck = threading.Thread(target=checkSpeed)
 
 
 
@@ -153,7 +153,7 @@ def main():
           input('> Restart to finish updating')
 
         elif opt_sel == 2:
-          print('Options\n\nCurrent speed: ' + str(text.speed))
+          print('Options\n\nCurrent speed: ' + extra.readline('options.txt', 1))
           print('New speed (in seconds):')
           try: speed = input('\n> ')
           except KeyboardInterrupt: continue
@@ -298,6 +298,7 @@ def main():
         meta_title =    ''
         meta_desc =     ''
         meta_tags =     []
+        meta_relationships = []
         meta_indent =   '           '
         if '.meta' in os.listdir('./content/' + folders[sel]):
           # meta_author =   ''
@@ -371,6 +372,12 @@ def main():
           if 'tags'.capitalize() in meta_json:
             meta_tags = list(meta_json["tags".capitalize()])
 
+          if 'relationships'.capitalize() in meta_json:
+            meta_relationships = list(meta_json["relationships".capitalize()])
+
+          elif 'ships'.capitalize() in meta_json:
+            meta_relationships = list(meta_json["relationships".capitalize()])
+
           if 'authors' in meta_json:
             meta_authors = meta_json["authors"]
 
@@ -398,6 +405,12 @@ def main():
           if 'tags' in meta_json:
             meta_tags = list(meta_json["tags"])
 
+          if 'relationships' in meta_json:
+            meta_relationships = list(meta_json["relationships"])
+
+          elif 'ships' in meta_json:
+            meta_relationships = list(meta_json["ships"])
+
         # print meta
         extra.clear()
         if meta_title != '':
@@ -423,14 +436,23 @@ def main():
           print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns, subsequent_indent=meta_indent))
 
         if meta_tags != [] and extra.readline('options.txt', 3) == '1':
-          print('\nTags: ', end='')
+          print('\nTags:  ', end='')
           if extra.readline('options.txt', 4) == '1':
             meta_tags.sort()
           meta_tags_display = str(meta_tags).removeprefix('[')
           meta_tags_display = meta_tags_display.removesuffix(']')
           meta_tags_display = meta_tags_display.replace('\\\'', '\'')
           size = os.get_terminal_size()
-          print(textwrap.fill(meta_tags_display, size.columns, subsequent_indent='        '))
+          print(textwrap.fill(meta_tags_display, size.columns - 8, subsequent_indent='        '))
+        if meta_relationships != [] and extra.readline('options.txt', 3) == '1':
+          print('Ships: ', end='')
+          if extra.readline('options.txt', 4) == '1':
+            meta_relationships.sort()
+          meta_relationships_display = str(meta_relationships).removeprefix('[')
+          meta_relationships_display = meta_relationships_display.removesuffix(']')
+          meta_relationships_display = meta_relationships_display.replace('\\\'', '\'')
+          size = os.get_terminal_size()
+          print(textwrap.fill(meta_relationships_display, size.columns - 8, subsequent_indent='        '))
 
         if meta_authors != '' and meta_author == '':
           size = os.get_terminal_size()
@@ -488,41 +510,70 @@ def main():
               i = i.replace('*i/', '\e[23m')
               if i != '':
                 nobr = False
-                if '#' in i or '//' in i and '/ESC' not in i:
+                cont = False
+                clear = 'none'
+                textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
+
+                if "CONT>" in i:
+                  i = i.replace('CONT>', '', 1)
+                  cont = True
+
+                if '/NOBR' in i or 'NOBR>' in i:
+                  i = i.replace('/NOBR', '')
+                  i = i.replace('NOBR>', '')
+                  nobr = True
+
+                if 'CLRA>' in i:
+                  i = i.replace('CLRA>', '')
+                  clear = 'fore'
+
+                if 'CLRB>' in i:
+                  i = i.replace('CLRB>', '')
+                  clear = 'after'
+
+                if 'SPD<' in i:
+                  textSpeed = float(i[i.find('SPD<') + 4 : i.find('>')])
+                  i = i.replace(f'SPD<{textSpeed}>', '', 1)
+
+                if '#' in i or '//' in i and 'ESC>' not in i:
                   continue
+
                 else:
-                  i = i.replace('/ESC', '')
-                if '/ESCSTRS' not in i:
-                  if '/RED' in i:
-                    i = i.replace('/RED', '')
-                    print('\033[0;31m', end='')
-                  if '/GRN' in i:
-                    i = i.replace('/GRN', '')
-                    print('\033[0;32m', end="")
-                  if '/YLW' in i:
-                    i=i.replace('/YLW', '')
-                    print('\033[0;33m', end='')
-                  if '/BLU' in i:
-                    i = i.replace('/BLU', '')
-                    print('\033[0;34m', end='')
-                  if '/WHI' in i or i.startswith('WHI>'):
-                    i = i.replace('/WHI', '')
-                    i = i.removeprefix('WHI>')
-                    print('\033[0;37m', end='')
-                  if '/BLD' in i:
-                    i = i.replace('/BLD', '')
-                    print('\033[1m', end='')
-                  if '/NOBR' in i:
-                    i = i.replace('/NOBR', '')
-                    nobr = True
-                  if '/PORT' in i:
-                    plit = i.split('/PORT')
-                    msg = str(plit[0])
-                    portrait = str(plit[1]).replace('/PORT', '')
-                    if '/CONT' in msg:
-                      msg = msg.replace('/CONT', '')
-                      if '/CLRA' in msg:
+                  i = i.replace('ESC>', '')
+                  if '/ESCSTRS' not in i and 'ESC>' not in i:
+                    if 'RED>' in i:
+                      i = i.replace('RED>', '')
+                      print('\033[0;31m', end='')
+                    if 'GRN>' in i:
+                      i = i.replace('GRN>', '')
+                      print('\033[0;32m', end="")
+                    if 'YLW>' in i:
+                      i=i.replace('YLW>', '')
+                      print('\033[0;33m', end='')
+                    if 'BLU>' in i:
+                      i = i.replace('BLU>', '')
+                      print('\033[0;34m', end='')
+                    if 'PNK>' in i:
+                      i = i.replace('PNK>', '')
+                      print('\033[0;35m', end='')
+                    if 'CYN>' in i:
+                      i = i.replace('CYN>', '')
+                      print('\033[0;36m', end='')
+                    if '/WHI' in i or 'WHI>' in i:
+                      i = i.replace('/WHI', '')
+                      i = i.replace('WHI>', '', 1)
+                      print('\033[0;37m', end='')
+                    if '/BLD' in i or 'BLD>' in i:
+                      i = i.replace('/BLD', '')
+                      i = i.replace('BLD>', '')
+                      print('\033[1m', end='')
+                    if '/PORT' in i:
+                      plit = i.split('/PORT')
+                      msg = str(plit[0])
+                      portrait = str(plit[1]).replace('/PORT', '')
+                      if '/CLRA' or 'CLRA>' in msg:
                         msg = msg.replace('/CLRA', '')
+                        msg = msg.replace('CLRA>', '')
                         text.faceCont(portrait, msg)
                         extra.clear()
                         continue
@@ -533,56 +584,12 @@ def main():
                       text.faceCont(portrait, msg)
                       continue
                     else:
-                      if '/CLRA' in msg:
-                        msg = msg.replace('/CLRA', '')
-                        text.face(portrait, msg)
-                        extra.clear()
-                        continue
-                      elif '/CLRB' in msg:
-                        msg = msg.replace('/CLRB', '')
-                        extra.clear()
-                      text.face(portrait, msg)
-                    if nobr:
-                      print('\033[0;0;0m', end='')
-                    else:
-                      print('\033[0;0;0m')
-                    continue
-                  if '/CONT' in i:
-                    i = i.replace('/CONT', '')
-                    text.noinput(i)
-                    if nobr:
-                      print('\033[0;0;0m', end='')
-                    else:
-                      print('\033[0;0;0m')
-                    continue
-                  if '/CLRA' in i:
-                    i = i.replace('/CLRA', '')
-                    text.clearAfter(i)
-                    if nobr:
-                      print('\033[0;0;0m', end='')
-                    else:
-                      print('\033[0;0;0m')
-                    continue
-                  if '/CLRB' in i:
-                    i = i.replace('/CLRB', '')
-                    text.clearBefore(i)
-                    if nobr:
-                      print('\033[0;0;0m', end='')
-                    else:
-                      print('\033[0;0;0m')
-                    continue
-                  else:
-                    text.noClear(i)
-                    if nobr:
-                      print('\033[0;0;0m', end='')
-                    else:
-                      print('\033[0;0;0m')
-                else:
-                  text.noclear(i)
+                      text.text(i.strip(), textSpeed, cont, clear)
+                      if nobr:
+                        print('\033[0;0;0m', end='')
+                      else:
+                        print('\033[0;0;0m')
               # print()
             input('Return > ')
             extra.clear()
           except KeyboardInterrupt: break
-
-# while __name__ == '__main__':
-#   main()
