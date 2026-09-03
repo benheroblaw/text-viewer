@@ -563,6 +563,12 @@ def main():
                       i = i.replace('/WHI', '')
                       i = i.replace('WHI>', '', 1)
                       print('\033[0;37m', end='')
+                    if 'PUR>' in i:
+                      i = i.replace('PUR>', '', 1)
+                      print('\033[38;5;57m', end='')
+                    if 'LME>' in i:
+                      i = i.replace('LME>', '', 1)
+                      print('\033[38;5;40m', end='')
                     if '/BLD' in i or 'BLD>' in i:
                       i = i.replace('/BLD', '')
                       i = i.replace('BLD>', '')
