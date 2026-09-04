@@ -111,7 +111,7 @@ def Taimen(file=''):
                 # text.faceCont(portrait)
               text.face(portrait, msg)
             else:
-              text.text(i.strip(), textSpeed, cont, clear)
+              text.text(i, textSpeed, cont, clear)
             if nobr and textSpeed > 0:
               print('\033[0;0;0m', end='')
             else:

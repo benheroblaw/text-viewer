@@ -28,7 +28,7 @@ alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"
 def text(msg="", msgSpeed=0, cont=False, clear='none'):
     """All-purpose text thing."""
     size = os.get_terminal_size()
-    msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
+    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True, drop_whitespace=False)
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if clear == 'before':
