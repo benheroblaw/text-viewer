@@ -31,7 +31,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
     msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
-    if clear == 'fore':
+    if clear == 'before':
         os.system('clear')
     # noinput(msg, msgSpeed)
     # cursor.show()
@@ -53,8 +53,9 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
             # input()
             # print()
         else:
-            raw_msg = fr'{msg}'
-            os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
+            # raw_msg = fr'{msg}'
+            print(msg, end='')
+            # os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
 
         if not cont:
             input()
@@ -102,9 +103,9 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
             raw_msg = fr'{msg}'
             os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
         if cont:
-            input()
-        else:
             print()
+        else:
+            input()
     # cursor.hide()
 def noClear(msg=""):
     noclear(msg, speed)
@@ -131,17 +132,10 @@ def noclearinput(msg="", msgSpeed=0):
             print(msg, flush=True)
             time.sleep(msgSpeed**msgSpeed/2)
 
-def face(portrait="", msg=""):
+def face(portrait="", msg="", clear='none'):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
-    # cursor.show()
-    # for char in msg:
-    #     print(char, end="", flush=True)
-    #     time.sleep(msgSpeed)
-    # input()
-    noclear(msg)
-    # cursor.hide()
-    # clear()
+    text(msg, cont=False, clear=clear)
 def faceCont(portrait="", msg=""):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
@@ -150,7 +144,7 @@ def faceCont(portrait="", msg=""):
     #     print(char, end="", flush=True)
     #     time.sleep(msgSpeed)
     # input()
-    noinput(msg)
+    noclearinput(msg)
     # cursor.hide()
     # clear()
 
