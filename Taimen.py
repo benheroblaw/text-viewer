@@ -48,6 +48,15 @@ def Taimen(file=''):
               i = i.replace('LBLU>', '', 1)
               print('\033[38;5;45m', end="")
 
+            if 'LGRY>' in i:
+                i =i.replace('LGRY>', '', 1)
+                print('\033[38;5;248m', end="")
+
+            # dark colors
+            if 'DGRY>' in i:
+                i =i.replace('DGRY>', '', 1)
+                print('\033[38;5;234m', end="")
+
             # colors
             if 'RED>' in i:
               i = i.replace('RED>', '', 1)
@@ -80,7 +89,7 @@ def Taimen(file=''):
             if 'WHI>' in i:
               i = i.replace('WHI>', '', 1)
               print('\033[38;5;255m', end='')
-              
+
             if 'LME>' in i:
               i = i.replace('LME>', '', 1)
               print('\033[38;5;40m', end='')
