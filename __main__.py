@@ -4,10 +4,9 @@ import os
 
 if os.name == "posix":
   terminalPath = os.path.expanduser("~/.local/share/bhrobla/text-porn")
-  ""
 elif os.name == "nt":
   # terminalPath = os.path.expanduser("~\\AppData\\Local\\prokid\\text-terminal")
-  print('you\'re fucked buddy :\'(')
+  print('you\'re fucked buddy :,(')
 if not os.path.exists(terminalPath):
   os.makedirs(terminalPath)
 os.chdir(terminalPath)
