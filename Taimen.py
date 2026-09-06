@@ -18,8 +18,7 @@ def Taimen(file=''):
           i = i.replace('CONT>', '', 1)
           cont = True
 
-        if '/NOBR' in i or 'NOBR>' in i:
-          i = i.replace('/NOBR', '', 1)
+        if 'NOBR>' in i:
           i = i.replace('NOBR>', '', 1)
           nobr = True
 
@@ -78,10 +77,10 @@ def Taimen(file=''):
               i = i.replace('PUR>', '', 1)
               print('\033[38;5;57m', end='')
 
-            if '/WHI' in i or 'WHI>' in i:
-              i = i.replace('/WHI', '', 1)
+            if 'WHI>' in i:
               i = i.replace('WHI>', '', 1)
               print('\033[38;5;255m', end='')
+              
             if 'LME>' in i:
               i = i.replace('LME>', '', 1)
               print('\033[38;5;40m', end='')
