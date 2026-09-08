@@ -1,15 +1,20 @@
 Function strings allow you to do neat things.
-Like bold your text.../BLD
-Or clear the terminal./CLRB
-Function strings use a slash (/) followed by one to five characters./CONT/NOBR
+BLD>Like bold your text...
+CLRB>Or clear the terminal.
+CONT>NOBR>Function strings use one to five characters followed by a less than sign (<).
 They will be found and removed from anywhere in the line.
-Currently implemented- CLRA, CLRB, BLD, RED, YLW, GRN, BLU, CONT, NOBR, ESC, ESCSTR/CLRB
+CLRB>Currently implemented- CLRA, CLRB, BLD, RED, YLW, GRN, BLU, PNK, PUR, LBLU, LME, ITAL, CONT, NOBR, ESC, SPD, PORT
 CLRA clears the terminal after the line is displayed.
 CLRB clears the terminal before the line is displayed.
 BLD renders the text as bold.
-RED, GRN, YLW, and BLU change the text color
+RED, GRN, YLW, PNK, PUR, LBLU, LME, and BLU change the text color
 CONT makes the text continue without waiting for input.
 NOBR removes the full line between text.
-ESC makes the line ignore comments.
-ESCSTRS makes the line ignore all of these neat functions.
+SPD, ITAL and PORT use the greater/less than signs as parentheses to extract a value.
+SPD allows you to set the speed of the text.
+PORT will render a portrait before the text, like an RPG.
+PORT<:3>Like this!
+ITAL allows you to italicize text.
+Like ITAL<this!>
+ESC makes the line ignore all of these neat functions.
 Next- meta file
