@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os, datetime, textwrap
 
-os.chdir(os.path.expanduser('~/.local/share/bhrobla/text-porn/devtools'))
+os.chdir(os.path.expanduser('~/.local/share/bhrobla/text-viewer-dev/devtools'))
 
 def readfile(file=""):
   """Reads a file."""
@@ -33,31 +33,43 @@ def runCommands(command=''):
     print()
 
   elif command == 'copypush' or command == 'releasepush':
-    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-porn; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
+    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-viewer-dev; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
     date = datetime.datetime.now()
     os.system('cd ' + os.path.expanduser('~/.local/share/bhrobla/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin release')
 
   elif command == 'devpush':
     date = datetime.datetime.now()
-    os.system('cd ~/.local/share/bhrobla/text-porn; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
+    os.system('cd ~/.local/share/bhrobla/text-viewer-dev; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
 
   elif command == 'test' or command == 'viewer':
-    os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/bhrobla/text-porn/ ;bash\"'")
+    os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/bhrobla/text-viewer-dev/ ;bash\"'")
 
   elif command == 'fullpush':
     print(dashes + '\ndev\n')
     date = datetime.datetime.now()
-    os.system('cd ~/.local/share/bhrobla/text-porn; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
+    os.system('cd ~/.local/share/bhrobla/text-viewer-dev; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
 
     print(dashes)
 
     print('release\n')
-    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-porn; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
+    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-viewer-dev; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
     date = datetime.datetime.now()
     os.system('cd ' + os.path.expanduser('~/.local/share/bhrobla/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin release')
 
   elif command == 'copyrelease' or command == 'releasecopy':
-    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-porn; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
+    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-viewer-dev; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
+
+  elif command == 'fullcommit':
+    print(dashes + '\ndev\n')
+    date = datetime.datetime.now()
+    os.system('cd ~/.local/share/bhrobla/text-viewer-dev; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M'))
+
+    print(dashes)
+
+    print('release\n')
+    os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-viewer-dev; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
+    date = datetime.datetime.now()
+    os.system('cd ' + os.path.expanduser('~/.local/share/bhrobla/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M'))
 
   else:
     try: exec(command)
@@ -68,8 +80,6 @@ def parse():
   command = input('devtools@text-viewer> ')
   output += command.split(';')
 
-  # output = output.strip()
-  # print(output)
   for i in output:
     i = i.strip()
     runCommands(i)

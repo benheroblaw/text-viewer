@@ -4,126 +4,111 @@ def Taimen(file=''):
   """Text display"""
   try:
     for i in file:
-      # i = i.strip()
-      italic_temp = ''
-      i = i.replace('/i*', '\e[3m')
-      i = i.replace('*i/', '\e[23m')
+      nobr = False
+      cont = False
+      clear = 'none'
       if i != '':
-        nobr = False
-        cont = False
-        clear = 'none'
         textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
 
-        if "CONT>" in i:
-          i = i.replace('CONT>', '', 1)
-          cont = True
+        if 'ESC>' not in i:
 
-        if 'NOBR>' in i:
-          i = i.replace('NOBR>', '', 1)
-          nobr = True
+          if "CONT>" in i:
+            i = i.replace('CONT>', '', 1)
+            cont = True
 
-        if 'CLRA>' in i:
-          i = i.replace('CLRA>', '', 1)
-          clear = 'after'
+          if 'NOBR>' in i:
+            i = i.replace('NOBR>', '', 1)
+            nobr = True
 
-        if 'CLRB>' in i:
-          i = i.replace('CLRB>', '', 1)
-          clear = 'before'
+          if 'CLRA>' in i:
+            i = i.replace('CLRA>', '', 1)
+            clear = 'after'
 
-        if 'SPD<' in i:
-          textSpeed = float(i[i.find('SPD<') + 4 : i.find('>')])
-          i = i.replace(f'SPD<{textSpeed}>', '', 1)
+          if 'CLRB>' in i:
+            i = i.replace('CLRB>', '', 1)
+            clear = 'before'
 
-        if '#' in i or '/*' in i and 'ESC>' not in i:
-          continue
+          if 'SPD<' in i:
+            try: textSpeed = float(i[i.find('SPD<') + 4 : i.find('>')])
+            except ValueError: print('error: SPD is not a valid number!')
 
+            i = i.replace(f'SPD<{textSpeed}>', '', 1)
+            i = i.replace(f'SPD<{int(textSpeed)}>', '', 1)
+
+          if 'CMT<' in i:
+              comment = i[i.find('CMT<') : i.find('>')+1]
+              i = i.replace(comment, '')
+              i = i.removeprefix(' ')
+
+          # light colors
+          if 'LGRN>' in i:
+              i = i.replace('LGRN>', '\ud807', 1)
+
+          if 'LGRY>' in i:
+              i =i.replace('LGRY>', '\ud808', 1)
+
+          if 'LBLU>' in i:
+              i = i.replace('LBLU>', '\ud809', 1)
+
+          # dark colors
+          if 'DGRY>' in i:
+              i =i.replace('DGRY>', '\ud80a', 1)
+
+          # colors
+
+          if 'RES>' in i:
+              i = i.replace('RES>', '\ud7fc', 1)
+
+          if 'RED>' in i:
+              i = i.replace('RED>', '\ud7fd', 1)
+
+          if 'BLU>' in i:
+              i = i.replace('BLU>', '\ud7fe', 1)
+
+          if 'GRN>' in i:
+              i = i.replace('GRN>', '\ud7ff', 1)
+
+          if 'YLW>' in i:
+              i=i.replace('YLW>', '\ud800', 1)
+
+          if 'PNK>' in i:
+              i = i.replace('PNK>', '\ud801', 1)
+
+          if 'CYN>' in i:
+              i = i.replace('CYN>', '\ud802', 1)
+
+          if 'PUR>' in i:
+              i = i.replace('PUR>', '\ud803', 1)
+
+          if 'WHI>' in i:
+              i = i.replace('WHI>', '\ud804', 1)
+
+          if 'LME>' in i:
+              i = i.replace('LME>', '\ud805', 1)
+
+          if 'GRY>' in i:
+              i =i.replace('GRY>', '\ud806', 1)
+
+          # other text formatting
+          if 'BLD>' in i:
+            i = i.replace('BLD>', '', 1)
+            print('\033[1m', end='')
+
+          if 'ITAL<' in i:
+              italics = i[i.find('ITAL<') + 5 : i.find('>')]
+              i = i.replace(f'ITAL<{italics}>', f'\ud8a0{italics}\ud8a1')
+
+          if 'PORT<' in i:
+            portrait = i[i.find('PORT<') + 5 : i.find('>')]
+            i = i.replace(f'PORT<{portrait}>', '', 1)
+            print(f'({portrait}) ', end='')
+
+        i = i.replace('ESC>', '', 1)
+        text.text(i, textSpeed, cont, clear)
+        if nobr and textSpeed > 0:
+          print('\033[0;0;0m', end='')
         else:
-          if 'ESC>' not in i:
-            # light colors
-            if 'LGRN>' in i:
-              i = i.replace('LGRN>', '', 1)
-              print('\033[38;5;46m', end="")
-
-            if 'LBLU>' in i:
-              i = i.replace('LBLU>', '', 1)
-              print('\033[38;5;45m', end="")
-
-            if 'LGRY>' in i:
-                i =i.replace('LGRY>', '', 1)
-                print('\033[38;5;248m', end="")
-
-            # dark colors
-            if 'DGRY>' in i:
-                i =i.replace('DGRY>', '', 1)
-                print('\033[38;5;234m', end="")
-
-            # colors
-            if 'RED>' in i:
-              i = i.replace('RED>', '', 1)
-              print('\033[38;5;196m', end='')
-
-            if 'GRN>' in i:
-              i = i.replace('GRN>', '', 1)
-              print('\033[38;5;34m', end="")
-
-            if 'YLW>' in i:
-              i=i.replace('YLW>', '', 1)
-              print('\033[38;5;220m', end='')
-
-            if 'BLU>' in i:
-              i = i.replace('BLU>', '', 1)
-              print('\033[38;5;21m', end='')
-
-            if 'PNK>' in i:
-              i = i.replace('PNK>', '', 1)
-              print('\033[38;5;206m', end='')
-
-            if 'CYN>' in i:
-              i = i.replace('CYN>', '', 1)
-              print('\033[38;5;m51', end='')
-
-            if 'PUR>' in i:
-              i = i.replace('PUR>', '', 1)
-              print('\033[38;5;57m', end='')
-
-            if 'WHI>' in i:
-              i = i.replace('WHI>', '', 1)
-              print('\033[38;5;255m', end='')
-
-            if 'LME>' in i:
-              i = i.replace('LME>', '', 1)
-              print('\033[38;5;40m', end='')
-
-            # other text formatting
-            if '/BLD' in i or 'BLD>' in i:
-              i = i.replace('/BLD', '', 1)
-              i = i.replace('BLD>', '', 1)
-              print('\033[1m', end='')
-
-            i = i.replace('ESC>', '', 1)
-            if 'PORT<' in i:
-              portrait = i[i.find('PORT<') + 5 : i.find('>')]
-              msg = i.replace(f'PORT<{portrait}>', '', 1)
-              if 'CLRA>' in msg:
-                msg = msg.replace('CLRA>', '', 1)
-                text.face(portrait, msg)
-                if nobr:
-                  print('\033[0;0;0m', end='')
-                else:
-                  print('\033[0;0;0m')
-                extra.clear()
-                continue
-              elif 'CLRB>' in msg:
-                msg = msg.replace('CLRB>', '', 1)
-                extra.clear()
-                # text.faceCont(portrait)
-              text.face(portrait, msg)
-            else:
-              text.text(i, textSpeed, cont, clear)
-            if nobr and textSpeed > 0:
-              print('\033[0;0;0m', end='')
-            else:
-              print('\033[0;0;0m')
+          print('\033[0;0;0m')
       # print()
     input('Return > ')
     extra.clear()

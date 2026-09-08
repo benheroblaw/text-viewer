@@ -1,18 +1,26 @@
-Function strings allow you to do neat things.
-BLD>Like bold your text...
+NOBR>Function strings allow you to do neat things,
+BLD>like bold your text...
 CLRB>Or clear the terminal.
-CONT>NOBR>Function strings use one to five characters followed by a less than sign (<).
+NOBR>Function strings use one to four characters followed by a greater than sign (>).
 They will be found and removed from anywhere in the line.
-CLRB>Currently implemented- CLRA, CLRB, BLD, RED, YLW, GRN, BLU, PNK, PUR, LBLU, LME, CONT, NOBR, ESC, SPD, PORT
-CLRA clears the terminal after the line is displayed.
-CLRB clears the terminal before the line is displayed.
+CLRB>NOBR>Currently implemented:
+SPD<0> CLRA, CLRB, BLD, RED, YLW, GRN, BLU, PNK, PUR, LBLU, LME, GRY, DGRY, LGRY, WHI, ITAL, CONT, NOBR, ESC, SPD, PORT, CMT
+
+CLRA and CLRB clear the terminal after/before the line is displayed.
+
 BLD renders the text as bold.
-RED, GRN, YLW, PNK, PUR, LBLU, LME, and BLU change the text color
+RED, GRN, YLW, PNK, PUR, LBLU, LME, GRY, LGRY, DGRY, WHI and BLU change the text color.
+
 CONT makes the text continue without waiting for input.
 NOBR removes the full line between text.
-SPD and PORT use the greater/less than signs as parentheses to extract a value.
-SPD allows you to set the speed of the text.
-PORT will render a portrait before the text, like an RPG.
+SPD, ITAL, PORT and CMT use the greater/less than signs as parentheses to extract a value.
+SPD allows you to set the speed of the text, using a number of seconds to wait after displaying each character.
+NOBR>CONT>It would be written like this:
+ ESC>SPD<0.1>
+NOBR>PORT will render a portrait before the text, like an RPG.
 PORT<:3>Like this!
+NOBR>ITAL allows you to italicize text.
+ITAL<Like this!>
+CMT is a comment; anything in this tag will be ignored.
 ESC makes the line ignore all of these neat functions.
-Next- meta file
+Next- Meta File

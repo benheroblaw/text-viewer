@@ -36,26 +36,61 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
-        if msgSpeed > 0 or msgSpeed > 0.0:
-            if '\e[3m' in msg or '\e[23m' in msg:
-                i_list = []
-                i_list += msg.split('\e[3m')
-                msg = msg.replace('\e[3m', '')
-                msg = msg.replace('\e[23m', '')
-            for char in msg:
-                print(char, end="", flush=True)
-                if char == ",":
-                    time.sleep(msgSpeed*4)
-                # elif char == "\"" or char == "?" or char == "!":
-                #     ""
-                else:
-                    time.sleep(msgSpeed)
-            # input()
-            # print()
-        else:
-            # raw_msg = fr'{msg}'
-            print(msg, end='')
-            # os.system('echo -n "' + msg + '"') # print(msg, flush=False, end='')
+        for i in msg:
+            if i == '\ud7fc': # reset
+                print('\033[0;0;0m', end='')
+
+            elif i == '\ud7fd': # red
+                print('\033[38;5;196m', end='')
+
+            elif i == '\ud7fe': # blue
+                print('\033[38;5;20m', end='')
+
+            elif i == '\ud7ff': # green
+                print('\033[38;5;34m', end="")
+
+            elif i == '\ud800': # yellow
+                print('\033[38;5;220m', end="")
+
+            elif i == '\ud801': # pink
+                print('\033[38;5;206m', end="")
+
+            elif i == '\ud802': # cyan
+                print('\033[38;5;m51', end='')
+
+            elif i == '\ud803': # purple
+                print('\033[38;5;57m', end='')
+
+            elif i == '\ud804': # white
+                print('\033[38;5;255m', end='')
+
+            elif i == '\ud805': # lime
+                print('\033[38;5;40m', end='')
+
+            elif i == '\ud806': # gray
+                print('\033[38;5;240m', end="")
+
+            elif i == '\ud807': # light green
+                print('\033[38;5;46m', end="")
+
+            elif i == '\ud808': # light gray
+                print('\033[38;5;248m', end="")
+
+            elif i == '\ud809': # light blue
+                print('\033[38;5;45m', end="")
+
+            elif i == '\ud80a': # dark gray
+                print('\033[38;5;234m', end="")
+
+            elif i == '\ud8a0': # italic start
+                print('\x1B[3m', end="")
+
+            elif i == '\ud8a1': # italics end
+                print('\x1B[0m', end="")
+
+            else:
+                print(i, end="", flush=True)
+                time.sleep(msgSpeed)
 
         if not cont:
             input()

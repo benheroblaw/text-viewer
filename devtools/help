@@ -1,3 +1,4 @@
 copypush / releasepush : copy changes from debug version to release version, commit, and push
 devpush : commit and push changes to dev version
 fullpush : copy changes from debug version to release version, commit, and push, then commit and push changes to dev version
+fulcommit : copy changes from debug version to release version and commit

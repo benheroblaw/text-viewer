@@ -1,6 +1,6 @@
-import os, genCollections
-from Mako import *
-from Taimen import *
+import os, genCollections, extra
+from Mako import Mako
+from Taimen import Taimen
 
 def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
   """Chapter select"""

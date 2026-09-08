@@ -16,9 +16,11 @@
     "nobr",
     "noclear",
     "noclearinput",
+    "PKGS",
     "plit",
     "scri",
     "Sixgill",
     "Taimen"
-  ]
+  ],
+  "python.REPL.enableREPLSmartSend": false
 }
