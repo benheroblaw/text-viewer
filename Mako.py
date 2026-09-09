@@ -1,5 +1,6 @@
 import os, json, extra, textwrap
 
+# meta handling
 
 def Mako(folders, sel, folders_pretty, folder_display):
   """meta.json handler"""
@@ -15,48 +16,18 @@ def Mako(folders, sel, folders_pretty, folder_display):
   meta_tags =     []
   meta_relationships = []
   meta_indent =   '           '
-  if '.meta' in os.listdir('./content/' + folders[sel]):
-
-    meta_file = extra.readfile('./content/' + folders[sel] + '/.meta').splitlines()
-
-    # print(str(meta_file))
-
-    for x in meta_file:
-      if 'authors:' in x:
-        meta_authors = x.replace('authors: ', '')
-        meta_authors = meta_authors.replace('authors:', '')
-        meta_authors = meta_authors.strip()
-      elif 'author:' in x:
-        meta_author = x.replace('author: ', '')
-        meta_author = meta_author.replace('author:', '')
-        meta_author = meta_author.strip()
-
-      if 'rating:' in x: meta_rating = x.replace('rating: ', ''); meta_rating = meta_rating.replace('rating:', '')
-
-      if 'warnings:' in x: meta_warnings = x.replace('warnings: ', ''); meta_warnings.replace('warnings:', '')
-      meta_warnings = meta_warnings.strip()
-
-      if 'links:' in x: meta_links = x.replace('links: ', ''); meta_links.replace('links:', '')
-      meta_links = meta_links.strip()
-
-      if 'credits:' in x: meta_credits = x.replace('credits: ', ''); meta_credits.replace('credits:', '')
-      meta_credits = meta_credits.strip()
-
-      if 'title:' in x: meta_title = x.replace('title: ', ''); meta_title = meta_title.replace('title:', '')
-      meta_title = meta_title.strip()
-
-      if 'description:' in x: meta_desc = x.replace('description: ', ''); meta_desc = meta_desc.replace('description:', '')
-      meta_desc = meta_desc.strip()
+# removing the legacy meta
 
   # newer json meta file
   if 'meta.json' in os.listdir('./content/' + folders[sel]):
     decoder = json.JSONDecoder()
     meta_json = json.loads(extra.readfile(f'./content/{folders[sel]}/meta.json'))
 
+    # Capitalized
     if 'authors'.capitalize() in meta_json:
       meta_authors = meta_json["authors".capitalize()]
 
-    if 'author'.capitalize() in meta_json:
+    elif 'author'.capitalize() in meta_json:
       meta_author = meta_json["author".capitalize()]
 
     if 'rating'.capitalize() in meta_json:
@@ -86,10 +57,11 @@ def Mako(folders, sel, folders_pretty, folder_display):
     elif 'ships'.capitalize() in meta_json:
       meta_relationships = list(meta_json["relationships".capitalize()])
 
+    # not capitalized
     if 'authors' in meta_json:
       meta_authors = meta_json["authors"]
 
-    if 'author' in meta_json:
+    elif 'author' in meta_json:
       meta_author = meta_json["author"]
 
     if 'rating' in meta_json:
@@ -143,6 +115,7 @@ def Mako(folders, sel, folders_pretty, folder_display):
     size = os.get_terminal_size()
     print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns, subsequent_indent=meta_indent))
 
+  # tags an ships are experimental
   if meta_tags != [] and extra.readline('options.txt', 3) == '1':
     print('\nTags:  ', end='')
     if extra.readline('options.txt', 4) == '1':

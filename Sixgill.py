@@ -1,6 +1,8 @@
 import os, extra
 
-def Sixgill(selection):
+# settings
+
+def Sixgill():
   """Settings"""
   while True:
     extra.clear()

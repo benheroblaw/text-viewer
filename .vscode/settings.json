@@ -8,9 +8,12 @@
     "CLRA",
     "CLRB",
     "createfile",
+    "DGRY",
     "fuxking",
+    "Hmph",
     "LBLU",
     "LGRN",
+    "LGRY",
     "lill",
     "losetext",
     "nobr",
@@ -20,7 +23,8 @@
     "plit",
     "scri",
     "Sixgill",
-    "Taimen"
+    "Taimen",
+    "udff"
   ],
   "python.REPL.enableREPLSmartSend": false
 }

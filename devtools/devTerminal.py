@@ -17,6 +17,17 @@ def readline(file="", line=1):
       return data[line].replace("\n", "")
   except: return "error"
 
+clearCommand = ''
+if os.name == 'posix':
+  clearCommand = 'clear'
+elif os.name == 'nt':
+  clearCommand = 'cls'
+
+def clear(force=''):
+  """Clears the terminal."""
+  os.system(clearCommand)
+  # print(textReset, end='')
+
 def getTerminalWidth():
   save = os.get_terminal_size()
   return int(save.columns)
@@ -84,6 +95,6 @@ def parse():
     i = i.strip()
     runCommands(i)
 
-os.system('clear')
+clear()
 while __name__ == "__main__":
   parse()

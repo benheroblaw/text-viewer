@@ -11,13 +11,13 @@
       "program": "__main__.py",
       "console": "integratedTerminal"
     },
-    // {
-    //   "name": "collection generator",
-    //   "type": "debugpy",
-    //   "request": "launch",
-    //   "program": "genCollections.py",
-    //   "console": "integratedTerminal"
-    // },
+    {
+      "name": "Testing (external terminal)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "__main__.py",
+      "console": "externalTerminal"
+    },
     {
       "name": "debug terminal",
       "type": "debugpy",

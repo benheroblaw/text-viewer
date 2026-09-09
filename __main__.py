@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 print('\33]0;loading... please wait :3\a', end='')
-import os
+import os, platform
 
 def readline(file="", line=1):
   """Reads a line from a file.
@@ -16,9 +16,9 @@ extra_path = readline('extra/path', 1)
 
 if os.name == "posix":
   terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
-elif os.name == "nt":
-  # terminalPath = os.path.expanduser("~\\AppData\\Local\\prokid\\text-terminal")
-  print('you\'re fucked buddy :,(')
+elif os.name == "nt" or platform.system == 'Windows':
+  terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
+  print(terminalPath)
 if not os.path.exists(terminalPath):
   os.makedirs(terminalPath)
 os.chdir(terminalPath)
@@ -29,7 +29,8 @@ while __name__ == '__main__':
   if 'debug' in extra.readfile('options.txt'):
     print(os.curdir)
   print('\n\33]0;loading... please wait :3\a', end='')
-  os.system('./chkdeps.bash')
+  if os.name == 'posix':
+    os.system('./chkdeps.bash')
   if 'debug' in extra.readfile('options.txt'):
     input('> ')
   print()
@@ -37,10 +38,11 @@ while __name__ == '__main__':
     genCollections.generate(True, True)
   else:
     genCollections.generate(True, False)
-  os.system('printf "%b" "\nUpdating... "; git pull origin ' + extra.readfile('./extra/origin'))
+  if os.name == 'posix':
+    os.system('printf "%b" "\nUpdating... "; git pull origin ' + extra.readfile('./extra/origin'))
   viewer.main()
   print('\33]0;loading... please wait :3\a', end='')
-  os.system('clear')
+  extra.clear()
   print('reloading viewer...')
   importlib.reload(viewer)
   print('reloaded!\n')

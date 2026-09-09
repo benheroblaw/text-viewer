@@ -1,0 +1,5 @@
+Barracuda:  folder selector
+Candiru:    chapter selector
+Mako:       meta handling
+Sixgill:    settings
+Taimen:     text stuff

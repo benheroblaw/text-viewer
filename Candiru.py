@@ -2,6 +2,8 @@ import os, genCollections, extra
 from Mako import Mako
 from Taimen import Taimen
 
+# chapter selector
+
 def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
   """Chapter select"""
   if not sel > folder_last:
