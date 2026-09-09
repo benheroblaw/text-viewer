@@ -1,5 +1,7 @@
 import text, extra
 
+# text stuff
+
 def Taimen(file=''):
   """Text display"""
   try:
@@ -96,7 +98,7 @@ def Taimen(file=''):
 
           if 'ITAL<' in i:
               italics = i[i.find('ITAL<') + 5 : i.find('>')]
-              i = i.replace(f'ITAL<{italics}>', f'\ud8a0{italics}\ud8a1')
+              i = i.replace(f'ITAL<{italics}>', f'\udff0{italics}\udff1')
 
           if 'PORT<' in i:
             portrait = i[i.find('PORT<') + 5 : i.find('>')]

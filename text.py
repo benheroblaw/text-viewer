@@ -1,7 +1,7 @@
-import os, time, cursor, threading, textwrap
+import os, time, cursor, threading, textwrap, extra
 
 def clear():
-    os.system("clear")
+    extra.clear()
 def readline(file="", line=1):
     """Reads one line of a file"""
     line -= 1
@@ -15,14 +15,6 @@ size = os.get_terminal_size()
 class terminal:
     width = size.columns
 
-# speed = float(readline("options.txt", 1).replace("text-speed = ", ""))
-# battlemsgSpeed = float(readline("options.txt", 2).replace("battle-msgSpeed = ", ""))
-battlemsgSpeed = 0
-# if msgSpeed == 0.0:
-#     msgSpeed = 0
-if battlemsgSpeed <= 0:
-    battlemsgSpeed = 0.0075
-
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
 def text(msg="", msgSpeed=0, cont=False, clear='none'):
@@ -32,7 +24,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if clear == 'before':
-        os.system('clear')
+        extra.clear()
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
@@ -56,7 +48,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
                 print('\033[38;5;206m', end="")
 
             elif i == '\ud802': # cyan
-                print('\033[38;5;m51', end='')
+                print('\033[38;5;51m', end='')
 
             elif i == '\ud803': # purple
                 print('\033[38;5;57m', end='')
@@ -82,10 +74,10 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
             elif i == '\ud80a': # dark gray
                 print('\033[38;5;234m', end="")
 
-            elif i == '\ud8a0': # italic start
+            elif i == '\udff0': # italic start
                 print('\x1B[3m', end="")
 
-            elif i == '\ud8a1': # italics end
+            elif i == '\udff1': # italics end
                 print('\x1B[0m', end="")
 
             else:
@@ -100,12 +92,12 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
         # print()
 
         if clear == 'after':
-            os.system('clear')
-def clearAfter(msg="", cont=False):
+            extra.clear()
+def clearAfter(msg="", speed=0.1, cont=False):
     """Prints out text and waits for input, then clears the terminal."""
     noclear(msg, speed, cont)
-    os.system('clear')
-def clearBefore(msg='', cont=False):
+    extra.clear()
+def clearBefore(msg='', speed=0.1, cont=False):
     """Clears the terminal, then shows text"""
     clear()
     noclear(msg, speed, cont)
@@ -113,17 +105,9 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
     """Prints out text and waits for input."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg.strip(), size.columns, fix_sentence_endings=True, drop_whitespace=True)
-    # msg = r'{msg}'/
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
-    # noinput(msg, msgSpeed)
-    # cursor.show()
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
-            if '\e[3m' in msg or '\e[23m' in msg:
-                i_list = []
-                i_list += msg.split('\e[3m')
-                msg = msg.replace('\e[3m', '')
-                msg = msg.replace('\e[23m', '')
             for char in msg:
                 print(char, end="", flush=True)
                 if char == ",":
@@ -142,7 +126,7 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
         else:
             input()
     # cursor.hide()
-def noClear(msg=""):
+def noClear(msg="", speed=0.1, ):
     noclear(msg, speed)
 def noclearinput(msg="", msgSpeed=0):
     """Prints out text."""
@@ -151,18 +135,13 @@ def noclearinput(msg="", msgSpeed=0):
     msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if msg != '':
         if msgSpeed > 0 or msgSpeed > 0.0:
-    # cursor.show()
             for char in msg:
                 print(char, end="", flush=True)
                 if char == ",":
                     time.sleep(msgSpeed*4)
-                # elif char == "\"" or char == "?" or char == "!":
-                #     ""
                 else:
                     time.sleep(msgSpeed)
-            # time.sleep(msgSpeed**msgSpeed*0.25)
             print('')
-            # cursor.hide()
         else:
             print(msg, flush=True)
             time.sleep(msgSpeed**msgSpeed/2)
@@ -174,90 +153,4 @@ def face(portrait="", msg="", clear='none'):
 def faceCont(portrait="", msg=""):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
-    # cursor.show()
-    # for char in msg:
-    #     print(char, end="", flush=True)
-    #     time.sleep(msgSpeed)
-    # input()
     noclearinput(msg)
-    # cursor.hide()
-    # clear()
-
-def answer(options="", ans1="", ans2="", ans3=""):
-    """Pretty input function."""
-    cursor.show()
-    for char in options:
-        print(char, end="", flush=True)
-        if char == ",":
-            time.sleep(msgSpeed*4)
-        elif char == "\"" or char == "?" or char == "!":
-            ""
-        else:
-            time.sleep(msgSpeed)
-    if ans3 != "":
-        ans = input("\n (" + ans1 + ", " + ans2 + ", " + ans3 + ") ")
-    else:
-        ans = input("\n (" + ans1 + ", " + ans2 + ") ")
-        cursor.hide()
-
-    clear()
-    return ans
-
-def battletext(msg=""):
-    """Prints text at a different msgSpeed and waits for input."""
-    cursor.show()
-    for char in msg:
-        print(char, end="", flush=True)
-        if char in alphabet:
-            time.sleep(battlemsgSpeed)
-        else:
-            ""
-    input()
-    cursor.hide()
-    print()
-def losetext(msg=""):
-    """Prints text at a set msgSpeed."""
-    cursor.show()
-    for char in msg:
-        print(char, end="", flush=True)
-        if char in alphabet:
-            time.sleep(0.25)
-        else:
-            ""
-    input()
-    cursor.hide()
-    clear()
-def battleNoInput(msg=""):
-    """Prints text at a different msgSpeed."""
-    cursor.show()
-    for char in msg:
-        print(char, end="", flush=True)
-        if char == ",":
-            time.sleep(battlemsgSpeed)
-        elif char == "\"" or char == "?" or char == "!":
-            ""
-        else:
-            time.sleep(battlemsgSpeed)
-    time.sleep(battlemsgSpeed * 5)
-    cursor.hide()
-    print()
-def battleAnswer(options="", ans1="", ans2="", ans3="", ans4=""):
-    """Fancy input function."""
-    cursor.show()
-    for char in options:
-        print(char, end="", flush=True)
-        if char in alphabet:
-            time.sleep(battlemsgSpeed)
-        else:
-            ""
-    if ans3 != "" and ans4 != "":
-        ans = input("\n (" + ans1 + ", " + ans2 + ", " + ans3 + ", " + ans4 + ") ")
-    elif ans3 != "":
-        ans = input("\n (" + ans1 + ", " + ans2 + ", " + ans3 + ") ")
-    else:
-        ans = input("\n (" + ans1 + ", " + ans2 + ") ")
-        cursor.hide()
-
-    return ans
-
-# msgSpeedCheck.start()

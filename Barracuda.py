@@ -2,6 +2,8 @@ import os, textwrap, genCollections
 from Candiru import *
 from Sixgill import *
 
+# folder selector
+
 def Barracuda():
   """Folder display"""
   while True:
