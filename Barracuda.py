@@ -8,7 +8,6 @@ def Barracuda():
   """Folder display"""
   while True:
     print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
-    # if 'devtools' in os.listdir('./'):
     folder = os.scandir('./content')
     folders = []
     for entry in folder:
@@ -105,13 +104,12 @@ def Barracuda():
 
     # settings
     if selection == 0:
-      Sixgill(selection)
+      Sixgill()
 
-    # if selection == 'update':
-    #   os.system('git pull')
+    # pass it to Candiru
+    elif selection <= len(folders):
+      Candiru(sel, folder_last, folders, folders_pretty, folder_display)
 
-    # if sel
-
-    # chapters = os.listdir('./content/' + folders[sel] + '')
-
-    Candiru(sel, folder_last, folders, folders_pretty, folder_display)
+    else:
+      # input('wtf')
+      pass
