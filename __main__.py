@@ -11,17 +11,25 @@ def readline(file="", line=1):
       data = f.readlines()
       return data[line].replace("\n", "")
   except: return "error"
+def readfile(file="", line=1):
+  """Reads a file."""
+  line -= 1
+  try:
+    with open(file) as f:
+      return f.readlines()
+  except: return "error"
 
 extra_path = readline('extra/path', 1)
 
-if os.name == "posix":
-  terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
-elif os.name == "nt" or platform.system == 'Windows':
-  terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
-  print(terminalPath)
-if not os.path.exists(terminalPath):
-  os.makedirs(terminalPath)
-os.chdir(terminalPath)
+if 'portable' not in os.listdir('extra/'):
+  if os.name == "posix":
+    terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
+  elif os.name == "nt" or platform.system == 'Windows':
+    terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
+    print(terminalPath)
+  if not os.path.exists(terminalPath):
+    os.makedirs(terminalPath)
+  os.chdir(terminalPath)
 
 import viewer, importlib, genCollections, extra
 

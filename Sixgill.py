@@ -10,6 +10,9 @@ def Sixgill():
     print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags (experimental)')
     if extra.readline('options.txt', 3) != '0':
       print('5. Sort Tags (experimental)')
+    print("\nDist: ", end='')
+    if 'portable' in os.listdir('extra/'): print('Portable')
+    else: print('Base')
     try: opt_sel = input('\n> ')
     except KeyboardInterrupt: break
     try:
