@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, datetime, textwrap
+import os, datetime, textwrap, traceback
 
 os.chdir(os.path.expanduser('~/.local/share/bhrobla/text-viewer-dev/devtools'))
 
@@ -17,6 +17,17 @@ def readline(file="", line=1):
       return data[line].replace("\n", "")
   except: return "error"
 
+# clear based on os
+clearCommand = ''
+if os.name == 'posix':
+  clearCommand = 'clear'
+elif os.name == 'nt':
+  clearCommand = 'cls'
+
+def clear(force=''):
+  """Clears the terminal."""
+  os.system(clearCommand)
+
 def getTerminalWidth():
   save = os.get_terminal_size()
   return int(save.columns)
@@ -31,6 +42,14 @@ def runCommands(command=''):
   if command == 'help':
     print(readfile('help'))
     print()
+
+  elif command.startswith('&'):
+    try: exec(command.removeprefix('&'))
+    except: traceback.print_exc()
+  elif command.startswith('>'):
+    os.system(command.removeprefix('>'))
+  elif command.startswith('$'):
+    os.system('sudo ' + command.removeprefix('>'))
 
   elif command == 'copypush' or command == 'releasepush':
     os.system('shopt -s dotglob; cd ~/.local/share/bhrobla/text-viewer-dev; cp --verbose * ~/.local/share/bhrobla/text-viewer;')
@@ -72,8 +91,9 @@ def runCommands(command=''):
     os.system('cd ' + os.path.expanduser('~/.local/share/bhrobla/text-viewer') + '; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M'))
 
   else:
-    try: exec(command)
-    except: os.system(command)
+    # try: exec(command)
+    # except: os.system(command)
+    os.system(command)
 
 def parse():
   output = []
@@ -84,7 +104,7 @@ def parse():
     i = i.strip()
     runCommands(i)
 
-# make this clear based on os 
-#extra.clear()
+clear()
 while __name__ == "__main__":
   parse()
+print()

@@ -13,13 +13,9 @@ def generate(logging=False, debug=False):
   for i in os.scandir('./content/'):
     if i.is_dir():
       if '.folders' in os.listdir(i):
-        # os.system('cd ./content/' + i.name)
         os.chdir('./content/' + i.name)
         if logging:
           print(f'  {str(os.getcwd())}')
-        # os.system(f'find ./content/{i.name}/ -xtype l -delete')
-        # print('./content/' + i.name)
-        # os.system('rm *.scri')
 
         folders = readfile('./.folders').splitlines()
         for folder in folders:
@@ -27,10 +23,6 @@ def generate(logging=False, debug=False):
             if logging:
               print(i.name + ': commented, skipping...')
           else:
-            # if './' not in folder:
-            #   folder = './' + folder
-            # if '../' not in folder:
-            #   folder = '../' + folder
             folder = os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}/content/{folder}')
             print(f'file path to search: {folder}')
             try:
@@ -50,9 +42,7 @@ def generate(logging=False, debug=False):
               output = i.replace('\'', '\\\'')
               output = output.replace('"', '\\"')
               os.system(f'find ~/.local/share/bhrobla/{extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
-        # os.system('cd ../../')
         os.chdir(os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}'))
 
   if debug:
     input('done, waiting for input: ')
-# generate()
