@@ -1,9 +1,6 @@
-import os, genCollections, extra
-from Mako import Mako
-from Taimen import Taimen
+import os, genCollections, extra, fish
 
 # chapter selector
-
 def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
   """Chapter select"""
   if not sel > folder_last:
@@ -28,7 +25,8 @@ def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
       chapters.sort()
       chapter_last = len(chapters)
 
-      Mako(folders, sel, folders_pretty, folder_display)
+      # print all the meta stuff
+      fish.Mako(folders, sel, folders_pretty, folder_display)
 
       print('\n0. Back')
       for i, x in enumerate(chapters):
@@ -47,4 +45,4 @@ def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
         break
       if not chap_sel > chapter_last-1:
         chap_story = extra.readfile('./content/' + folders[sel] + '/' + chapters[chap_sel]).splitlines()
-        Taimen(chap_story)
+        fish.Taimen(chap_story)

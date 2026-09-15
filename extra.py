@@ -1,4 +1,4 @@
-import os, time, random, sys, cmd
+import os, time, random, sys, cmd, json
 # from colorama import *
 from importlib import reload
 
@@ -40,6 +40,11 @@ def writeline(file="", line=1, contents=""):
   except: print("failed to write to " + file); return ResourceWarning
   with open(file, "w") as f:
     f.writelines(data)
+def writeJSON(json, file_name):
+  if not file_name.endswith('.json'):
+    file_name += '.json'
+  with open(file_name, 'w', encoding='utf-8') as f:
+      json.dump(json, f, ensure_ascii=False, indent=4)
 
 def readfile(file=""):
   """Reads a file."""

@@ -31,7 +31,10 @@ if 'portable' not in os.listdir('extra/'):
     os.makedirs(terminalPath)
   os.chdir(terminalPath)
 
-import viewer, importlib, genCollections, extra
+import fish, importlib, genCollections, extra
+
+try: extra.createfile('options.txt', '0.05')
+except: print('options.txt exists, continuing...')
 
 while __name__ == '__main__':
   if 'debug' in extra.readfile('options.txt'):
@@ -39,8 +42,8 @@ while __name__ == '__main__':
   print('\n\33]0;loading... please wait :3\a', end='')
   if os.name == 'posix':
     os.system('./chkdeps.bash')
-  if 'debug' in extra.readfile('options.txt'):
-    input('> ')
+  # if 'debug' in extra.readfile('options.txt'):
+  #   input('> ')
   print()
   if 'debug' in extra.readfile('options.txt'):
     genCollections.generate(True, True)
@@ -48,9 +51,9 @@ while __name__ == '__main__':
     genCollections.generate(True, False)
   if os.name == 'posix':
     os.system('printf "%b" "\nUpdating... "; git pull origin ' + extra.readfile('./extra/origin'))
-  viewer.main()
+  fish.Barracuda()
   print('\33]0;loading... please wait :3\a', end='')
   extra.clear()
   print('reloading viewer...')
-  importlib.reload(viewer)
+  importlib.reload(fish)
   print('reloaded!\n')
