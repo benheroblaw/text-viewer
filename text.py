@@ -17,7 +17,7 @@ class terminal:
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
-def text(msg="", msgSpeed=0, cont=False, clear='none'):
+def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='\\none\\'):
     """All-purpose text thing."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True, drop_whitespace=False)
@@ -28,6 +28,8 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
+        if portrait != '\\none\\':
+            print(f'({portrait}) ', end='')
         for i in msg:
             if i == '\ud7fc': # reset
                 print('\033[0;0;0m', end='')
@@ -77,8 +79,17 @@ def text(msg="", msgSpeed=0, cont=False, clear='none'):
             elif i == '\udff0': # italic start
                 print('\x1B[3m', end="")
 
-            elif i == '\udff1': # italics end
+            elif i == '\udff1': # italic end
                 print('\x1B[0m', end="")
+
+            elif i == '\udff2': # bold start
+                print('\x1B[1m', end="")
+
+            elif i == '\udff3': # bold end
+                print('\x1B[0m', end="")
+
+            # elif i == '\udfe0': # input
+            #     print('\x1B[0m', end="")
 
             else:
                 print(i, end="", flush=True)

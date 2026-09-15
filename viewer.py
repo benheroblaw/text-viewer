@@ -2,7 +2,7 @@
 import extra
 try: extra.createfile('options.txt', '0.05')
 except: print('options.txt exists, continuing...')
-from Barracuda import *
+import fih, fish
 
 def main():
-  Barracuda()
+  fish.Barracuda()

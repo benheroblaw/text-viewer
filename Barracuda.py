@@ -1,6 +1,4 @@
-import os, textwrap, genCollections
-from Candiru import *
-from Sixgill import *
+import os, textwrap, genCollections, fish, extra
 
 # folder selector
 
@@ -104,11 +102,11 @@ def Barracuda():
 
     # settings
     if selection == 0:
-      Sixgill()
+      fish.Sixgill()
 
     # pass it to Candiru
     elif selection <= len(folders):
-      Candiru(sel, folder_last, folders, folders_pretty, folder_display)
+      fish.Candiru(sel, folder_last, folders, folders_pretty, folder_display)
 
     else:
       # input('wtf')
