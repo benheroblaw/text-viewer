@@ -1,4 +1,4 @@
-import os, time, cursor, threading, textwrap, extra
+import os, time, threading, textwrap, extra
 
 def clear():
     extra.clear()
