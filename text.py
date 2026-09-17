@@ -17,7 +17,7 @@ class terminal:
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
-def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='\\none\\'):
+def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
     """All-purpose text thing."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True, drop_whitespace=False)
@@ -28,7 +28,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='\\none\\'):
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != '':
-        if portrait != '\\none\\':
+        if portrait != '<\\none/>':
             print(f'({portrait}) ', end='')
         for i in msg:
             if i == '\ud7fc': # reset
@@ -96,6 +96,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='\\none\\'):
                 time.sleep(msgSpeed)
 
         if not cont:
+            time.sleep(msgSpeed)
             input()
         # else:
         #     print()
@@ -104,14 +105,17 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='\\none\\'):
 
         if clear == 'after':
             extra.clear()
+
 def clearAfter(msg="", speed=0.1, cont=False):
     """Prints out text and waits for input, then clears the terminal."""
     noclear(msg, speed, cont)
     extra.clear()
+
 def clearBefore(msg='', speed=0.1, cont=False):
     """Clears the terminal, then shows text"""
     clear()
     noclear(msg, speed, cont)
+
 def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-speed = ", "")), cont=False):
     """Prints out text and waits for input."""
     size = os.get_terminal_size()
@@ -137,8 +141,10 @@ def noclear(msg="", msgSpeed=float(readline("options.txt", 1).replace("text-spee
         else:
             input()
     # cursor.hide()
+
 def noClear(msg="", speed=0.1, ):
     noclear(msg, speed)
+
 def noclearinput(msg="", msgSpeed=0):
     """Prints out text."""
     size = os.get_terminal_size()
@@ -161,6 +167,7 @@ def face(portrait="", msg="", clear='none'):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
     text(msg, cont=False, clear=clear)
+
 def faceCont(portrait="", msg=""):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
