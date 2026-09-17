@@ -38,17 +38,17 @@ except: print('options.txt exists, continuing...')
 
 while __name__ == '__main__':
   if 'debug' in extra.readfile('options.txt'):
-    print(os.curdir)
+    print(f'os.curdir: {os.curdir}')
   print('\n\33]0;loading... please wait :3\a', end='')
   if os.name == 'posix':
     os.system('./chkdeps.bash')
   # if 'debug' in extra.readfile('options.txt'):
   #   input('> ')
   print()
+  debug = False
   if 'debug' in extra.readfile('options.txt'):
-    genCollections.generate(True, True)
-  else:
-    genCollections.generate(True, False)
+    debug = True
+  genCollections.generate(debug, debug)
   if os.name == 'posix':
     os.system('printf "%b" "\nUpdating... "; git pull origin ' + extra.readfile('./extra/origin'))
   fish.Barracuda()

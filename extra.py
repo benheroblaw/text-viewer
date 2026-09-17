@@ -9,7 +9,7 @@ elif os.name == 'nt':
   clearCommand = 'cls'
 
 os.system(clearCommand)
-print('loading extra...')
+print('extra: start load...')
 # print(os.curdir)
 
 textReset = '\033[0;0;0m'
@@ -92,3 +92,4 @@ def done(end=''):
 # print('running extra.cmd')
 # exec(readfile('extra.cmd'))
 # os.system(clearCommand)
+print('extra: done loading!')

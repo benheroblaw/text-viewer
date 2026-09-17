@@ -15,7 +15,6 @@ def Mako(folders, sel, folders_pretty, folder_display):
   meta_tags =     []
   meta_relationships = []
   meta_indent =   '           '
-# removing the legacy meta
 
   # newer json meta file
   if 'meta.json' in os.listdir('./content/' + folders[sel]):

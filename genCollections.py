@@ -6,10 +6,18 @@ def readfile(file=""):
     return f.read()
 
 def generate(logging=False, debug=False):
-  extra_path = readfile('extra/path').strip()
+  ospath = ''
+  if os.name == 'posix':
+    ospath = '~/.local/share/bhrobla/'
+  elif os.name == 'nt':
+    ospath = '~/AppData/Local/bhrobla/'
+  extra_path = os.path.expanduser(ospath + readfile('extra/path').strip())
+  print('generating collections...')
+  if debug:
+    print('\033[0;32m' + 'debug mode!' + '\033[0;38;5;255m')
+  print()
   if logging:
-    print('generating collections...')
-    print(f'first directory: {str(os.getcwd())}\nfolders with .folders:')
+    print(f'first directory: {str(os.getcwd())}\n\nfolders with .folders:')
   for i in os.scandir('./content/'):
     if i.is_dir():
       if '.folders' in os.listdir(i):
@@ -18,12 +26,12 @@ def generate(logging=False, debug=False):
           print(f'  {str(os.getcwd())}')
 
         folders = readfile('./.folders').splitlines()
-        for folder in folders:
+        for number, folder in enumerate(folders):
           if folder.startswith('#'):
             if logging:
-              print(i.name + ': commented, skipping...')
+              print(f'line {number+1} commented, skipping...')
           else:
-            folder = os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}/content/{folder}')
+            folder = os.path.expanduser(f'{extra_path}/content/{folder}')
             print(f'file path to search: {folder}')
             try:
               print('files to link:')
@@ -32,17 +40,21 @@ def generate(logging=False, debug=False):
                   direct = direct.replace("'", "\\'")
                   if logging:
                     print(f'  {direct}')
-                  os.system(f'ln -s -f {folder}{str(direct)}')
+                  os.system(f'printf "%b" "   "; ln -s -f -v {folder}{str(direct)}')
 
             except FileNotFoundError:
               if logging: print(f'could not link files in: {folder}')
 
-            for i in os.listdir(os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}/content/')):
-              print(i)
+            print('\nremoving broken links in folders:')
+            for i in os.listdir(f'{extra_path}/content/'):
+              print(' ' + i)
               output = i.replace('\'', '\\\'')
               output = output.replace('"', '\\"')
-              os.system(f'find ~/.local/share/bhrobla/{extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
-        os.chdir(os.path.expanduser(f'~/.local/share/bhrobla/{extra_path}'))
+              os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
+            print()
+        os.chdir(extra_path)
+
+  print('\033[0;0;0m', end='')
 
   if debug:
     input('done, waiting for input: ')

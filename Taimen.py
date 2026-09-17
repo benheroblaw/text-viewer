@@ -9,7 +9,13 @@ def Taimen(file=''):
       nobr = False
       continue_var = False
       clear = 'none'
-      portrait = '\\none\\'
+      portrait = '<\\none/>'
+
+      if 'CMT<' in i:
+          comment = i[i.find('CMT<')+4 : i.find('>')]
+          i = i.replace(f'CMT<{comment}>', '')
+          i = i.removeprefix(' ')
+
       if i != '':
         textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
 
@@ -45,11 +51,6 @@ def Taimen(file=''):
             except ValueError: print('\033[0;31m' + f'error: Speed "{i[i.find('SPD<') + 4 : i.find('>')]}" is not a valid number!' + '\033[0;0;0m'); continue
             i = i.replace(f'SPD<{textSpeed}>', '', 1)
             i = i.replace(f'SPD<{int(textSpeed)}>', '', 1)
-
-          if 'CMT<' in i:
-              comment = i[i.find('CMT<') : i.find('>')+1]
-              i = i.replace(comment, '')
-              i = i.removeprefix(' ')
 
           # light colors
           if 'LGRN>' in i:
@@ -125,14 +126,14 @@ def Taimen(file=''):
 
         i = i.replace('ESC>', '', 1)
         text.text(i, textSpeed, continue_var, clear, portrait)
-        if nobr or textSpeed > 0:
+        if nobr and textSpeed > 0:
           print('\033[0;0;0m', end='')
         else:
           print('\033[0;0;0m')
       # if i == len(file):
       #   print()
 
-    input('\nReturn > ')
+    input('Return > ')
     extra.clear()
 
   except KeyboardInterrupt: pass
