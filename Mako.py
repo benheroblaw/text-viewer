@@ -1,4 +1,4 @@
-import os, json, extra, textwrap, fish
+import os, json, extra, textwrap
 
 # meta handling
 def Mako(folders, sel, folders_pretty, folder_display):
@@ -18,7 +18,6 @@ def Mako(folders, sel, folders_pretty, folder_display):
 
   # newer json meta file
   if 'meta.json' in os.listdir('./content/' + folders[sel]):
-    decoder = json.JSONDecoder()
     try:
       meta_json = json.loads(extra.readfile(f'./content/{folders[sel]}/meta.json'))
 
@@ -166,4 +165,6 @@ def Mako(folders, sel, folders_pretty, folder_display):
           else:
             print(textwrap.fill(x, size.columns, initial_indent='       ', subsequent_indent='       ', ))
     except json.decoder.JSONDecodeError:
-      print(f'\033[0;31mInvalid JSON in ./content/{folders[sel]}/meta.json!\033[0;0;0m')
+      print('\033[38;5;196m' + f'Invalid JSON in ./content/{folders[sel]}/meta.json!\033[0;0;0m')
+
+  else: print(f"./content/{folders_pretty[sel]}")
