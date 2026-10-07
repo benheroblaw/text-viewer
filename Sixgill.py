@@ -1,4 +1,4 @@
-import os, extra, fish
+import os, extra
 
 # settings
 

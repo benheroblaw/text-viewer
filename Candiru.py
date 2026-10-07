@@ -1,4 +1,4 @@
-import os, genCollections, extra, fish
+import os, extra, fish
 
 # chapter selector
 def Candiru(sel, folder_last, folders, folders_pretty, folder_display):

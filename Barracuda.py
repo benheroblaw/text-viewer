@@ -1,4 +1,4 @@
-import os, textwrap, genCollections, fish, extra
+import os, textwrap, fish, extra
 
 # folder selector
 
@@ -77,10 +77,11 @@ def Barracuda():
       continue
 
     folder_display = extra.readline('options.txt', 2)
+    if folder_display == '1': folder_display = True
     show_tags = extra.readline('options.txt', 3)
 
     # pretty
-    if folder_display == '1':
+    if folder_display:
       for i, x in enumerate(folders):
         print(str(i+1) + '. ' + folders_pretty[i])
     # raw
@@ -109,5 +110,5 @@ def Barracuda():
       fish.Candiru(sel, folder_last, folders, folders_pretty, folder_display)
 
     else:
-      # input('wtf')
+      input('wtf')
       pass
