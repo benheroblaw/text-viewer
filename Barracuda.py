@@ -1,4 +1,5 @@
-import os, textwrap, fish, extra
+import os, textwrap, fish, extra, json, importlib
+importlib.reload(fish)
 
 # folder selector
 
@@ -28,12 +29,13 @@ def Barracuda():
       folders_pretty[i] = output
       # print(i)
 
-    folders = os.listdir('content')
+    folders = os.listdir('./content')
     folders.sort()
     # folders_pretty.sort()
 
     extra.clear()
     size = os.get_terminal_size()
+
     # raw
     if extra.readline('options.txt', 2) == '1':
       output = str(folders)
@@ -41,14 +43,31 @@ def Barracuda():
       output = output.removesuffix(']')
       files_indent = '  '
       print('Folders in ./content: ')
-      print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' ') + '\n\n0. Options')
+      print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
     # pretty
     elif extra.readline('options.txt', 2) == '0':
       print('./content/...\n\n0. Options')
+    # use meta.json titles
+    elif extra.readline('options.txt', 2) == '2':
+      output = str(folders)
+      output = output.removeprefix('[')
+      output = output.removesuffix(']')
+      files_indent = '  '
+      print('Folders in ./content: ')
+      print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
+    # use meta.json titles and folder names
+    elif extra.readline('options.txt', 2) == '3':
+      output = str(folders)
+      output = output.removeprefix('[')
+      output = output.removesuffix(']')
+      files_indent = '  '
+      print('Folders in ./content: ')
+      print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
     # neither
     else:
       extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
       continue
+    print("\n0. Settings")
 
     # show tags
     if extra.readline('options.txt', 3) == '1':
@@ -77,13 +96,32 @@ def Barracuda():
       continue
 
     folder_display = extra.readline('options.txt', 2)
-    if folder_display == '1': folder_display = True
+    # if folder_display == '1': folder_display = True
     show_tags = extra.readline('options.txt', 3)
 
     # pretty
-    if folder_display:
+    if folder_display == '1':
       for i, x in enumerate(folders):
         print(str(i+1) + '. ' + folders_pretty[i])
+    # meta.json titles
+    elif folder_display == '2':
+      folderTitles = []
+      for num, name in enumerate(folders):
+        if "meta.json" in os.listdir(f"./content/{name}"):
+          folderTitle = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))["title"]
+          folderTitles.append(folderTitle)
+      for i, x in enumerate(folderTitles):
+        print(str(i+1) + '. ' + folderTitles[i])
+    # meta.json titles with folder names
+    elif folder_display == '3':
+      folderTitles = []
+      for num, name in enumerate(folders):
+        if "meta.json" in os.listdir(f"./content/{name}"):
+          folderTitle = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))["title"]
+          folderTitle += f" ({folders[num]})"
+          folderTitles.append(folderTitle)
+      for i, x in enumerate(folderTitles):
+        print(str(i+1) + '. ' + folderTitles[i])
     # raw
     else:
       for i, x in enumerate(folders):

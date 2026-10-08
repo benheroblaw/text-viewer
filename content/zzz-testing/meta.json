@@ -1,9 +1,9 @@
 {
   "$schema": "https://benheroblaw.github.io/meta_schema.json",
   "author": "benheroblaw",
-  "title": "test stuff",
+  "title": "_test stuff",
   "rating": 1,
-  "warnings": "swearing and obscenities ;) {comes with coding}",
+  "warnings": "swearing and obscenities ;) {comes with coding :P}",
   "credits": "benheroblaw for writing the text viewer",
   "links": "https://benheroblaw.github.io/, but that's prolly where you got this :P"
 }

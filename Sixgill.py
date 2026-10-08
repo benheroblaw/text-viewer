@@ -7,12 +7,13 @@ def Sixgill():
   while True:
     extra.clear()
     size = os.get_terminal_size()
-    print('Options\n\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags (experimental)')
+    print("Settings")
+    print("\ndist: ", end='')
+    if 'portable' in os.listdir('extra/'): print('portable')
+    else: print('base')
+    print('\n0. Back\n1. Update\n2. Text Speed\n3. Folder Display\n4. Show Tags (experimental)')
     if extra.readline('options.txt', 3) != '0':
       print('5. Sort Tags (experimental)')
-    print("\nDist: ", end='')
-    if 'portable' in os.listdir('extra/'): print('Portable')
-    else: print('Base')
     try: opt_sel = input('\n> ')
     except KeyboardInterrupt: break
     try:
@@ -54,7 +55,7 @@ def Sixgill():
           print('raw')
         else:
           print('formatted')
-        print('Display as:\n\n1. Formatted\n2. Raw\n')
+        print('Display as:\n\n1. Defined Titles\n2. Defined Titles with Folder Names\n3. Formatted\n4. Raw\n')
         try: file_display = input('> ')
         except KeyboardInterrupt: break
         try:
@@ -65,10 +66,18 @@ def Sixgill():
           continue
 
         if file_display == 1:
-          extra.writeline('options.txt', 2, '1')
+          extra.writeline('options.txt', 2, '2')
           input('succeeded! > ')
           break
         elif file_display == 2:
+          extra.writeline('options.txt', 2, '3')
+          input('succeeded! > ')
+          break
+        elif file_display == 3:
+          extra.writeline('options.txt', 2, '1')
+          input('succeeded! > ')
+          break
+        elif file_display == 4:
           extra.writeline('options.txt', 2, '0')
           input('succeeded! > ')
           break
