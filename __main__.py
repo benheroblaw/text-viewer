@@ -24,7 +24,7 @@ extra_path = readline('extra/path', 1)
 if 'portable' not in os.listdir('extra/'):
   if os.name == "posix":
     terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
-  elif os.name == "nt" or platform.system == 'Windows':
+  elif os.name == "nt" and platform.system == 'Windows':
     terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
     print(terminalPath)
   if not os.path.exists(terminalPath):
@@ -41,7 +41,9 @@ while __name__ == '__main__':
     print(f'os.curdir: {os.curdir}')
   print('\n\33]0;loading... please wait :3\a', end='')
   if os.name == 'posix':
-    os.system('./chkdeps.bash')
+    if 'debug' in extra.readfile('options.txt'):
+      print("chmodding chkdeps.bash")
+    os.system('chmod +x ./chkdeps.bash; ./chkdeps.bash')
   # if 'debug' in extra.readfile('options.txt'):
   #   input('> ')
   print()
