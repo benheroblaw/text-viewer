@@ -50,7 +50,7 @@ while __name__ == '__main__':
   print('\n\33]0;loading... please wait :3\a', end='')
   if os.name == 'posix':
     if 'debug' in extra.readfile('options.txt'):
-      print("chmodding chkdeps.bash")
+      print("chmodding chkdeps.bash...")
     os.system('chmod +x ./chkdeps.bash; ./chkdeps.bash')
   # if 'debug' in extra.readfile('options.txt'):
   #   input('> ')
@@ -58,9 +58,13 @@ while __name__ == '__main__':
   debug = False
   if 'debug' in extra.readfile('options.txt'):
     debug = True
-  genCollections.generate(debug, debug)
   if os.name == 'posix':
     os.system('printf "%b" "\nUpdating... "; git pull origin ' + extra.readfile('./extra/origin'))
+  elif os.name == "nt":
+    print("Updating...")
+    os.system("git pull origin " + extra.readfile('./extra/origin'))
+    print()
+  genCollections.generate(debug, debug)
   fish.Barracuda()
   print('\33]0;loading... please wait :3\a', end='')
   extra.clear()
