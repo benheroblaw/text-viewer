@@ -28,3 +28,7 @@ run_the_thing.sh
 content/rw_church
 content/rwby_stuff
 content/untitled_folder
+/.vs/.repos.slnx/FileContentIndex
+/.vs/*
+/.vs/*/*
+.vs
