@@ -24,7 +24,7 @@ extra_path = readline('extra/path', 1)
 if 'portable' not in os.listdir('extra/'):
   if os.name == "posix":
     terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
-  elif os.name == "nt" and platform.system == 'Windows':
+  elif os.name == "nt" or platform.system == 'Windows':
     terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
     print(terminalPath)
   if not os.path.exists(terminalPath):
