@@ -33,8 +33,14 @@ if 'portable' not in os.listdir('extra/'):
 
 import fish, importlib, genCollections, extra
 
-try: extra.createfile('options.txt', '0.05')
-except: print('options.txt exists, continuing...')
+try: extra.createfile('options.txt', '\
+  0.025\n\
+  2\n\
+  1\n\
+  0\n\
+  '
+)
+except FileExistsError: print('options.txt exists, continuing...')
 
 while __name__ == '__main__':
   if 'debug' in extra.readfile('options.txt'):

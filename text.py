@@ -15,6 +15,9 @@ size = os.get_terminal_size()
 class terminal:
     width = size.columns
 
+def ansi_code(code=""):
+    return f"\033[{code}m"
+
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
 def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
@@ -34,6 +37,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
             if i == '\ud7fc': # reset
                 print('\033[0;0;0m', end='')
 
+            # colors
             elif i == '\ud7fd': # red
                 print('\033[38;5;196m', end='')
 
@@ -76,6 +80,17 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
             elif i == '\ud80a': # dark gray
                 print('\033[38;5;234m', end="")
 
+            elif i == "\ud80b": # black
+                print("\033[38;5;0m", end="")
+
+            # background colors
+            elif i == "\udb00": # background white
+                print(ansi_code("0;30;47"), end="")
+
+            elif i == "\udb01": # background red
+                print(ansi_code("0;30;41"), end="")
+
+            # advanced formatting
             elif i == '\udff0': # italic start
                 print('\x1B[3m', end="")
 
@@ -88,7 +103,7 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
             elif i == '\udff3': # bold end
                 print('\x1B[0m', end="")
 
-            # elif i == '\udfe0': # input
+            # elif i == '\udfe0': # input (wip)
             #     print('\x1B[0m', end="")
 
             else:
