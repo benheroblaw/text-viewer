@@ -22,8 +22,10 @@ def readfile(file="", line=1):
 extra_path = readline('extra/path', 1)
 
 if 'portable' not in os.listdir('extra/'):
+  # set the terminal path for unix
   if os.name == "posix":
     terminalPath = os.path.expanduser("~/.local/share/bhrobla/" + extra_path)
+  # set the terminal path for windows
   elif os.name == "nt" or platform.system == 'Windows':
     terminalPath = os.path.expanduser("~/AppData/Local/bhrobla/" + extra_path)
     print(terminalPath)
@@ -37,7 +39,8 @@ try: extra.createfile('options.txt', '\
   2\n\
   1\n\
   0\n\
-  '.strip()
+  '
+  .strip()
 )
 except FileExistsError: print('options.txt exists, continuing...')
 
@@ -54,7 +57,7 @@ while __name__ == '__main__':
     os.system('chmod +x ./chkdeps.bash; ./chkdeps.bash')
   # if 'debug' in extra.readfile('options.txt'):
   #   input('> ')
-  print()
+    print()
   debug = False
   if 'debug' in extra.readfile('options.txt'):
     debug = True
