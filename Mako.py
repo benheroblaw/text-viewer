@@ -92,7 +92,7 @@ def Mako(folders, sel, folders_pretty, folder_display):
 
       # print meta
       extra.clear()
-      if meta_title != '':
+      if meta_title.strip() != '':
         size = os.get_terminal_size()
         print(textwrap.fill('Title:    ' + meta_title, size.columns))
       else:

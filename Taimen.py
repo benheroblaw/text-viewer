@@ -5,11 +5,16 @@ import text, extra
 def Taimen(file=''):
   """Text display"""
   try:
+    formatNames = []
+    formatDefs = []
+
+    # format everything
     for i in file:
       nobr = False
       continue_var = False
       clear = 'none'
       portrait = '<\\none/>'
+      usingDefs = False
 
       if 'CMT<' in i:
           comment = i[i.find('CMT<')+4 : i.find('>')]
@@ -20,6 +25,20 @@ def Taimen(file=''):
         textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
 
         if 'ESC>' not in i:
+
+          # adding definitions for strings of format commands
+          if "DEF>" in i:
+            formatDef = i.replace("DEF>", '', 1)
+            i = i.replace(f"DEF>{formatDef}", '', 1)
+            params = formatDef.split(',', 2)
+            for num, x in enumerate(params):
+              params[num] = params[num].strip()
+            if not params[0].endswith(">"):
+              params[0] += '>'
+            formatNames.append(params[0])
+            formatDefs.append(params[1])
+            usingDefs = True
+            continue
 
           if "CONT>" in i:
             i = i.replace('CONT>', '', 1)
@@ -37,6 +56,13 @@ def Taimen(file=''):
             i = i.replace('CLRB>', '', 1)
             clear = 'before'
 
+          # check for custom format cmds
+          # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
+          if formatNames != []:
+            for num, name in enumerate(formatNames):
+              if formatNames[num] in i:
+                i = i.replace(formatNames[num], formatDefs[num])
+
           if i.startswith('PORT<'):
             portrait = i[i.find('PORT<') + 5 : i.find('>')]
             i = i.replace(f'PORT<{portrait}>', '', 1)
@@ -51,6 +77,13 @@ def Taimen(file=''):
             except ValueError: print('\033[0;31m' + f'error: Speed "{i[i.find('SPD<') + 4 : i.find('>')]}" is not a valid number!' + '\033[0;0;0m'); continue
             i = i.replace(f'SPD<{textSpeed}>', '', 1)
             i = i.replace(f'SPD<{int(textSpeed)}>', '', 1)
+
+          # background colors
+          if "BGWHI>" in i:
+            i = i.replace("BGWHI>", '\udb00', 1)
+
+          if "BGRED>" in i:
+            i = i.replace("BGRED>", '\udb01', 1)
 
           # light colors
           if 'LGRN>' in i:
@@ -99,7 +132,11 @@ def Taimen(file=''):
               i = i.replace('LME>', '\ud805', 1)
 
           if 'GRY>' in i:
-              i =i.replace('GRY>', '\ud806', 1)
+              i = i.replace('GRY>', '\ud806', 1)
+
+
+          if "BLK>" in i:
+            i = i.replace('BLK>', '\ud80b', 1)
 
           # other text formatting
           if 'BLD<' in i:
@@ -126,6 +163,7 @@ def Taimen(file=''):
 
         i = i.replace('ESC>', '', 1)
         text.text(i, textSpeed, continue_var, clear, portrait)
+
         if nobr and textSpeed > 0:
           print('\033[0;0;0m', end='')
         else:

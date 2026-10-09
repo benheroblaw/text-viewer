@@ -1,0 +1,7 @@
+Function strings can be bound to a single name for later use.
+
+ESC>To use this feature, type "DEF>", then the name you want to use for your custom string, a comma (","), and the function strings you would like to apply.
+
+There can be spaces between any of these parameters.
+
+And, if your custom string does not end with a greater-than sign (">"), one will be added for you.

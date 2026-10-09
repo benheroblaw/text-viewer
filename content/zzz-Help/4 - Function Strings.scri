@@ -1,5 +1,5 @@
 NOBR>Function strings allow you to do neat things,
-BLD<like bold your text...>
+BLD>like bold your text...
 CLRB>Or clear the terminal.
 NOBR>Function strings use one to four characters followed by a greater than sign (>).
 They will be found and removed from anywhere in the line.
