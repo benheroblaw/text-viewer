@@ -1,7 +1,7 @@
 import os, json, extra, textwrap
 
 # meta handling
-def Mako(folders, sel, folders_pretty, folder_display):
+def Mako(folders, sel, folders_pretty, folder_display, show_tags):
   """meta.json handler"""
   # new meta handling
   meta_author =   ''
@@ -115,7 +115,7 @@ def Mako(folders, sel, folders_pretty, folder_display):
         print(textwrap.fill('Warnings: \033[1m' + meta_warnings + '\033[0;0;0m', size.columns, subsequent_indent=meta_indent))
 
       # tags an ships are experimental
-      if meta_tags != [] and extra.readline('options.txt', 3) == '1':
+      if meta_tags != [] and show_tags == '1':
         print('\nTags:  ', end='')
         if extra.readline('options.txt', 4) == '1':
           meta_tags.sort()
@@ -124,7 +124,7 @@ def Mako(folders, sel, folders_pretty, folder_display):
         meta_tags_display = meta_tags_display.replace('\\\'', '\'')
         size = os.get_terminal_size()
         print(textwrap.fill(meta_tags_display, size.columns - 8, subsequent_indent='        '))
-      if meta_relationships != [] and extra.readline('options.txt', 3) == '1':
+      if meta_relationships != [] and show_tags == '1':
         print('Ships: ', end='')
         if extra.readline('options.txt', 4) == '1':
           meta_relationships.sort()
