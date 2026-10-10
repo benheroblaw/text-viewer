@@ -6,6 +6,7 @@ importlib.reload(fish)
 def Barracuda():
 	"""Folder display"""
 	while True:
+		# set the window title
 		print('\33]0;benheroblaw\'s text viewer :3\a', end='', flush=True)
 		folder = os.scandir('./content')
 		folders = []
