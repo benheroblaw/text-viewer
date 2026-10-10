@@ -17,9 +17,11 @@ def Taimen(file=''):
       usingDefs = False
 
       if 'CMT<' in i:
-          comment = i[i.find('CMT<')+4 : i.find('>')]
-          i = i.replace(f'CMT<{comment}>', '')
-          i = i.removeprefix(' ')
+        comment = i[i.find('CMT<')+4 : i.find('>')]
+        i = i.replace(f'CMT<{comment}>', '')
+        i = i.removeprefix(' ')
+      elif 'CMT>' in i:
+        continue
 
       if i != '':
         textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))

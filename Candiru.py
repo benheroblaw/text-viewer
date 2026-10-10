@@ -1,7 +1,7 @@
 import os, extra, fish
 
 # chapter selector
-def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
+def Candiru(sel, folder_last, folders, folders_pretty, folder_display, show_tags):
 	"""Chapter select"""
 	if not sel > folder_last:
 		while True:
@@ -26,7 +26,7 @@ def Candiru(sel, folder_last, folders, folders_pretty, folder_display):
 			chapter_last = len(chapters)
 
 			# print all the meta stuff
-			fish.Mako(folders, sel, folders_pretty, folder_display)
+			fish.Mako(folders, sel, folders_pretty, folder_display, show_tags)
 
 			print('\n0. Back')
 			for i, x in enumerate(chapters):
