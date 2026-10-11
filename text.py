@@ -20,7 +20,7 @@ def ansi_code(code=""):
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
-def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
+def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', nameplate="<\\none/>", nobr=False):
     """All-purpose text thing."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True, drop_whitespace=False)
@@ -33,93 +33,203 @@ def text(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>'):
     if msg != '':
         if portrait != '<\\none/>':
             print(f'({portrait}) ', end='')
+        elif nameplate != '<\\none/>':
+            print("(", end="")
+            for i in nameplate:
+                match i:
+                    case'\ud7fc': # reset
+                        print('\033[m', end='')
+                        nameplate = nameplate.replace("\ud7fc", "", 1)
+
+                    # colors
+                    case '\ud7fd': # red
+                        print('\033[38;5;196m', end='')
+                        continue
+
+                    case '\ud7fe': # blue
+                        print('\033[38;5;20m', end='')
+                        continue
+
+                    case '\ud7ff': # green
+                        print('\033[38;5;34m', end="")
+                        continue
+
+                    case '\ud800': # yellow
+                        print('\033[38;5;220m', end="")
+                        continue
+
+                    case '\ud801': # pink
+                        print('\033[38;5;206m', end="")
+                        continue
+
+                    case '\ud802': # cyan
+                        print('\033[38;5;51m', end='')
+                        continue
+
+                    case '\ud803': # purple
+                        print('\033[38;5;57m', end='')
+                        continue
+
+                    case '\ud804': # white
+                        print('\033[38;5;255m', end='')
+                        continue
+
+                    case '\ud805': # lime
+                        print('\033[38;5;40m', end='')
+                        continue
+
+                    case '\ud806': # gray
+                        print('\033[38;5;240m', end="")
+                        continue
+
+                    case '\ud807': # light green
+                        print('\033[38;5;46m', end="")
+                        continue
+
+                    case '\ud808': # light gray
+                        print('\033[38;5;248m', end="")
+                        continue
+
+                    case '\ud809': # light blue
+                        print('\033[38;5;45m', end="")
+                        continue
+
+                    case '\ud80a': # dark gray
+                        print('\033[38;5;234m', end="")
+                        continue
+
+                    case "\ud80b": # black
+                        print("\033[38;5;0m", end="")
+                        continue
+
+                    # background colors
+                    case "\udb00": # background white
+                        print(ansi_code("0;30;47"), end="")
+                        continue
+
+                    case "\udb01": # background red
+                        print(ansi_code("30;41"), end="")
+                        continue
+
+                    # advanced formatting
+                    case '\udff0': # italic start
+                        print('\033[3m', end="")
+                        continue
+
+                    case '\udff1': # italic end
+                        print('\033[23m', end="")
+                        continue
+
+                    case '\udff2': # bold start
+                        print('\x1B[1m', end="")
+                        continue
+
+                    case '\udff3': # bold end
+                        print('\x1B[22m', end="")
+                        continue
+
+                print(i, end="")
+
+            print(f'{ansi_code("0")}): ', end='')
+
         for i in msg:
-            if i == '\ud7fc': # reset
-                print('\033[0;0;0m', end='')
+            match i:
+                case'\ud7fc': # reset
+                    print('\033[0m', end='')
 
-            # colors
-            elif i == '\ud7fd': # red
-                print('\033[38;5;196m', end='')
+                # colors
+                case '\ud7fd': # red
+                    print('\033[38;5;196m', end='')
 
-            elif i == '\ud7fe': # blue
-                print('\033[38;5;20m', end='')
+                case '\ud7fe': # blue
+                    print('\033[38;5;20m', end='')
 
-            elif i == '\ud7ff': # green
-                print('\033[38;5;34m', end="")
+                case '\ud7ff': # green
+                    print('\033[38;5;34m', end="")
 
-            elif i == '\ud800': # yellow
-                print('\033[38;5;220m', end="")
+                case '\ud800': # yellow
+                    print('\033[38;5;220m', end="")
 
-            elif i == '\ud801': # pink
-                print('\033[38;5;206m', end="")
+                case '\ud801': # pink
+                    print('\033[38;5;206m', end="")
 
-            elif i == '\ud802': # cyan
-                print('\033[38;5;51m', end='')
+                case '\ud802': # cyan
+                    print('\033[38;5;51m', end='')
 
-            elif i == '\ud803': # purple
-                print('\033[38;5;57m', end='')
+                case '\ud803': # purple
+                    print('\033[38;5;57m', end='')
 
-            elif i == '\ud804': # white
-                print('\033[38;5;255m', end='')
+                case '\ud804': # white
+                    print('\033[38;5;255m', end='')
 
-            elif i == '\ud805': # lime
-                print('\033[38;5;40m', end='')
+                case '\ud805': # lime
+                    print('\033[38;5;40m', end='')
 
-            elif i == '\ud806': # gray
-                print('\033[38;5;240m', end="")
+                case '\ud806': # gray
+                    print('\033[38;5;240m', end="")
 
-            elif i == '\ud807': # light green
-                print('\033[38;5;46m', end="")
+                case '\ud807': # light green
+                    print('\033[38;5;46m', end="")
 
-            elif i == '\ud808': # light gray
-                print('\033[38;5;248m', end="")
+                case '\ud808': # light gray
+                    print('\033[38;5;248m', end="")
 
-            elif i == '\ud809': # light blue
-                print('\033[38;5;45m', end="")
+                case '\ud809': # light blue
+                    print('\033[38;5;45m', end="")
 
-            elif i == '\ud80a': # dark gray
-                print('\033[38;5;234m', end="")
+                case '\ud80a': # dark gray
+                    print('\033[38;5;234m', end="")
 
-            elif i == "\ud80b": # black
-                print("\033[38;5;0m", end="")
+                case "\ud80b": # black
+                    print("\033[38;5;0m", end="")
 
-            # background colors
-            elif i == "\udb00": # background white
-                print(ansi_code("0;30;47"), end="")
+                # background colors
+                case "\udb00": # background white
+                    print(ansi_code("30;47"), end="")
 
-            elif i == "\udb01": # background red
-                print(ansi_code("0;30;41"), end="")
+                case "\udb01": # background red
+                    print(ansi_code("30;41"), end="")
 
-            # advanced formatting
-            elif i == '\udff0': # italic start
-                print('\x1B[3m', end="")
+                # advanced formatting
+                case '\udff0': # italic start
+                    print('\x1B[3m', end="")
 
-            elif i == '\udff1': # italic end
-                print('\x1B[0m', end="")
+                case '\udff1': # italic end
+                    print('\x1B[23m', end="")
 
-            elif i == '\udff2': # bold start
-                print('\x1B[1m', end="")
+                case '\udff2': # bold start
+                    print('\x1B[1m', end="")
 
-            elif i == '\udff3': # bold end
-                print('\x1B[0m', end="")
+                case '\udff3': # bold end
+                    print('\x1B[22m', end="")
 
-            # elif i == '\udfe0': # input (wip)
+            # case '\udfe0': # input (wip)
             #     print('\x1B[0m', end="")
 
-            else:
-                print(i, end="", flush=True)
-                time.sleep(msgSpeed)
+                case _:
+                    print(i, end="", flush=True)
+                    time.sleep(msgSpeed)
+
 
         if not cont:
             time.sleep(msgSpeed)
             input()
-        # else:
-        #     print()
+        else:
+            print()
+
+        print("\033[m", end="")
 
         # print()
+        if nobr and msgSpeed > 0.0:
+            print(end="")
+        else:
+            print()
 
         if clear == 'after':
             extra.clear()
+
+# def formatt(i=""):
+
 
 def clearAfter(msg="", speed=0.1, cont=False):
     """Prints out text and waits for input, then clears the terminal."""

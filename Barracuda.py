@@ -47,7 +47,7 @@ def Barracuda():
 			print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
 		# pretty
 		elif extra.readline('options.txt', 2) == '0':
-			print('./content/...\n\n0. Options')
+			print('./content/...')
 		# use meta.json titles
 		elif extra.readline('options.txt', 2) == '2':
 			output = str(folders)
@@ -68,7 +68,7 @@ def Barracuda():
 		else:
 			extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
 			continue
-		print("\n0. Settings")
+		print("\n0. " + "\033[1m" + "Settings" + "\033[0m")
 
 		# show tags
 		if extra.readline('options.txt', 3) == '1':
@@ -103,7 +103,7 @@ def Barracuda():
 		# pretty
 		if folder_display == '1':
 			for i, x in enumerate(folders):
-				print(str(i+1) + '. ' + folders_pretty[i])
+				print(str(i+1) + '. ' + "\033[1m" + folders_pretty[i] + "\033[0m")
 		# meta.json titles
 		elif folder_display == '2':
 			folderTitles = []
@@ -115,7 +115,7 @@ def Barracuda():
 					else:
 						folderTitles.append(folders_pretty[num])
 			for i, x in enumerate(folderTitles):
-				print(str(i+1) + '. ' + folderTitles[i])
+				print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m")
 		# meta.json titles with folder names
 		elif folder_display == '3':
 			folderTitles = []
@@ -123,15 +123,15 @@ def Barracuda():
 				if "meta.json" in os.listdir(f"./content/{name}"):
 					folderTitle = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))["title"]
 					if folderTitle.strip() != "":
-						folderTitles.append(folderTitle + f" ({folders[num]})")
+						folderTitles.append(folderTitle)
 					else:
-						folderTitles.append(folders_pretty[num] + f" ({folders[num]})")
+						folderTitles.append(folders_pretty[num])
 			for i, x in enumerate(folderTitles):
-				print(str(i+1) + '. ' + folderTitles[i])
+				print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m" + f" ({folders[i]})")
 		# raw
 		else:
 			for i, x in enumerate(folders):
-				print(str(i+1) + '. .../' + folders[i])
+				print(str(i+1) + "\033[1m" + '. .../' + folders[i] + "\033[0m")
 
 		try: selection = input('\n> ')
 		except KeyboardInterrupt: break
