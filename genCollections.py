@@ -12,7 +12,7 @@ def generate(logging=False, debug=False):
   elif os.name == 'nt':
     ospath = '~/AppData/Local/bhrobla/'
   extra_path = os.path.expanduser(ospath + readfile('extra/path').strip())
-  print('generating collections...')
+  print('\033[0;38;5;255m' + 'generating collections...')
   if debug:
     print('\033[0;32m' + 'debug mode!' + '\033[0;38;5;255m')
   print()
@@ -50,7 +50,7 @@ def generate(logging=False, debug=False):
               print(' ' + i)
               output = i.replace('\'', '\\\'')
               output = output.replace('"', '\\"')
-              os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
+              os.system(f'printf "%b" ""; find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
             print()
         os.chdir(extra_path)
 

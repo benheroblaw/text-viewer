@@ -36,12 +36,14 @@ if 'portable' not in os.listdir('extra/'):
   os.chdir(terminalPath)
 
 import extra
-try: extra.createfile('options.txt', '\
+try: extra.createfile('options.txt', "\
   0.025\n\
   2\n\
   1\n\
   0\n\
-  '
+  0\n\
+  1\n\
+  "
   .strip()
 )
 except FileExistsError: print('options.txt exists, continuing...')
