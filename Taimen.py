@@ -8,6 +8,9 @@ def Taimen(file=''):
     formatNames = []
     formatDefs = []
 
+    # if not file.endswith(".scri"):
+    #   file += ".scri"
+
     # format everything
     for i in file:
       if 'CMT>' in i:

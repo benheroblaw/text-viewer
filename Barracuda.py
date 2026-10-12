@@ -151,7 +151,7 @@ def Barracuda():
 
 		# pass it to Candiru
 		elif selection <= len(folders):
-			fish.Candiru(sel, folder_last, folders, folders_pretty, folder_display, show_tags)
+			fish.Candiru(sel, folder_last, folders[sel], folders_pretty, folder_display, show_tags)
 
 		else:
 			input('wtf')
