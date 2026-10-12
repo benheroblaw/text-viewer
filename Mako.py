@@ -1,8 +1,17 @@
 import os, json, extra, textwrap, time
 
 # meta handling
-def Mako(folders, sel, folders_pretty, folder_display, show_tags):
+def Mako(folder, sel, folders_pretty, folder_display, show_tags):
   """meta.json handler"""
+
+  output = folder
+  output = output.removeprefix('_')
+  output = output.replace("_", ' ')
+  output = output.replace('zzz-', '_')
+  folder_pretty = output
+
+  candiru_folder = folder
+
   # new meta handling
   meta_author =   ''
   meta_authors =  ''
@@ -16,10 +25,13 @@ def Mako(folders, sel, folders_pretty, folder_display, show_tags):
   meta_relationships = []
   meta_indent =   '           '
 
+  while not "meta.json" in os.listdir('./content/' + folder):
+    folder += "/.."
+
   # newer json meta file
-  if 'meta.json' in os.listdir('./content/' + folders[sel]):
+  if 'meta.json' in os.listdir('./content/' + folder):
     try:
-      meta_json = json.loads(extra.readfile(f'./content/{folders[sel]}/meta.json'))
+      meta_json = json.loads(extra.readfile(f'./content/{folder}/meta.json'))
 
 
       # Capitalized
@@ -96,16 +108,18 @@ def Mako(folders, sel, folders_pretty, folder_display, show_tags):
       if meta_title.strip() != '':
         size = os.get_terminal_size()
         print(textwrap.fill('Title:    ' + "\033[1m" + meta_title + "\033[m", size.columns))
+        print(f"Folder:   ./content/{candiru_folder}/\n")
       else:
         size = os.get_terminal_size()
-        print(textwrap.fill('Title:    ' + "\033[1m" + folders_pretty[sel] + "\033[m", size.columns))
+        print(textwrap.fill('Title:    ' + "\033[1m" + folder_pretty + "\033[m", size.columns))
+        print(f"Folder:   ./content/{candiru_folder}/\n")
 
       if folder_display == '0':
         size = os.get_terminal_size()
-        print(textwrap.fill('Folder:   ' + '\033[1m' + './content/' + folders[sel] + '/', size.columns), end='\033[0m\n')
+        print(textwrap.fill('Folder:   ' + '\033[1m' + './content/' + folder + '/', size.columns), end='\033[0m\n')
 
-      if meta_rating == 'g' or meta_rating == 'G' or meta_rating == 0: print(textwrap.fill('Rating:   \033[0;32mGeneral Audiences', size.columns))
-      elif meta_rating == 't' or meta_rating == 'T' or meta_rating == 1: print(textwrap.fill('Rating:   \033[0;36mTeen', size.columns))
+      if meta_rating == 'g' or meta_rating == 'G' or meta_rating == 0:   print(textwrap.fill('Rating:   \033[1;32mGeneral Audiences', size.columns))
+      elif meta_rating == 't' or meta_rating == 'T' or meta_rating == 1: print(textwrap.fill('Rating:   \033[1;36mTeen', size.columns))
       elif meta_rating == 'e' or meta_rating == 'E' or meta_rating == 2: print(textwrap.fill('Rating:   \033[1;33mExplicit', size.columns))
       elif meta_rating == 'a' or meta_rating == 'A' or meta_rating == 3: print(textwrap.fill('Rating:   \033[1;31mAdult', size.columns))
       else: print('Rating:   ???')
@@ -170,6 +184,6 @@ def Mako(folders, sel, folders_pretty, folder_display, show_tags):
             print(textwrap.fill(x, size.columns, initial_indent='       ', subsequent_indent='       ', ))
         print(end="\033[m")
     except json.decoder.JSONDecodeError:
-      print('\033[0;38;5;196m' + f'Invalid JSON in ./content/{folders[sel]}/meta.json!\033[m')
+      print('\033[0;38;5;196m' + f'Invalid JSON in ./content/{folder}/meta.json!\033[m')
 
-  else: print(f"./content/{folders_pretty[sel]}")
+  else: print(f"./content/{folder_pretty}")

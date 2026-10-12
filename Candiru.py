@@ -1,18 +1,31 @@
 import os, extra, fish
 
 # chapter selector
-def Candiru(sel, folder_last, folders, folders_pretty, folder_display, show_tags):
+def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags):
 	"""Chapter select"""
 	if not sel > folder_last:
 		while True:
-			chapters_list = os.listdir('./content/' + folders[sel] + '')
+			chapters_list = os.listdir('./content/' + folder + '')
 			chapters = []
-			for i, x in enumerate(chapters_list):
+			chapter_output = list()
+
+			for x in chapters_list:
+				if os.path.isdir(os.path.abspath('./content/' + folder + "/" + x)) and not x.startswith("."):
+					chapter_output.append(str(x) + "/")
+			chapter_output.sort()
+			for i in chapter_output:
+				chapters.append(i)
+			chapter_output = list()
+
+			for x in chapters_list:
 				if x.endswith('.scri'):
-					chapters.append(str(x))
-			chapters.sort()
-			chapters_pretty = chapters
-			for num, name in enumerate(chapters_pretty):
+					chapter_output.append(str(x))
+			chapter_output.sort()
+			for i in chapter_output:
+				chapters.append(i)
+
+			chapters_pretty = list()
+			for num, name in enumerate(chapters):
 				output = name
 				if output.startswith("_"):
 					output = output.removeprefix("_")
@@ -20,17 +33,12 @@ def Candiru(sel, folder_last, folders, folders_pretty, folder_display, show_tags
 				output = output.replace("_", ' ')
 				output = output.replace('zzz-', '_')
 				output = output.removesuffix('.scri')
-				# output = output[0].upper() + output[1:]
-				chapters_pretty[num] = output
-			chapters = []
-			for i, x in enumerate(chapters_list):
-				if x.endswith('.scri'):
-					chapters.append(str(x))
-			chapters.sort()
+				chapters_pretty.append(output)
+
 			chapter_last = len(chapters)
 
 			# print all the meta stuff
-			fish.Mako(folders, sel, folders_pretty, folder_display, show_tags)
+			fish.Mako(folder, sel, folders_pretty, folder_display, show_tags)
 
 			print('\n0. ' + '\033[1m' + 'Back' + "\033[m")
 			for i, x in enumerate(chapters):
@@ -41,12 +49,16 @@ def Candiru(sel, folder_last, folders, folders_pretty, folder_display, show_tags
 				chap_sel = int(chap_select)-1
 				chap_select = int(chap_select)
 			except ValueError:
-				# print("")
 				extra.clear()
 				continue
 			extra.clear()
 			if chap_select == 0:
 				break
 			if not chap_sel > chapter_last-1:
-				chap_story = extra.readfile('./content/' + folders[sel] + '/' + chapters[chap_sel]).splitlines()
-				fish.Taimen(chap_story)
+				if os.path.isdir(os.path.abspath('./content/' + folder + "/" + chapters[chap_sel])):
+					Candiru(sel, folder_last, folder + "/" + chapters[chap_sel].removesuffix("/"), folders_pretty, folder_display, show_tags)
+				else:
+					if not chapters[chap_sel].endswith(".scri"):
+						chapters[chap_sel] += ".scri"
+					chap_story = extra.readfile('./content/' + folder + '/' + chapters[chap_sel]).splitlines()
+					fish.Taimen(chap_story)
