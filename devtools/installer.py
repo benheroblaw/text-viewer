@@ -12,7 +12,7 @@ os.chdir(terminalPath)
 os.system('git clone -b release https://github.com/benheroblaw/text-viewer')
 portable = input("Make portable? [y/n]\n")
 if portable == 'y':
-  os.system("echo port - a - ble! > extra/portable")
+  os.system("echo 'port - a - ble!' > extra/portable")
 print("\nSuccessfully installed!")
 time.sleep(2)
 input("\nPress Enter to continue")

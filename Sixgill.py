@@ -25,13 +25,16 @@ def Sixgill():
       extra.clear()
       continue
 
+    # cancel
     if opt_sel == 0:
       break
 
+    # update
     elif opt_sel == 1:
       os.system("printf '%b' 'updating... '; git pull origin release")
       input("Restart to finish updating\n> ")
 
+    # text speed
     elif opt_sel == 2:
       print("Settings\n\nCurrent speed: " + extra.readline("options.txt", 1))
       print("New speed (in seconds):")
@@ -47,14 +50,19 @@ def Sixgill():
       # text.speed = float(speed)
       input("succeeded! > ")
 
+    # set folder display
     elif opt_sel == 3:
       while True:
         extra.clear()
-        print("Settings\n\nDisplaying file names: ", end="")
+        print("Settings\n\nDisplaying: ", end="")
         if extra.readline("options.txt", 2) == "0":
           print("raw")
-        else:
-          print("formatted")
+        elif extra.readline("options.txt", 2) == "1":
+          print("formatted folder names")
+        elif extra.readline("options.txt", 2) == "2":
+          print("defined titles")
+        elif extra.readline("options.txt", 2) == "3":
+          print("defined titles with folder names")
         print("Display as:\n\n1. Defined Titles\n2. Defined Titles with Folder Names\n3. Formatted\n4. Raw\n")
         try: file_display = input("> ")
         except KeyboardInterrupt: break
@@ -65,24 +73,29 @@ def Sixgill():
           input("Input a number\n> ")
           continue
 
+        # defined titles
         if file_display == 1:
           extra.writeline("options.txt", 2, "2")
           input("succeeded! > ")
           break
+        # defined titles with folder names
         elif file_display == 2:
           extra.writeline("options.txt", 2, "3")
           input("succeeded! > ")
           break
+        # formatted
         elif file_display == 3:
           extra.writeline("options.txt", 2, "1")
           input("succeeded! > ")
           break
+        # raw
         elif file_display == 4:
           extra.writeline("options.txt", 2, "0")
           input("succeeded! > ")
           break
         else: continue
 
+    # set indent
     elif opt_sel == 4:
       while True:
         extra.clear()
@@ -100,6 +113,7 @@ def Sixgill():
         input("succeeded! > ")
         break
 
+    # show tags
     elif opt_sel == 5:
       while True:
         extra.clear()
@@ -128,6 +142,7 @@ def Sixgill():
         else:
           continue
 
+    # show nameplates
     elif opt_sel == 6:
       while True:
         extra.clear()
@@ -156,6 +171,7 @@ def Sixgill():
         else:
           continue
 
+    # sort tags
     elif opt_sel == 7:
       while True:
         extra.clear()

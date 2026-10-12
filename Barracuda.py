@@ -1,4 +1,4 @@
-import os, textwrap, fish, extra, json, importlib
+import os, textwrap, fish, extra, json, importlib, time
 importlib.reload(fish)
 
 # folder selector
@@ -114,6 +114,8 @@ def Barracuda():
 						folderTitles.append(folderTitle)
 					else:
 						folderTitles.append(folders_pretty[num])
+				else:
+					folderTitles.append(folders_pretty[num])
 			for i, x in enumerate(folderTitles):
 				print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m")
 		# meta.json titles with folder names
@@ -126,6 +128,8 @@ def Barracuda():
 						folderTitles.append(folderTitle)
 					else:
 						folderTitles.append(folders_pretty[num])
+				else:
+					folderTitles.append(folders_pretty[num])
 			for i, x in enumerate(folderTitles):
 				print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m" + f" ({folders[i]})")
 		# raw
@@ -142,7 +146,7 @@ def Barracuda():
 			selection = int(selection)
 			extra.clear()
 		except ValueError:
-			print("")
+			print("Input a number")
 			continue
 
 		# settings

@@ -26,6 +26,9 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
   meta_indent =   '           '
 
   while not "meta.json" in os.listdir('./content/' + folder):
+    if os.path.abspath("./content/" + folder) == os.path.abspath("./content"):
+      print("\033[2m" + "No meta.json in ./content/" + folder.replace("/..", "") + "\033[0m")
+      break
     folder += "/.."
 
   # newer json meta file

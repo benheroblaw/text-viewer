@@ -1,3 +1,4 @@
 To automatically generate 'collections' made of symbolic links to other script files, you can include a file called '.folder'.
 Inside of this file, you write one path per line of folders you want to include.
 The program will generate collections upon starting.
+Currently non-functional on Windows; working on it!

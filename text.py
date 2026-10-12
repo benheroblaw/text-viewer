@@ -30,7 +30,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
         extra.clear()
     # noinput(msg, msgSpeed)
     # cursor.show()
-    if msg != '':
+    if msg != "":
         if portrait != '<\\none/>':
             print(f'({portrait}) ', end='')
         elif nameplate != '<\\none/>':
@@ -211,16 +211,20 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     time.sleep(msgSpeed)
 
 
+        time.sleep(msgSpeed)
         if not cont:
-            time.sleep(msgSpeed)
             input()
+        elif nobr:
+            print(end="")
         else:
             print()
 
-        print("\033[m", end="")
+        print("\033[0m", end="")
 
         # print()
         if nobr and msgSpeed > 0.0:
+            print(end="")
+        elif nobr:
             print(end="")
         else:
             print()
@@ -291,7 +295,7 @@ def noclearinput(msg="", msgSpeed=0):
 def face(portrait="", msg="", clear='none'):
     """Prints out text with a portrait."""
     print(f"({portrait}) ", end="")
-    text(msg, cont=False, clear=clear)
+    display(msg, cont=False, clear=clear)
 
 def faceCont(portrait="", msg=""):
     """Prints out text with a portrait."""

@@ -24,7 +24,7 @@ def Taimen(file=''):
       continue_text = False
       clear = 'none'
       portrait, nameplate = '<\\none/>', '<\\none/>'
-      usingDefs = False
+      # usingDefs = False
       text_indent = 0
 
       if i != '':
@@ -44,8 +44,8 @@ def Taimen(file=''):
             formatNames.append(params[0])
             try: formatDefs.append(params[1].replace(" ", ""))
             except IndexError:
-              print('\033[0;31m' + f"error: No second argument in \"{params[0]}\"; did you miss a comma?" + '\033[0;0;0m');
-            usingDefs = True
+              print('\033[0;31m' + f"error: No second argument in \"{params[0]}\"; did you miss a comma?" + '\033[0m');
+            # usingDefs = True
             continue
 
           if "CONT>" in i:
@@ -165,10 +165,11 @@ def Taimen(file=''):
           elif i.startswith('SPD('):
             try:
               textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
-              i = i.replace(f"SPD({textSpeed})", "", 1)
             except ValueError:
-              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0;0;0m');
+              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
               continue
+            i = i.replace(f"SPD({textSpeed})", "", 1)
+            i = i.replace(f"SPD({int(textSpeed)})", "", 1)
           elif i.startswith("NMPLT("):
             nameplate = i[i.find('NMPLT(') + 6 : i.find(')')]
             i = i.replace(f"NMPLT({nameplate})", '', 1)
@@ -179,7 +180,7 @@ def Taimen(file=''):
             try:
               text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0;0;0m');
+              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
               continue
             i = i.replace(f"INDNT({text_indent})", '', 1)
 
@@ -187,9 +188,10 @@ def Taimen(file=''):
             try:
               textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0;0;0m');
+              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
               continue
             i = i.replace(f"SPD({textSpeed})", '', 1)
+            i = i.replace(f"SPD({int(textSpeed)})", "", 1)
 
           if 'PORT(' in i:
             portrait = i[i.find('PORT(') + 5 : i.find(')')]
@@ -208,7 +210,7 @@ def Taimen(file=''):
             try:
               text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0;0;0m');
+              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
               continue
             i = i.replace(f"INDNT({text_indent})", '', 1)
 
