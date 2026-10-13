@@ -18,41 +18,66 @@ def generate(logging=False, debug=False):
   print()
   if logging:
     print(f'first directory: {str(os.getcwd())}\n\nfolders with .folders:')
-  for i in os.scandir('./content/'):
-    if i.is_dir():
-      if '.folders' in os.listdir(i):
-        os.chdir('./content/' + i.name)
-        if logging:
-          print(f'  {str(os.getcwd())}')
+  dirs_to_search = list()
+  starting_dirs = list()
+  for i in os.listdir(os.path.join(".", "content")):
+    starting_dirs.append(os.path.abspath(os.path.join(".", "content", i)))
+  for num, name in enumerate(starting_dirs):
+    # starting_dirs[num] = os.path.abspath(name)
+    for path in os.scandir(name):
+      if path.is_dir():
+        dirs_to_search.append(os.path.abspath(path))
+  for i in starting_dirs:
+    dirs_to_search.append(i)
+  for path in dirs_to_search:
+    for i in os.scandir(path):
+      if i.is_dir():
+        if '.folders' in os.listdir(i):
+          os.chdir(os.path.join(path, i))
+          if logging:
+            print(f'  {str(os.getcwd())}')
 
-        folders = readfile('./.folders').splitlines()
-        for number, folder in enumerate(folders):
-          if folder.startswith('#'):
-            if logging:
-              print(f'line {number+1} commented, skipping...')
-          else:
-            folder = os.path.expanduser(f'{extra_path}/content/{folder}')
-            print(f'file path to search: {folder}')
-            try:
-              print('files to link:')
-              for direct in os.listdir(folder):
-                if direct.endswith('.scri'):
-                  direct = direct.replace("'", "\\'")
-                  if logging:
-                    print(f'  {direct}')
-                  os.system(f'printf "%b" "   "; ln -s -f -v {folder}{str(direct)}')
+          folders = readfile(".folders").splitlines()
+          for number, folder in enumerate(folders):
+            if folder.startswith('#'):
+              if logging:
+                print(f'line {number+1} commented, skipping...')
+            else:
+              folder = os.path.abspath(f'{folder}')
+              print(f'\nfile path to search: {folder}')
+              try:
+                print('files to link:')
+                for direct in os.listdir(folder):
+                  if direct.endswith('.scri'):
+                    # direct = direct.replace("'", "\\'")
+                    if logging:
+                      print(f'  {direct}')
+                    if os.name == "posix":
+                      # print(f"{folder}/{str(direct)}")
+                      os.system(f'printf "%b" "   "; ln -s -f -v "{folder}/{str(direct)}"')
+                    elif os.name == "nt":
+                      command = f"mklink {folder.replace("/", "\\")}\\{str(direct)} {os.path.abspath(".")}\\"
+                      # print(os.path.abspath("."))
+                      print(command)
+                      os.system(command)
 
-            except FileNotFoundError:
-              if logging: print(f'could not link files in: {folder}')
+              except FileNotFoundError:
+                if logging: print(f'could not link files in: {folder}')
+          os.chdir(extra_path)
 
-            print('\nremoving broken links in folders:')
-            for i in os.listdir(f'{extra_path}/content/'):
-              print(' ' + i)
-              output = i.replace('\'', '\\\'')
-              output = output.replace('"', '\\"')
-              os.system(f'printf "%b" ""; find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/'))
-            print()
-        os.chdir(extra_path)
+  print('\nremoving broken links in folders:')
+  for path in dirs_to_search:
+    for i in os.scandir(path):
+      if i.is_dir():
+        print(" ", end="")
+        print(i.name)
+        # output = i.name.replace('\'', '\\\'')
+        output = i.name.replace('"', '\\"')
+        if os.name == "posix":
+          os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b\n" ""'.replace('//', '/').replace("\\\\", "\\"))
+        elif os.name == "nt":
+          os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/').replace("/", "\\"))
+  print()
 
   print('\033[0;0;0m', end='')
 
