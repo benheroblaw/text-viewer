@@ -211,15 +211,17 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     time.sleep(msgSpeed)
 
 
+        print("\033[0m", end="")
         time.sleep(msgSpeed)
         if not cont:
             input()
         elif nobr:
             print(end="")
+        elif cont and nobr:
+            print()
         else:
             print()
 
-        print("\033[0m", end="")
 
         # print()
         if nobr and msgSpeed > 0.0:

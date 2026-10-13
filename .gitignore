@@ -33,3 +33,10 @@ content/untitled_folder
 /.vs/*/*
 .vs
 /content/New_folder
+content/zzz-zzz-collection_generator/tests/syntax_text.scri
+content/zzz-zzz-collection_generator/tests/italics.scri
+content/zzz-zzz-collection_generator/tests/speed.scri
+content/zzz-zzz-collection_generator/tests/colors_test.scri
+content/zzz-zzz-collection_generator/tests/portraits.scri
+content/zzz-zzz-collection_generator/tests/indent_test.scri
+content/_viewer-stories-repo
