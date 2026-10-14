@@ -189,4 +189,4 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
     except json.decoder.JSONDecodeError:
       print('\033[0;38;5;196m' + f'Invalid JSON in ./content/{folder}/meta.json!\033[m')
 
-  else: print(f"./content/{folder_pretty}")
+  else: print(f"Folder: ./content/{candiru_folder}")
