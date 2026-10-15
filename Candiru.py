@@ -66,6 +66,8 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             chapter_raw_output.sort()
             for i in chapter_output:
                 chapters.append(i)
+            for num, name in enumerate(chapter_raw_output):
+                chapter_list[chapters[num]] = name
             # for num, name in enumerate(chapter_raw_output):
             #     chapter_list[chapters[num]] = name
 
@@ -100,10 +102,15 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             if chap_select == 0:
                 break
             if not chap_sel > chapter_last-1:
-                if os.path.isdir(os.path.abspath('./content/' + folder + "/" + chapter_list[chapters[chap_sel]])):
+                # try: 
+                path = os.path.abspath(
+                    os.path.join('./content', folder, chapter_list[chapters[chap_sel]])
+                    )
+                if os.path.isdir(path ):
                     Candiru(sel, folder_last, folder + "/" + chapter_list[chapters[chap_sel]].removesuffix("/"), folders_pretty, folder_display, show_tags)
+                # except: print(f"Could not find key...")
                 else:
                     if not chapters[chap_sel].endswith(".scri"):
                         chapters[chap_sel] += ".scri"
                     # chap_story = extra.readfile().splitlines()
-                    fish.Taimen('./content/' + folder + '/' + chapter_list[chapters[chap_sel]], './content/' + folder)
+                    fish.Taimen(os.path.join('./content', folder, chapter_list[chapters[chap_sel]]), './content/' + folder)

@@ -95,6 +95,27 @@ def Barracuda():
         else:
             extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
             continue
+        
+        if extra.readline('options.txt', 4) == '1':
+            # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+            pass
+        elif extra.readline('options.txt', 4) == '0':
+            # print('./content/...\n\n0. Options')
+            pass
+        # neither
+        else:
+            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
+            continue
+        if extra.readline('options.txt', 4) == '1':
+            # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
+            pass
+        elif extra.readline('options.txt', 4) == '0':
+            # print('./content/...\n\n0. Options')
+            pass
+        # neither
+        else:
+            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
+            continue
 
         folder_display = extra.readline('options.txt', 2)
         # if folder_display == '1': folder_display = True
