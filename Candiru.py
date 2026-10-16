@@ -10,6 +10,7 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             chapters = list()
             chapter_output = list()
             chapter_raw_output = list()
+            folders = list()
 
             for name in chapters_list:
                 # if folder_display == '1':
@@ -21,13 +22,13 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
                             folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
                             if folderTitle.strip() != "":
                                 chapter_output.append("\033[1m" + f'{folderTitle}\033[0m/' )
-                                chapter_raw_output.append(name)
+                                folders.append(name)
                             else:
                                 chapter_output.append("\033[1m" + f"{name}/")
-                                chapter_raw_output.append(name)
+                                folders.append(name)
                         else:
                             chapter_output.append("\033[1m" + f"{name}/")
-                            chapter_raw_output.append(name)
+                            folders.append(name)
 
                 elif folder_display == '3':
                     if os.path.isdir(f"./content/{folder}/{name}") and not name.startswith("."):
@@ -35,17 +36,18 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
                             folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
                             if folderTitle.strip() != "":
                                 chapter_output.append("\033[1m" + f'{folderTitle} \033[0m({name})' + "/")
-                                chapter_raw_output.append(name)
+                                folders.append(name)
                             else:
                                 chapter_output.append("\033[1m" + f"{name}/")
-                                chapter_raw_output.append(name)
+                                folders.append(name)
                         else:
                             chapter_output.append("\033[1m" + f"{name}/")
-                            chapter_raw_output.append(name)
+                            folders.append(name)
 
                 else:
                     if os.path.isdir(os.path.abspath('./content/' + folder + "/" + x)) and not x.startswith("."):
                         chapter_output.append(str(x) + "/")
+            chapter_raw_output += folders
 
             # chapter_output.sort()
             # chapter_raw_output.sort()
@@ -57,13 +59,19 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             chapters.sort()
             # chapter_list.sort()
             chapter_output = list()
+            # chapter_raw_output = list()
 
+            # this doesn't work if there are no child directories in the current directory
+            script_files = list()
             for x in chapters_list:
                 if x.endswith('.scri'):
-                    chapter_output.append(str(x))
-                    chapter_raw_output.append(str(x))
+                    script_files.append(str(x))
+                    # chapter_raw_output.append(str(x))
             chapter_output.sort()
             chapter_raw_output.sort()
+            script_files.sort()
+            chapter_raw_output += script_files
+            chapters += script_files
             for i in chapter_output:
                 chapters.append(i)
             for num, name in enumerate(chapter_raw_output):
@@ -102,12 +110,12 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             if chap_select == 0:
                 break
             if not chap_sel > chapter_last-1:
-                # try: 
+                # try:
                 path = os.path.abspath(
                     os.path.join('./content', folder, chapter_list[chapters[chap_sel]])
                     )
-                if os.path.isdir(path ):
-                    Candiru(sel, folder_last, folder + "/" + chapter_list[chapters[chap_sel]].removesuffix("/"), folders_pretty, folder_display, show_tags)
+                if os.path.isdir( path ):
+                    Candiru(sel, folder_last, os.path.join(folder, chapter_list[chapters[chap_sel]]), folders_pretty, folder_display, show_tags)
                 # except: print(f"Could not find key...")
                 else:
                     if not chapters[chap_sel].endswith(".scri"):

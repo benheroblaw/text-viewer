@@ -185,10 +185,37 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
 
                 # background colors
                 case "\udb00": # background white
-                    print(ansi_code("30;47"), end="")
+                    print(ansi_code("48;5;255"), end="")
 
                 case "\udb01": # background red
-                    print(ansi_code("30;41"), end="")
+                    print(ansi_code("48;5;196"), end="")
+
+                case "\udb02": # background blue
+                    print(ansi_code("48;5;20"), end="")
+
+                case "\udb03": # background green
+                    print(ansi_code("48;5;34"), end="")
+
+                case "\udb04": # background yellow
+                    print(ansi_code("48;5;220"), end="")
+
+                case "\udb05": # background pink
+                    print(ansi_code("48;5;206"), end="")
+
+                case "\udb06": # background cyan
+                    print(ansi_code("48;5;51"), end="")
+
+                case "\udb07": # background purple
+                    print(ansi_code("48;5;57"), end="")
+
+                case "\udb08": # background lime
+                    print(ansi_code("48;5;40"), end="")
+
+                case "\udb09": # background gray
+                    print(ansi_code("48;5;240"), end="")
+
+                case "\udb0a": # background black
+                    print(ansi_code("48;5;0"), end="")
 
                 # advanced formatting
                 case '\udff0': # italic start

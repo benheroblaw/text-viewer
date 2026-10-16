@@ -1,4 +1,5 @@
 v0.1 - when I started counting
-    made Candiru recursive
+    made Candiru/chapter viewer recursive
         when searching for scripts to display, Candiru now also searches for directories
-        if the directory name starts with a period (".") it will be skipped
+        if the directory name starts with a period (".") it will be skipped/ignored
+    working on defs and bg colors

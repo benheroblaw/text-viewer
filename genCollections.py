@@ -1,4 +1,4 @@
-import os
+import os, extra
 
 def readfile(file=""):
   """Reads a file."""
@@ -21,14 +21,17 @@ def generate(logging=False, debug=False):
   dirs_to_search = list()
   starting_dirs = list()
   for i in os.listdir(os.path.join(".", "content")):
-    starting_dirs.append(os.path.abspath(os.path.join(".", "content", i)))
+    if ".git" not in i and not i.endswith(".git"):
+      starting_dirs.append(os.path.abspath(os.path.join(".", "content", i)))
   for num, name in enumerate(starting_dirs):
-    # starting_dirs[num] = os.path.abspath(name)
+    if ".git" in name or name.endswith(".git"):
+      continue
     for path in os.scandir(name):
-      if path.is_dir():
+      if path.is_dir() and ".git" not in path.name and not path.name.endswith(".git"):
         dirs_to_search.append(os.path.abspath(path))
   for i in starting_dirs:
-    dirs_to_search.append(i)
+    if ".git" not in i and not i.endswith(".git"):
+      dirs_to_search.append(i)
   for path in dirs_to_search:
     for i in os.scandir(path):
       if i.is_dir():
@@ -66,17 +69,19 @@ def generate(logging=False, debug=False):
           os.chdir(extra_path)
 
   print('\nremoving broken links in folders:')
+  ignored = extra.readfile("extra/ignored").strip().splitlines()
   for path in dirs_to_search:
-    for i in os.scandir(path):
-      if i.is_dir():
-        print(" ", end="")
-        print(i.name)
-        # output = i.name.replace('\'', '\\\'')
-        output = i.name.replace('"', '\\"')
-        if os.name == "posix":
-          os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b\n" ""'.replace('//', '/').replace("\\\\", "\\"))
-        elif os.name == "nt":
-          os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/').replace("/", "\\"))
+    # for i in ignored:
+    if path not in ignored:
+      for i in os.scandir(path):
+        if i.is_dir() and i.name not in ignored:
+          print(" " + i.name)
+          # output = i.name.replace('\'', '\\\'')
+          output = i.name.replace('"', '\\"')
+          if os.name == "posix":
+            os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b\n" ""'.replace('//', '/').replace("\\\\", "\\"))
+          elif os.name == "nt":
+            os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/').replace("/", "\\"))
   print()
 
   print('\033[0;0;0m', end='')

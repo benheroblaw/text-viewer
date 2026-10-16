@@ -9,6 +9,15 @@ PUR>Purple
 LME>Lime
 BLK>Black
 BGWHI>Background White
+BGBLU>Background Blue
+BGRED>Background Red
+BGGRN>Background Green
+BGYLW>Background Yellow
+BGPNK>Background Pink
+BGCYN>Background Cyan
+BGPUR>Background Purple
+BGLME>Background Lime
+BGBLK>Background Black
 BGWHI>BLU>Background white with blue
 BGRED>BLK>BLD>Bold background red with black
 BLD>Bold
