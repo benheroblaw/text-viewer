@@ -12,7 +12,7 @@ def Taimen(file='', path=""):
   file_contents = [x for x in file_contents if x]
   imported = list()
   for num, i in enumerate(file_contents):
-    if i.startswith("IMPORT>"):
+    if i.startswith("IMPORT>") and "ESC>" not in i:
       # output = file.replace("")
       statement = i
       file_contents[num] = ""
@@ -84,6 +84,15 @@ def Taimen(file='', path=""):
               # background colors
               "BGWHI",
               "BGRED",
+              "BGBLU",
+              "BGGRN",
+              "BGYLW",
+              "BGPNK",
+              "BGCYN",
+              "BGPUR",
+              "BGLME",
+              "BGGRY",
+              "BGBLK",
               # light colors
               "LGRN",
               "LGRY",
@@ -150,68 +159,16 @@ def Taimen(file='', path=""):
             clear = 'before'
             i = i.replace('CLRB>', '', 1)
 
+          if "BR>" in i or "BREAK>" in i:
+            i = i.replace("BR>", "\uda00")
+            i = i.replace("BREAK>", "\uda00")
+
           # check for custom format cmds
           # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
           if formatNames != []:
             for num, name in enumerate(formatNames):
               if formatNames[num] in i:
                 i = i.replace(formatNames[num], formatDefs[num])
-
-          # check for portrait
-          if i.startswith('PORT('):
-            portrait = i[i.find('PORT(') + 5 : i.find(')')]
-            i = i.replace(f"PORT({portrait})", "", 1)
-            i = i.removeprefix(' ')
-          # or speed
-          elif i.startswith('SPD('):
-            try:
-              textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
-            except ValueError:
-              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
-              continue
-            i = i.replace(f"SPD({textSpeed})", "", 1)
-            i = i.replace(f"SPD({int(textSpeed)})", "", 1)
-          # or nameplate
-          elif i.startswith("NMPLT("):
-            nameplate = i[i.find('NMPLT(') + 6 : i.find(')')]
-            i = i.replace(f"NMPLT({nameplate})", '', 1)
-            i = i.removeprefix(' ')
-            if extra.readline("options.txt", 6) == "0":
-              nameplate = "<\\none/>"
-          # or indent
-          elif i.startswith("INDNT("):
-            try:
-              text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
-            except ValueError:
-              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
-              continue
-            i = i.replace(f"INDNT({text_indent})", '', 1)
-
-          # check for specified bold area
-          if 'BLD(' in i:
-            bold = i[i.find('BLD(') + 4 : i.find(')')]
-            i = i.replace(f"BLD({bold})", f"\udff2{bold}\udff3")
-          # bold the whole line
-          elif 'BLD>' in i:
-            i = i.replace('BOLD>', '')
-            i = "\udff2" + i + '\udff3'
-
-          # same as above
-          if 'BOLD(' in i:
-            bold = i[i.find('BOLD(') + 4 : i.find(')')]
-            i = i.replace(f"BOLD({bold})", f"\udff2{bold}\udff3")
-          elif 'BOLD>' in i:
-            i = i.replace('BOLD>', '')
-            i = "\udff2" + i + '\udff3'
-
-          # check for specified italic area
-          if 'ITAL(' in i:
-            italics = i[i.find('ITAL(') + 5 : i.find(')')]
-            i = i.replace(f"ITAL({italics})", f"\udff0{italics}\udff1")
-          # italicize the whole line
-          elif 'ITAL>' in i:
-            i = i.replace('ITAL>', '')
-            i = "\udff0" + i + '\udff1'
 
           # reset
           if 'RES>' in i:
@@ -252,6 +209,9 @@ def Taimen(file='', path=""):
 
           if "BGBLK>" in i:
             i = i.replace('BGBLK>', '\udb0a')
+
+          if "BGORN>" in i:
+            i = i.replace("ORN>", "\udb0b")
 
           # light colors
           if 'LGRN>' in i:
@@ -301,7 +261,68 @@ def Taimen(file='', path=""):
           if "BLK>" in i:
             i = i.replace('BLK>', '\ud80b')
 
-        # other text formatting
+          if "ORN>" in i:
+            i = i.replace("ORN>", "\ud80c")
+
+
+
+          # other text formatting
+
+          # check for specified bold area
+          if 'BLD(' in i:
+            bold = i[i.find('BLD(') + 4 : i.find(')')]
+            i = i.replace(f"BLD({bold})", f"\udff2{bold}\udff3")
+          # bold the whole line
+          elif 'BLD>' in i:
+            i = i.replace('BOLD>', '\udff2')
+            i = "" + i + '\udff3'
+
+          # same as above
+          if 'BOLD(' in i:
+            bold = i[i.find('BOLD(') + 5 : i.find(')')]
+            i = i.replace(f"BOLD({bold})", f"\udff2{bold}\udff3")
+          elif 'BOLD>' in i:
+            i = i.replace('BOLD>', '\udff2')
+            i = "" + i + '\udff3'
+
+          # check for specified italic area
+          if 'ITAL(' in i:
+            italics = i[i.find('ITAL(') + 5 : i.find(')')]
+            i = i.replace(f"ITAL({italics})", f"\udff0{italics}\udff1")
+          # italicize the whole line
+          elif 'ITAL>' in i:
+            i = i.replace('ITAL>', '\udff0')
+            i = "" + i + '\udff1'
+
+          # check for portrait
+          if i.startswith('PORT('):
+            portrait = i[i.find('PORT(') + 5 : i.find(')')]
+            i = i.replace(f"PORT({portrait})", "", 1)
+            i = i.removeprefix(' ')
+          # or speed
+          elif i.startswith('SPD('):
+            try:
+              textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
+            except ValueError:
+              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              continue
+            i = i.replace(f"SPD({textSpeed})", "", 1)
+            i = i.replace(f"SPD({int(textSpeed)})", "", 1)
+          # or nameplate
+          elif i.startswith("NMPLT("):
+            nameplate = i[i.find('NMPLT(') + 6 : i.find(')')]
+            i = i.replace(f"NMPLT({nameplate})", '', 1)
+            i = i.removeprefix(' ')
+            if extra.readline("options.txt", 6) == "0":
+              nameplate = "<\\none/>"
+          # or indent
+          elif i.startswith("INDNT("):
+            try:
+              text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
+            except ValueError:
+              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              continue
+            i = i.replace(f"INDNT({text_indent})", '', 1)
 
           # check all of that stuff again
           if 'SPD(' in i:
@@ -340,11 +361,18 @@ def Taimen(file='', path=""):
             i = i.replace('BOLD>', '')
             i = "\udff2" + i + '\udff3'
           if 'BOLD(' in i:
-            bold = i[i.find('BOLD(') + 4 : i.find(')')]
+            bold = i[i.find('BOLD(') + 5 : i.find(')')]
             i = i.replace(f"BOLD({bold})", f"\udff2{bold}\udff3")
           elif 'BOLD>' in i:
             i = i.replace('BOLD>', '')
             i = "\udff2" + i + '\udff3'
+
+          while 'BLD(' in i:
+            bold = i[i.find('BLD(') + 4 : i.find(')')]
+            i = i.replace(f"BLD({bold})", f"\udff2{bold}\udff3")
+          while 'BOLD(' in i:
+            bold = i[i.find('BOLD(') + 5 : i.find(')')]
+            i = i.replace(f"BOLD({bold})", f"\udff2{bold}\udff3")
 
           if 'ITAL(' in i:
             italics = i[i.find('ITAL(') + 5 : i.find(')')]
@@ -368,7 +396,10 @@ def Taimen(file='', path=""):
         # pass everything to text display
         if i.strip() != "":
           print(line_indent, end="")
-          text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
+          if i == "\uda00":
+            print('\n')
+          else:
+            text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
 
           print('\033[0m', end='')
 

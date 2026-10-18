@@ -111,6 +111,46 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                         print(ansi_code("30;41"), end="")
                         continue
 
+                    case "\udb02": # background blue
+                        print(ansi_code("48;5;20"), end="")
+                        continue
+
+                    case "\udb03": # background green
+                        print(ansi_code("48;5;34"), end="")
+                        continue
+
+                    case "\udb04": # background yellow
+                        print(ansi_code("48;5;220"), end="")
+                        continue
+
+                    case "\udb05": # background pink
+                        print(ansi_code("48;5;206"), end="")
+                        continue
+
+                    case "\udb06": # background cyan
+                        print(ansi_code("48;5;51"), end="")
+                        continue
+
+                    case "\udb07": # background purple
+                        print(ansi_code("48;5;57"), end="")
+                        continue
+
+                    case "\udb08": # background lime
+                        print(ansi_code("48;5;40"), end="")
+                        continue
+
+                    case "\udb09": # background gray
+                        print(ansi_code("48;5;240"), end="")
+                        continue
+
+                    case "\udb0a": # background black
+                        print(ansi_code("48;5;0"), end="")
+                        continue
+
+                    case "\udb0b": # background orange
+                        print(ansi_code("48;5;202"), end="")
+                        continue
+
                     # advanced formatting
                     case '\udff0': # italic start
                         print('\033[3m', end="")
@@ -183,6 +223,9 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                 case "\ud80b": # black
                     print("\033[38;5;0m", end="")
 
+                case "\ud80c":
+                    print(ansi_code("38;5;202"), end="")
+
                 # background colors
                 case "\udb00": # background white
                     print(ansi_code("48;5;255"), end="")
@@ -217,6 +260,9 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                 case "\udb0a": # background black
                     print(ansi_code("48;5;0"), end="")
 
+                case "\udb0b": # background orange
+                    print(ansi_code("48;5;202"), end="")
+
                 # advanced formatting
                 case '\udff0': # italic start
                     print('\x1B[3m', end="")
@@ -230,6 +276,11 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                 case '\udff3': # bold end
                     print('\x1B[22m', end="")
 
+                case "\uda00":
+                    print('\n')
+                    if msg == "\uda00":
+                        break
+
             # case '\udfe0': # input (wip)
             #     print('\x1B[0m', end="")
 
@@ -242,10 +293,10 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
         time.sleep(msgSpeed)
         if not cont:
             input()
-        elif nobr:
-            print(end="")
         elif cont and nobr:
             print()
+        elif nobr:
+            print(end="")
         else:
             print()
 

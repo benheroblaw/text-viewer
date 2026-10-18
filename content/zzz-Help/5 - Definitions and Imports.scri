@@ -1,0 +1,20 @@
+Function strings can be bound to a single name for later use.
+
+ESC>To use this feature, type "DEF>",
+
+then the name you want to use for your custom string,
+
+a comma (","),
+and the function strings you would like to apply.
+
+There can be an unlimited number of spaces between any of these parameters.
+
+CLRA>And if your custom string does not end with a greater-than sign (">"), one will be added for you.
+
+If you make a file with the extension .def or .defs, you can use BOLD(IMPORT) to import DEFs inside.
+
+BOLD(IMPORT) uses a file path, so if you have scripts inside a folder inside your main folder, the directory structure would be: "./folder1/folder2/".
+
+"../" will move up one directory, changing "./folder1/folder2/" to "./folder1/".
+
+"./" is the path to the current directory.
