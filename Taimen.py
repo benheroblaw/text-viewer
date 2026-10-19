@@ -1,13 +1,15 @@
 import text, extra
 
+def ansi_code(code=""):
+  return f"\033[{code}m"
+
 # text stuff
 
 def Taimen(file='', path=""):
   """Text display"""
 
-  def ansi_code(code=""):
-    return f"\033[{code}m"
 
+  # ooh-hoo-hoo we're doing imports :P
   file_contents = extra.readfile(file).splitlines()
   file_contents = [x for x in file_contents if x]
   imported = list()
@@ -73,7 +75,7 @@ def Taimen(file='', path=""):
           if "DEF>" in i:
             disallowedNames = [
               "DEF",
-              "ESC>",
+              "ESC",
               "CMT",
               "CONT",
               "CLRA",
@@ -124,22 +126,27 @@ def Taimen(file='', path=""):
             formatDef = i.replace("DEF>", '', 1)
             i = i.replace(f"DEF>{formatDef}", '')
             params = formatDef.split(',', 2)
+            # make sure the thing has a definition
             if params[0] == "":
-              print("\033[0;31m" + f"Error on line {num+1}: Missing name for definition" + ansi_code("0"))
+              print(ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + ansi_code("0"))
               print()
               break
+            # strip everything
             for num, x in enumerate(params):
               params[num] = params[num].strip()
+            # no redefining builtins.
             if params[0].upper().removesuffix(">") in disallowedNames:
-              print("\033[0;31m" + f"Error on line {num+1}: Cannot redefine builtin command \"{params[0].upper().removesuffix(">")}>\"" + "\033[0m")
+              print("\033[0;31m" + f"Error on line {num+1}: Cannot redefine built-in command \"{params[0].upper().removesuffix(">")}>\"" + "\033[0m")
               print()
               break
+            # add a greater-than sign in case you forgot :)
             if not params[0].endswith(">"):
               params[0] += '>'
             formatNames.insert(0, params[0])
+            # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
             except IndexError:
-              print('\033[0;31m' + f"error: No second argument in \"{params[0]}\"; did you miss a comma?" + ansi_code(0));
+              print('\033[0;31m' + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + ansi_code(0));
             # usingDefs = True
             continue
 

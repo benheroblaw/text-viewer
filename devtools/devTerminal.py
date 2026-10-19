@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import os, datetime, textwrap, traceback
+import os, datetime, textwrap, traceback, sys
+
+sys.path.append("./")
+import extra
 
 os.chdir(os.path.expanduser('~/.local/share/bhrobla/text-viewer-dev/devtools'))
 
@@ -61,7 +64,17 @@ def runCommands(command=''):
     os.system('cd ~/.local/share/bhrobla/text-viewer-dev; git add -A; git commit -m ' + str(date.strftime('%m')) + '/' + str(date.strftime('%d')) + '-' + str(date.strftime('%H')) + ':' + date.strftime('%M') + '; git push origin master')
 
   elif command == 'test' or command == 'viewer':
-    os.system("gnome-terminal -e 'bash -c \" python3 ~/.local/share/bhrobla/text-viewer-dev/ ;bash\"'")
+    os.system("gnome-terminal -e 'bash -c \" cd ~/.local/share/bhrobla/text-viewer-dev/; python3 ./ ;bash\"'")
+
+  elif command == "formatGitignore":
+    os.system("find * -type l >> ../.gitignore")
+    extra.rmdupes("../.gitignore")
+    gitignore = extra.readfile("../.gitignore")
+    gitignoreLines = gitignore.splitlines()
+    gitignoreLines.sort()
+    gitignoreLines.append("")
+    gitignore = '\n'.join(gitignoreLines)
+    extra.writefile("../.gitignore", gitignore)
 
   elif command == 'fullpush':
     print(dashes + '\ndev\n')
