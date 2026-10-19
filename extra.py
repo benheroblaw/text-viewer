@@ -12,7 +12,15 @@ os.system(clearCommand)
 print('extra: start load...')
 # print(os.curdir)
 
-textReset = '\033[0;0;0m'
+# ansi codes are a bitch
+def ansi_code(code=""):
+  """Returns the provided string as an ansi code."""
+  return f"\033[{code}m"
+def ansiCode(code=""):
+  """Returns the provided string as an ansi code."""
+  return f"\033[{code}m"
+
+textReset = ansi_code("0")
 
 # file management
 def createfile(file="", contents=""):
@@ -32,7 +40,7 @@ def writeline(file="", line=1, contents=""):
   Line starts at 1."""
   contents = str(contents)
   line -= 1
-  contents += "\n"
+  contents += '\n'
   with open(file) as f:
     data = f.readlines()
   # print(data)
@@ -57,7 +65,7 @@ def readline(file="", line=1):
   try:
     with open(file) as f:
       data = f.readlines()
-      return data[line].replace("\n", "")
+      return data[line].replace('\n', '')
   except: return "error"
 
 def getlines(file=""):
@@ -69,7 +77,7 @@ def newline(file=""):
   """nonfunctional :C
   It's supposed to add a line to the end of the file."""
   line = getlines(file) +1
-  contents = "\n"
+  contents = '\n'
   with open(file) as f:
     data = f.readlines()
   try: data[line] = contents
@@ -78,7 +86,7 @@ def newline(file=""):
     f.writelines(data)
 
 # terminal management
-def clear(force=''):
+def clear():
   """Clears the terminal."""
   os.system(clearCommand)
   print(textReset, end='')
@@ -89,7 +97,15 @@ def pos(x, y):
 def done(end=''):
   print('\033[0;32m done' + textReset + end)
 
+def rmdupes(inputFile):
+  inputFile = inputFile.removeprefix("'")
+  inputFile = inputFile.removesuffix("'")
+  outputFile = readfile(os.path.expanduser(inputFile)).splitlines()
+  outputFile = list(set(outputFile))
+  outputFile = "\n".join(outputFile)
+  writefile(inputFile, outputFile)
+
 # print('running extra.cmd')
 # exec(readfile('extra.cmd'))
 # os.system(clearCommand)
-print('extra: done loading!')
+print('extra: done loading!\n')

@@ -1,5 +1,23 @@
+v0.2 - a bunch of shit
+    added a background color for each color
+        it's as simple as changing the first part of the color code from "38" to "48"
+            this thing used to use the default terminal colors, but that's boring, so I switched it to a full 255 rgb.
+            (it doesn't allow you to use all of those yet) (fuck i got an idea)
+            the fun thing about that is: background colors use the exact same sequence!
+            the color codes are "38:5:{color}m"
+            background color codes are "48:5:{color}m"
+
+    added orange
+        that's it, i added the color orange
+        background and foreground
+
+    added defs? i think?
+        you can label a series of format codes with one name to use later
+        you can also make a .def or .defs file with a bunch of those for modularity :3
+
 v0.1 - when I started counting
     made Candiru/chapter viewer recursive
         when searching for scripts to display, Candiru now also searches for directories
         if the directory name starts with a period (".") it will be skipped/ignored
+
     working on defs and bg colors

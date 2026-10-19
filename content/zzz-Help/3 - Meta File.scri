@@ -1,0 +1,38 @@
+The meta.json file allows you to set authors, title, ratings, warnings, links, and credits.
+Schema is at https://benheroblaw.github.io/meta_schema.json
+
+NOBR>If you add "author": "your_name", it will display in the author section.
+If you instead write "authors" it will display 'Authors: {meta_authors}' rather than 'Author: {meta_author}'.
+
+NOBR>Add "rating": "your_rating" to set a rating.
+NOBR>Ratings are 0-3.
+0 = General Audiences, 1 = Teen, 2 = Explicit, 3 = Adult
+
+Add "links": "your_links" to set links to your pages.
+
+Add "warnings": "your_warnings" to set warnings.
+
+Add "credits": "your_credits" to set credits.
+
+Add "title": "your_title" to set the title.
+
+CLRB>A fully-filled-out meta.json would look like this:
+CONT>{
+CONT>  "author": "benheroblaw",
+CONT>  "title": "testing stuff",
+CONT>  "rating": 1,
+CONT>  "links": "https://benheroblaw.github.io",
+CONT>  "warnings": "swearing",
+CONT>  "credits": "benheroblaw for coding the whole thing"
+}
+
+And display as this:
+CONT>Title:    testing stuff
+CONT>Folder:   ./content/zzz-testing/
+CONT>Rating:   Teen
+CONT>Warnings: swearing
+CONT>Author:   benheroblaw
+CONT>Links:    https://benheroblaw.github.io
+CONT>Credits:  benheroblaw for coding the whole thing
+
+Next- function strings.

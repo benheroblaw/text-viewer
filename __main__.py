@@ -60,7 +60,7 @@ while __name__ == '__main__':
   if 'debug' in extra.readfile('options.txt'):
     debug = True
 
-  # debug: get the absolute cwd
+  # debug: print the absolute cwd
   if debug:
     print(f'current working directory: {os.path.abspath(".")}')
 
@@ -73,11 +73,14 @@ while __name__ == '__main__':
       print("chmodding chkdeps.bash...")
     os.system('chmod +x ./chkdeps.bash')
     if debug:
-      print("chmodded chkdeps!\n\nrunning chkdeps...")
+      print("chmodded chkdeps!\nrunning chkdeps...")
     os.system("./chkdeps.bash")
+    print("done with chkdeps")
     print()
 
   # update with git (system-dependent)
+  if debug:
+    print("updating with git...")
   if os.name == 'posix':
     os.system('printf "%b" "Updating... "; git pull origin ' + extra.readfile('./extra/origin'))
   elif os.name == "nt":
@@ -88,7 +91,7 @@ while __name__ == '__main__':
   # generate symlinks for collections
   genCollections.generate(debug, debug)
 
-  # barracuda
+  # pass to barracuda
   fish.Barracuda()
 
   # reload everything (doesn't work fully goddammit)

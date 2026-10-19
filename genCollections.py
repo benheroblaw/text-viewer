@@ -1,17 +1,12 @@
 import os, extra
 
-def readfile(file=""):
-  """Reads a file."""
-  with open(file) as f:
-    return f.read()
-
 def generate(logging=False, debug=False):
   ospath = ''
   if os.name == 'posix':
     ospath = '~/.local/share/bhrobla/'
   elif os.name == 'nt':
     ospath = '~/AppData/Local/bhrobla/'
-  extra_path = os.path.expanduser(ospath + readfile('extra/path').strip())
+  extra_path = os.path.expanduser(ospath + extra.readfile('extra/path').strip())
   print('\033[0;38;5;255m' + 'generating collections...')
   if debug:
     print('\033[0;32m' + 'debug mode!' + '\033[0;38;5;255m')
@@ -40,7 +35,7 @@ def generate(logging=False, debug=False):
           if logging:
             print(f'  {str(os.getcwd())}')
 
-          folders = readfile(".folders").splitlines()
+          folders = extra.readfile(".folders").splitlines()
           for number, folder in enumerate(folders):
             if folder.startswith('#'):
               if logging:

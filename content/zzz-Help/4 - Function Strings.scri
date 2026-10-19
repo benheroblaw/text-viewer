@@ -1,0 +1,30 @@
+NOBR>Function strings allow you to do neat things,
+BOLD>like bold your text...
+CLRB>Or clear the terminal.
+NOBR>Function strings use one to five characters followed by a greater than sign (>).
+They will be found and removed from anywhere in the line.
+CLRB>NOBR>Currently implemented:
+SPD(0) CLRA, CLRB, BOLD, RED, YLW, GRN, BLU, PNK, PUR, LBLU, LME, WHI, LGRY, GRY, DGRY, BLK, BGRED, BGYLW, BGGRN, BGBLU, BGPNK, BGPUR, BGLME, BGWHI, BGGRY, BGBLK, ITAL, CONT, NOBR, ESC, SPD, PORT, CMT, NMPLT
+
+CLRA and CLRB clear the terminal after/before the line is displayed.
+
+RED, YLW, GRN, BLU, PNK, PUR, LBLU, LME, WHI, LGRY, GRY, DGRY, and BLK change the text color.
+
+BGRED, BGYLW, BGGRN, BGBLU, BGPNK, BGPUR, BGLME, BGWHI, BGGRY, and BGBLK change the background color.
+
+CONT makes the text continue without waiting for input.
+NOBR removes the full line between text.
+SPD, ITAL, BOLD, PORT, and CMT use parentheses to extract a value.
+SPD allows you to set the speed of the text, using a number of seconds to wait after displaying each character.
+NOBR>CONT>It would be written like this:
+ ESC>SPD(0.1)
+NOBR>PORT will add a portrait before the text, like an RPG.
+PORT<:3>Like this!
+NOBR>ITAL allows you to italicize selections of text.
+ITAL(Like this!)
+NOBR>BOLD allows you to bold selections of text.
+BOLD(Like this!)
+Bold and italic can be combined into BOLD(ITAL(Bold Italics!))
+CMT is a comment; anything in this tag will be ignored.
+ESC makes the line ignore all of these neat functions.
+Next- Meta File
