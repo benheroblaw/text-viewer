@@ -6,6 +6,8 @@ v0.2.1 - random bug fixing
 
     fixed Candiru messing up the order of entries in the file select
 
+    made Mako consistently use slashes instead of backslashes on Windows
+
 v0.2 - a bunch of shit
     added a background color for each color
         it's as simple as changing the first part of the color code from "38" to "48"
