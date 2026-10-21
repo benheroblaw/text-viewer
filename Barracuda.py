@@ -18,21 +18,16 @@ def Barracuda():
 
         folder_last = len(folders)
 
-        folders_pretty = folders
+        folders_pretty = list(folders)
         for i, x in enumerate(folders_pretty):
-            # text.text(i)
             output = x
-            output = output.removeprefix('_')
+            if output.startswith("_"):
+                output = "." + output[1:]
             output = output.replace("_", ' ')
             output = output.replace('zzz-', '_')
-            # output = output[0].upper() + output[1:]
-            # folders_pretty[i] = x.replace('_', ' ')
             folders_pretty[i] = output
-            # print(i)
 
-        folders = os.listdir('./content')
         folders.sort()
-        # folders_pretty.sort()
 
         extra.clear()
         size = os.get_terminal_size()
@@ -85,32 +80,26 @@ def Barracuda():
 
         # sort tags
         if extra.readline('options.txt', 4) == '1':
-            # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
             pass
         # don't sort tags
         elif extra.readline('options.txt', 4) == '0':
-            # print('./content/...\n\n0. Options')
             pass
         # neither
         else:
             extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
             continue
-        
+
         if extra.readline('options.txt', 4) == '1':
-            # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
             pass
         elif extra.readline('options.txt', 4) == '0':
-            # print('./content/...\n\n0. Options')
             pass
         # neither
         else:
             extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
             continue
         if extra.readline('options.txt', 4) == '1':
-            # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
             pass
         elif extra.readline('options.txt', 4) == '0':
-            # print('./content/...\n\n0. Options')
             pass
         # neither
         else:
@@ -118,7 +107,6 @@ def Barracuda():
             continue
 
         folder_display = extra.readline('options.txt', 2)
-        # if folder_display == '1': folder_display = True
         show_tags = extra.readline('options.txt', 3)
 
         # pretty
@@ -130,9 +118,13 @@ def Barracuda():
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    folderTitle = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))["title"]
-                    if folderTitle.strip() != "":
-                        folderTitles.append(folderTitle + "/")
+                    metaJson = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))
+                    if "title" in metaJson:
+                        folderTitle = metaJson["title"]
+                        if folderTitle.strip() != "":
+                            folderTitles.append(folderTitle + "/")
+                        else:
+                            folderTitles.append(folders_pretty[num] + "/")
                     else:
                         folderTitles.append(folders_pretty[num] + "/")
                 else:
@@ -144,9 +136,13 @@ def Barracuda():
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    folderTitle = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))["title"]
-                    if folderTitle.strip() != "":
-                        folderTitles.append(folderTitle + "/")
+                    metaJson = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))
+                    if "title" in metaJson:
+                        folderTitle = metaJson["title"]
+                        if folderTitle.strip() != "":
+                            folderTitles.append(folderTitle + "/")
+                        else:
+                            folderTitles.append(folders_pretty[num] + "/")
                     else:
                         folderTitles.append(folders_pretty[num] + "/")
                 else:
@@ -180,4 +176,3 @@ def Barracuda():
 
         else:
             input('wtf')
-            pass

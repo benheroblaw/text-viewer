@@ -19,12 +19,17 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
                 if folder_display == '2':
                     if os.path.isdir(f"./content/{folder}/{name}") and not name.startswith("."):
                         if "meta.json" in os.listdir(f"./content/{folder}/{name}"):
-                            folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
-                            if folderTitle.strip() != "":
-                                chapter_output.append("\033[1m" + f'{folderTitle}\033[0m/' )
-                                folders.append(name)
+                            metaJson = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))
+                            if "title" in metaJson:
+                                folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
+                                if folderTitle.strip() != "":
+                                    chapter_output.append("\033[1m" + f'{folderTitle}\033[0m/' )
+                                    folders.append(name)
+                                else:
+                                    chapter_output.append("\033[1m" + f"{name}/")
+                                    folders.append(name)
                             else:
-                                chapter_output.append("\033[1m" + f"{name}/")
+                                chapter_output.append("\033[1m" + str(name) + "/" + extra.ansi_code("0"))
                                 folders.append(name)
                         else:
                             chapter_output.append("\033[1m" + f"{name}/")
@@ -33,27 +38,35 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
                 elif folder_display == '3':
                     if os.path.isdir(f"./content/{folder}/{name}") and not name.startswith("."):
                         if "meta.json" in os.listdir(f"./content/{folder}/{name}"):
-                            folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
-                            if folderTitle.strip() != "":
-                                chapter_output.append("\033[1m" + f'{folderTitle} \033[0m({name})' + "/")
-                                folders.append(name)
+                            metaJson = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))
+                            if "title" in metaJson:
+                                folderTitle = json.loads(extra.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
+                                if folderTitle.strip() != "":
+                                    chapter_output.append("\033[1m" + f'{folderTitle} \033[0m({name})' + "/")
+                                    folders.append(name)
+                                else:
+                                    chapter_output.append("\033[1m" + f"{name}/")
+                                    folders.append(name)
                             else:
-                                chapter_output.append("\033[1m" + f"{name}/")
+                                chapter_output.append("\033[1m" + str(name) + "/" + extra.ansi_code("0"))
                                 folders.append(name)
                         else:
                             chapter_output.append("\033[1m" + f"{name}/")
                             folders.append(name)
 
                 else:
-                    if os.path.isdir(os.path.abspath('./content/' + folder + "/" + x)) and not x.startswith("."):
-                        chapter_output.append(str(x) + "/")
+                    if os.path.isdir(os.path.abspath('./content/' + folder + "/" + name)) and not name.startswith("."):
+                        chapter_output.append("\033[1m" + str(name) + "/" + extra.ansi_code("0"))
+                        folders.append(name)
             chapter_raw_output += folders
 
-            # chapter_output.sort()
+            # chapter_output = list(dict(chapter_output))
+            # chapter_raw_output = list(dict(chapter_raw_output))
             # chapter_raw_output.sort()
 
-            for i in chapter_output:
-                chapters.append(i)
+            # for i in chapter_output:
+            #     chapters.append(i)
+            chapters += chapter_output
             for num, name in enumerate(chapter_raw_output):
                 chapter_list[chapters[num]] = name
             chapters.sort()
@@ -61,7 +74,6 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             chapter_output = list()
             # chapter_raw_output = list()
 
-            # this doesn't work if there are no child directories in the current directory
             script_files = list()
             for x in chapters_list:
                 if x.endswith('.scri'):
@@ -72,12 +84,8 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             script_files.sort()
             chapter_raw_output += script_files
             chapters += script_files
-            for i in chapter_output:
-                chapters.append(i)
-            for num, name in enumerate(chapter_raw_output):
-                chapter_list[chapters[num]] = name
-            # for num, name in enumerate(chapter_raw_output):
-            #     chapter_list[chapters[num]] = name
+            # for i in chapter_output:
+            #     chapters.append(i)
 
             chapters_pretty = list()
             for num, name in enumerate(chapters):

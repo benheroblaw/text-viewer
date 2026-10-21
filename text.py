@@ -23,7 +23,7 @@ alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"
 def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', nameplate="<\\none/>", nobr=False):
     """All-purpose text thing."""
     size = os.get_terminal_size()
-    msg = textwrap.fill(msg, size.columns, fix_sentence_endings=True, drop_whitespace=False)
+    msg = textwrap.fill(msg, size.columns, drop_whitespace=False)
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if clear == 'before':
@@ -104,11 +104,11 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
 
                     # background colors
                     case "\udb00": # background white
-                        print(ansi_code("0;30;47"), end="")
+                        print(ansi_code("48;5;255"), end="")
                         continue
 
                     case "\udb01": # background red
-                        print(ansi_code("30;41"), end="")
+                        print(ansi_code("48;5;196"), end="")
                         continue
 
                     case "\udb02": # background blue
@@ -281,8 +281,8 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     if msg == "\uda00":
                         break
 
-            # case '\udfe0': # input (wip)
-            #     print('\x1B[0m', end="")
+                # case '\udfe0': # input (wip)
+                #     print('\x1B[0m', end="")
 
                 case _:
                     print(i, end="", flush=True)
