@@ -75,10 +75,12 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
             # chapter_raw_output = list()
 
             script_files = list()
-            for x in chapters_list:
-                if x.endswith('.scri'):
-                    script_files.append(str(x))
-                    # chapter_raw_output.append(str(x))
+            for i in chapters_list:
+                if i.endswith('.scri'):
+                    script_files.append(str(i))
+            if len(script_files) > 0:
+                for num, name in enumerate(script_files):
+                    chapter_list[script_files[num]] = name
             chapter_output.sort()
             chapter_raw_output.sort()
             script_files.sort()

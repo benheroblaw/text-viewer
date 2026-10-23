@@ -18,7 +18,9 @@
 /content/Hilda_and_her_Mother/
 /content/New_folder
 /content/Violet's_Sexual_Shenanigans
+/content/_viewer-stories-repo
 /content/dokis
+/content/program-story
 /content/shantae
 /content/shantae/
 /content/shortstory/
@@ -26,6 +28,15 @@
 /content/story_of_a_cave/
 /content/untitled_folder
 /content/zzz-collection_generator
+/content/zzz-zzz-collection_generator/tests/colors_test.scri
+/content/zzz-zzz-collection_generator/tests/import_testing.scri
+/content/zzz-zzz-collection_generator/tests/indent_test.scri
+/content/zzz-zzz-collection_generator/tests/italics.scri
+/content/zzz-zzz-collection_generator/tests/linebreak.scri
+/content/zzz-zzz-collection_generator/tests/pause_test.scri
+/content/zzz-zzz-collection_generator/tests/portraits.scri
+/content/zzz-zzz-collection_generator/tests/speed.scri
+/content/zzz-zzz-collection_generator/tests/syntax_text.scri
 /installer.py
 /options.txt
 content/Untitled_Folder

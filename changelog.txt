@@ -1,6 +1,10 @@
+v0.2.2 - import adjustments
+    "IMPORT>" can now take multiple names!
+        separated with commas! (just like python!)
+
 v0.2.1 - random bug fixing
     fixed an oversight that would crash the viewer if there was a meta.json without a "title" key
-        this happened because I assumed that the meta.json would always have a "title" key in the code
+        this happened because I assumed that the meta.json would always have a "title" key
 
     fixed some crashes that might not have been in release :P
 
