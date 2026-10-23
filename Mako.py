@@ -10,7 +10,7 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
   output = output.replace('zzz-', '_')
   folder_pretty = output
 
-  candiru_folder = folder
+  candiru_folder = folder.replace("\\", "/")
 
   # new meta handling
   meta_author =   ''
@@ -21,13 +21,13 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
   meta_credits =  ''
   meta_title =    ''
   meta_desc =     ''
-  meta_tags =     []
-  meta_relationships = []
+  meta_tags =     list()
+  meta_ships =    list()
   meta_indent =   '           '
 
   while not "meta.json" in os.listdir('./content/' + folder):
     if os.path.abspath("./content/" + folder) == os.path.abspath("./content"):
-      print("\033[2m" + "No meta.json in ./content/" + folder.replace("/..", "") + "\033[0m")
+      print("\033[2m" + "No meta.json in ./content/" + folder.replace("\\", "/").replace("/..", "") + "\033[0m")
       break
     folder += "/.."
 
@@ -66,10 +66,10 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
         meta_tags = list(meta_json["tags".capitalize()])
 
       if 'relationships'.capitalize() in meta_json:
-        meta_relationships = list(meta_json["relationships".capitalize()])
+        meta_ships = list(meta_json["relationships".capitalize()])
 
       elif 'ships'.capitalize() in meta_json:
-        meta_relationships = list(meta_json["relationships".capitalize()])
+        meta_ships = list(meta_json["relationships".capitalize()])
 
       # not capitalized
       if 'authors' in meta_json:
@@ -100,10 +100,10 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
         meta_tags = list(meta_json["tags"])
 
       if 'relationships' in meta_json:
-        meta_relationships = list(meta_json["relationships"])
+        meta_ships = list(meta_json["relationships"])
 
       elif 'ships' in meta_json:
-        meta_relationships = list(meta_json["ships"])
+        meta_ships = list(meta_json["ships"])
 
 
       # print meta
@@ -144,15 +144,15 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
         size = os.get_terminal_size()
         print(textwrap.fill(meta_tags_display, size.columns - 8, subsequent_indent='        '))
         print("\033[m", end="")
-      if meta_relationships != [] and show_tags == '1':
+      if meta_ships != [] and show_tags == '1':
         print('Ships: ', end="\033[1m")
         if extra.readline('options.txt', 4) == '1':
-          meta_relationships.sort()
-        meta_relationships_display = str(meta_relationships).removeprefix('[')
-        meta_relationships_display = meta_relationships_display.removesuffix(']')
-        meta_relationships_display = meta_relationships_display.replace('\\\'', '\'')
+          meta_ships.sort()
+        meta_ships_display = str(meta_ships).removeprefix('[')
+        meta_ships_display = meta_ships_display.removesuffix(']')
+        meta_ships_display = meta_ships_display.replace('\\\'', '\'')
         size = os.get_terminal_size()
-        print(textwrap.fill(meta_relationships_display, size.columns - 8, subsequent_indent='        '))
+        print(textwrap.fill(meta_ships_display, size.columns - 8, subsequent_indent='        '))
         print(end="\033[m")
 
       if meta_authors != '' and meta_author == '':

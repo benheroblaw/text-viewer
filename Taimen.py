@@ -16,30 +16,31 @@ def Taimen(file='', path=""):
   for num, i in enumerate(file_contents):
     if i.startswith("IMPORT>") and "ESC>" not in i:
       # output = file.replace("")
-      statement = i
+      modules = i.replace("IMPORT>", "", 1).split(",")
       file_contents[num] = ""
-      if statement != "":
-        imported_raw = str()
-        try:
-          imported_raw = extra.readfile(path + "/" + statement.replace("IMPORT>", "", 1).strip() + ".defs")
-          for i in imported_raw.splitlines():
-            if i.startswith("DEF>"):
-              imported.append(i)
-          # break
-        except FileNotFoundError:
+      for statement in modules:
+        if statement != "":
+          imported_raw = str()
           try:
-            imported_raw = extra.readfile(path + "/" + statement.replace("IMPORT>", "", 1).strip() + ".def")
+            imported_raw = extra.readfile(path + "/" + statement.strip() + ".defs")
             for i in imported_raw.splitlines():
               if i.startswith("DEF>"):
                 imported.append(i)
+            # break
           except FileNotFoundError:
             try:
-              print('\033[0;31m' + f"Import {statement.replace("IMPORT>", "", 1).strip()} not found!" + "\033[0m")
-              line_indent = " " * int(extra.readline("options.txt", 5))
-              line_indent += " " * text_indent
-            except: line_indent = ""
-            input(f"\n{line_indent}Return > ")
-            return
+              imported_raw = extra.readfile(path + "/" + statement.strip() + ".def")
+              for i in imported_raw.splitlines():
+                if i.startswith("DEF>"):
+                  imported.append(i)
+            except FileNotFoundError:
+              try:
+                print('\033[0;31m' + f"Import {statement.strip()} not found!" + "\033[0m")
+                line_indent = " " * int(extra.readline("options.txt", 5))
+                line_indent += " " * text_indent
+              except: line_indent = ""
+              input(f"\n{line_indent}Return > ")
+              return
   file_contents = imported + file_contents
   file_contents = [x for x in file_contents if x]
 
@@ -218,7 +219,7 @@ def Taimen(file='', path=""):
             i = i.replace('BGBLK>', '\udb0a')
 
           if "BGORN>" in i:
-            i = i.replace("ORN>", "\udb0b")
+            i = i.replace("BGORN>", "\udb0b")
 
           # light colors
           if 'LGRN>' in i:
@@ -417,7 +418,9 @@ def Taimen(file='', path=""):
     except: line_indent = ""
 
     # let the user know the script is done
-    input(f"{line_indent}Return > ")
+    endInput = input(f"{line_indent}Return > ")
     extra.clear()
+    if endInput == "replay":
+      Taimen(file, path)
 
   except KeyboardInterrupt: pass
