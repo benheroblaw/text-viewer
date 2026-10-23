@@ -1,7 +1,7 @@
-import os, time, threading, textwrap, extra
+import os, time, threading, textwrap, averylib
 
 def clear():
-    extra.clear()
+    averylib.clear()
 def readline(file="", line=1):
     """Reads one line of a file"""
     line -= 1
@@ -27,7 +27,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if clear == 'before':
-        extra.clear()
+        averylib.clear()
     # noinput(msg, msgSpeed)
     # cursor.show()
     if msg != "":
@@ -310,7 +310,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
             print()
 
         if clear == 'after':
-            extra.clear()
+            averylib.clear()
 
 # def formatt(i=""):
 
@@ -318,7 +318,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
 def clearAfter(msg="", speed=0.1, cont=False):
     """Prints out text and waits for input, then clears the terminal."""
     noclear(msg, speed, cont)
-    extra.clear()
+    averylib.clear()
 
 def clearBefore(msg='', speed=0.1, cont=False):
     """Clears the terminal, then shows text"""

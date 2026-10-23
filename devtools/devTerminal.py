@@ -2,7 +2,7 @@
 import os, datetime, textwrap, traceback, sys
 
 sys.path.append("./")
-import extra
+import averylib
 
 os.chdir(os.path.expanduser('~/.local/share/bhrobla/text-viewer-dev/devtools'))
 
@@ -68,13 +68,13 @@ def runCommands(command=''):
 
   elif command == "formatGitignore":
     os.system("find * -type l >> ../.gitignore")
-    extra.rmdupes("../.gitignore")
-    gitignore = extra.readfile("../.gitignore")
+    averylib.rmdupes("../.gitignore")
+    gitignore = averylib.readfile("../.gitignore")
     gitignoreLines = gitignore.splitlines()
     gitignoreLines.sort()
     gitignoreLines.append("")
     gitignore = '\n'.join(gitignoreLines)
-    extra.writefile("../.gitignore", gitignore)
+    averylib.writefile("../.gitignore", gitignore)
 
   elif command == 'fullpush':
     print(dashes + '\ndev\n')

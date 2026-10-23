@@ -14,11 +14,11 @@ print('extra: start load...')
 
 # ansi codes are a bitch
 def ansi_code(code=""):
-  """Returns the provided string as an ansi code."""
+  """Returns the provided string, formatted as an ansi code."""
   return f"\033[{code}m"
-def ansiCode(code=""):
-  """Returns the provided string as an ansi code."""
-  return f"\033[{code}m"
+# def ansiCode(code=""):
+#   """Returns the provided string, formatted as an ansi code."""
+#   return f"\033[{code}m"
 
 textReset = ansi_code("0")
 
@@ -105,7 +105,7 @@ def rmdupes(inputFile):
   outputFile = "\n".join(outputFile)
   writefile(inputFile, outputFile)
 
-# print('running extra.cmd')
-# exec(readfile('extra.cmd'))
+# print('running averylib.cmd')
+# exec(readfile('averylib.cmd'))
 # os.system(clearCommand)
 print('extra: done loading!\n')

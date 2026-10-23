@@ -1,4 +1,4 @@
-import os, extra
+import os, averylib
 
 def generate(logging=False, debug=False):
   ospath = ''
@@ -6,7 +6,7 @@ def generate(logging=False, debug=False):
     ospath = '~/.local/share/bhrobla/'
   elif os.name == 'nt':
     ospath = '~/AppData/Local/bhrobla/'
-  extra_path = os.path.expanduser(ospath + extra.readfile('extra/path').strip())
+  extra_path = os.path.expanduser(ospath + averylib.readfile('extra/path').strip())
   print('\033[0;38;5;255m' + 'generating collections...')
   if debug:
     print('\033[0;32m' + 'debug mode!' + '\033[0;38;5;255m')
@@ -35,7 +35,7 @@ def generate(logging=False, debug=False):
           if logging:
             print(f'  {str(os.getcwd())}')
 
-          folders = extra.readfile(".folders").splitlines()
+          folders = averylib.readfile(".folders").splitlines()
           for number, folder in enumerate(folders):
             if folder.startswith('#'):
               if logging:
@@ -64,7 +64,7 @@ def generate(logging=False, debug=False):
           os.chdir(extra_path)
 
   print('\nremoving broken links in folders:')
-  ignored = extra.readfile("extra/ignored").strip().splitlines()
+  ignored = averylib.readfile("extra/ignored").strip().splitlines()
   for path in dirs_to_search:
     # for i in ignored:
     if path not in ignored:
