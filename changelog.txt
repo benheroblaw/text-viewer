@@ -1,3 +1,6 @@
+v0.3 - averylib
+    updated everything to averylib (i renamed extra)
+
 v0.2.2 - import adjustments
     "IMPORT>" can now take multiple names!
         separated with commas! (just like python!)
