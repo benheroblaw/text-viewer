@@ -44,7 +44,6 @@ try: averylib.createfile('options.txt', "\
   0\n\
   1\n\
   "
-  .strip()
 )
 except FileExistsError: print('options.txt exists, continuing...')
 
@@ -73,9 +72,9 @@ while __name__ == '__main__':
       print("chmodding chkdeps.bash...")
     os.system('chmod +x ./chkdeps.bash')
     if debug:
-      print("chmodded chkdeps!\nrunning chkdeps...")
+      print("chmodded chkdeps!")
+      print()
     os.system("./chkdeps.bash")
-    print("done with chkdeps")
     print()
 
   # update with git (system-dependent)

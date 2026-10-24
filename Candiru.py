@@ -105,7 +105,7 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
 			# print all the meta stuff
 			fish.Mako(folder, sel, folders_pretty, folder_display, show_tags)
 
-			print('\n0. ' + averylib.ansi_code("38;5;255;1") + 'Back' + averylib.ansi_code("0"))
+			print(averylib.ansi_code("0;38;5;255;1") + '\n0. ' + 'Back' + averylib.ansi_code("0"))
 			for i, x in enumerate(chapters):
 				print(str(i+1) + '. ' + str(chapters_pretty[i]) + averylib.ansi_code("0")) #'Chapter ' + str(i+1) + ': ' +
 			try: chap_select = input('\n> ')

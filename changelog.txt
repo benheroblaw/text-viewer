@@ -1,3 +1,10 @@
+v0.3.1 - small changing
+    little tweaks
+
+    still working on allowing ansi codes!
+        i think the best plan is to make ANSI() print a start character and a stop character.
+        how would i remove it from the message tho?
+
 v0.3 - averylib
     updated everything to averylib (i renamed extra)
 

@@ -172,6 +172,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
 
             print(f'{ansi_code("0")}): ', end='')
 
+        ansi_storage = str()
         for i in msg:
             match i:
                 case'\ud7fc': # reset
@@ -284,12 +285,14 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                 # case '\udfe0': # input (wip)
                 #     print('\x1B[0m', end="")
 
+                # add ANSI() start and stop characters
+
                 case _:
                     print(i, end="", flush=True)
                     time.sleep(msgSpeed)
 
 
-        print("\033[0m", end="")
+        averylib.PrintAnsiCode(averylib.textReset)
         time.sleep(msgSpeed)
         if not cont:
             input()

@@ -63,7 +63,7 @@ def Barracuda():
         else:
             averylib.writefile('options.txt', averylib.readline('options.txt', 1) + '\n1')
             continue
-        print("\n0. " + "\033[1m" + "Settings" + "\033[0m")
+        print(averylib.AnsiCode("0;1") + "\n0. Settings" + averylib.AnsiCode("0"))
 
         # show tags
         if averylib.readline('options.txt', 3) == '1':
@@ -112,7 +112,7 @@ def Barracuda():
         # pretty
         if folder_display == '1':
             for i, x in enumerate(folders):
-                print(str(i+1) + '. ' + "\033[1m" + folders_pretty[i] + "\033[0m")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folders_pretty[i] + averylib.AnsiCode("0"))
         # meta.json titles
         elif folder_display == '2':
             folderTitles = []
@@ -130,7 +130,7 @@ def Barracuda():
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0"))
         # meta.json titles with folder names
         elif folder_display == '3':
             folderTitles = []
@@ -148,11 +148,11 @@ def Barracuda():
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m" + f" ({folders[i]})")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0") + f" ({folders[i]})")
         # raw
         else:
             for i, x in enumerate(folders):
-                print(str(i+1) + "\033[1m" + '. .../' + folders[i] + "\033[0m")
+                print(str(i+1) + averylib.AnsiCode("1") + '. .../' + folders[i] + averylib.AnsiCode("0"))
 
         try: selection = input('\n> ')
         except KeyboardInterrupt: break

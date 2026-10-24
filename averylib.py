@@ -3,71 +3,82 @@ import os, time, random, sys, json
 
 clearCommand = ""
 if os.name == "posix":
-	clearCommand = "clear"
+  clearCommand = "clear"
 elif os.name == "nt":
-	clearCommand = "cls"
+  clearCommand = "cls"
 
 os.system(clearCommand)
 print("averylib: start load...")
 
 # ansi codes are a bitch
 def ansi_code(code=""):
-	"""Returns the provided string, formatted as an ansi code."""
-	return f"\033[{code}m"
+  """Returns the provided string, formatted as an ansi code."""
+  code = code.replace("\033[", "").replace("m", "")
+  return f"\033[{code}m"
+def AnsiCode(code=""):
+  """Returns the provided string, formatted as an ansi code."""
+  return ansi_code(code)
+
+def print_ansi_code(code="", end=""):
+  """Prints the string, formatted as an ansi code."""
+  print(ansi_code(code), end=end)
+def PrintAnsiCode(code="", end=""):
+  """Prints the string, formatted as an ansi code."""
+  print_ansi_code(code, end)
 
 textReset = ansi_code("0")
 
 # file management
 def createfile(file="", contents=""):
-	"""Creates a file, errors if the file exists."""
-	with open(file, "x") as f:
-		f.write(contents)
+  """Creates a file, errors if the file exists."""
+  with open(file, "x") as f:
+    f.write(contents)
 
 def terminalName(name):
-	print("\33]0;"+name+"\a", end="", flush=True)
+  print("\33]0;"+name+"\a", end="", flush=True)
 
 def writefile(file="", contents=""):
-	"""Overwrites a file."""
-	with open(file, "w") as f:
-		f.write(contents)
+  """Overwrites a file."""
+  with open(file, "w") as f:
+    f.write(contents)
 def writeline(file="", line=1, contents=""):
-	"""Writes a line to a file.
-	Line starts at 1."""
-	contents = str(contents)
-	line -= 1
-	contents += "\n"
-	with open(file) as f:
-		data = f.readlines()
-	# print(data)
-	try: data[line] = contents
-	except: print("failed to write to " + file); return ResourceWarning
-	with open(file, "w") as f:
-		f.writelines(data)
+  """Writes a line to a file.
+  Line starts at 1."""
+  contents = str(contents)
+  line -= 1
+  contents += "\n"
+  with open(file) as f:
+    data = f.readlines()
+  # print(data)
+  try: data[line] = contents
+  except: print("failed to write to " + file); return ResourceWarning
+  with open(file, "w") as f:
+    f.writelines(data)
 def writeJSON(json, file_name):
-	if not file_name.endswith(".json"):
-		file_name += ".json"
-	with open(file_name, "w", encoding="utf-8") as f:
-			json.dump(json, f, ensure_ascii=False, indent=4)
+  if not file_name.endswith(".json"):
+    file_name += ".json"
+  with open(file_name, "w", encoding="utf-8") as f:
+      json.dump(json, f, ensure_ascii=False, indent=4)
 
 def readfile(file=""):
-	"""Reads a file."""
-	with open(file) as f:
-		return f.read()
+  """Reads a file."""
+  with open(file) as f:
+    return f.read()
 def readline(file="", line=1):
-	"""Reads a line from a file.
-	Lines start at 1."""
-	line -= 1
-	try:
-		with open(file) as f:
-			data = f.readlines()
-			return data[line].replace('\n', '')
-	except: return "error"
+  """Reads a line from a file.
+  Lines start at 1."""
+  line -= 1
+  try:
+    with open(file) as f:
+      data = f.readlines()
+      return data[line].replace('\n', '')
+  except: return "error"
 
 def getlines(file=""):
-	"""Returns the number of lines in a file."""
-	with open(file) as f:
-		data = f.readlines()
-		return len(data)
+  """Returns the number of lines in a file."""
+  with open(file) as f:
+    data = f.readlines()
+    return len(data)
 def newline(file=""):
   """nonfunctional :C
   It"s supposed to add a line to the end of the file."""
@@ -99,7 +110,7 @@ def rmdupes(inputFile):
   inputFile = inputFile.removesuffix("'")
   outputFile = readfile(os.path.expanduser(inputFile)).splitlines()
   outputFile = list(set(outputFile))
-  outputFile = "\n".join(outputFile)
+  outputFile = '\n'.join(outputFile)
   writefile(inputFile, outputFile)
 
 
@@ -107,4 +118,5 @@ if os.path.exists("./averylib.cmd"):
   print("running averylib.cmd")
   exec(readfile("averylib.cmd"))
   clear()
-print("averylib: done loading!\n")
+
+print('averylib: done loading!\n')
