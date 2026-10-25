@@ -19,7 +19,8 @@ def Taimen(file='', path=""):
 
 
   # ooh-hoo-hoo we're doing imports :D
-  file_contents = averylib.readfile(file).splitlines()
+  try: file_contents = averylib.readfile(file).splitlines()
+  except FileNotFoundError: return
   # this line removes empty entries \/
   file_contents = [x for x in file_contents if x]
   imported = list()
@@ -60,10 +61,13 @@ def Taimen(file='', path=""):
     # format everything
     for num, i in enumerate(file_contents):
       if 'CMT>' in i:
-        continue
+        comment = i[i.find('CMT>'):]
+        i = i.replace(comment, "")
+        i = i.removeprefix(' ')
+        i = i.removesuffix(' ')
       if 'CMT<' in i:
-        comment = i[i.find('CMT<')+4 : i.find('>')]
-        i = i.replace(f"CMT<{comment}>", "")
+        comment = i[i.find('CMT<') : i.find('>')+1]
+        i = i.replace(comment, "")
         i = i.removeprefix(' ')
 
       nobr = False
@@ -149,8 +153,10 @@ def Taimen(file='', path=""):
               print()
               break
             # add a greater-than sign in case you forgot :)
-            if not params[0].endswith(">"):
+            if not params[0].endswith(">") and not params[0].endswith(":"):
               params[0] += '>'
+            if params[0].endswith(":") and not params[0].endswith(": "):
+              params[0] += " "
             formatNames.insert(0, params[0])
             # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
@@ -158,6 +164,13 @@ def Taimen(file='', path=""):
               print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code(0));
             # usingDefs = True
             continue
+
+          # check for custom format cmds
+          # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
+          if formatNames != []:
+            for num, name in enumerate(formatNames):
+              if formatNames[num] in i:
+                i = i.replace(formatNames[num], formatDefs[num])
 
           if "CONT>" in i:
             continue_text = True
@@ -178,13 +191,6 @@ def Taimen(file='', path=""):
           if "BR>" in i or "BREAK>" in i:
             i = i.replace("BR>", "\uda00")
             i = i.replace("BREAK>", "\uda00")
-
-          # check for custom format cmds
-          # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
-          if formatNames != []:
-            for num, name in enumerate(formatNames):
-              if formatNames[num] in i:
-                i = i.replace(formatNames[num], formatDefs[num])
 
           # reset
           if 'RES>' in i:
@@ -315,6 +321,10 @@ def Taimen(file='', path=""):
             portrait = i[i.find('PORT(') + 5 : i.find(')')]
             i = i.replace(f"PORT({portrait})", "", 1)
             i = i.removeprefix(' ')
+          # or ansi code
+          elif i.startswith("ANSI("):
+            ansi = i[i.find('ANSI(') + 5 : i.find(')')]
+            i = i.replace(f"ANSI({ansi})", f"\udc00{ansi}\udc01")
           # or speed
           elif i.startswith('SPD('):
             try:
@@ -349,6 +359,10 @@ def Taimen(file='', path=""):
               continue
             i = i.replace(f"SPD({textSpeed})", '', 1)
             i = i.replace(f"SPD({int(textSpeed)})", "", 1)
+
+          if i.startswith("ANSI("):
+            ansi = i[i.find('ANSI(') + 5 : i.find(')')]
+            i = i.replace(f"ANSI({ansi})", f"\udc00{ansi}\udc01")
 
           if 'PORT(' in i:
             portrait = i[i.find('PORT(') + 5 : i.find(')')]
@@ -405,11 +419,10 @@ def Taimen(file='', path=""):
 
         # pass everything to text display
         if i.strip() != "":
-          print(line_indent, end="")
           if i == "\uda00":
             print('\n')
           else:
-            text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
+            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
 
           print(averylib.AnsiCode("0"), end='')
 

@@ -35,11 +35,13 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
             print(f'({portrait}) ', end='')
         elif nameplate != '<\\none/>':
             print("(", end="")
-            for i in nameplate:
+            list_nameplate = list(nameplate)
+            ansi_storage = str()
+            for numb, i in enumerate(list_nameplate):
                 match i:
                     case'\ud7fc': # reset
                         print('\033[m', end='')
-                        nameplate = nameplate.replace("\ud7fc", "", 1)
+                        continue
 
                     # colors
                     case '\ud7fd': # red
@@ -168,12 +170,28 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                         print('\x1B[22m', end="")
                         continue
 
+                    # ANSI() start and stop characters
+                    case "\udc00":
+                        ansi_storage = nameplate[nameplate.find("\udc00")+1 : nameplate.find('\udc01')]
+                        averylib.PrintAnsiCode(ansi_storage)
+                        for numb, name in enumerate(list_nameplate):
+                            if numb < num: continue
+                            else:
+                                if name == "\udc01": list_nameplate[numb] = ""; break
+                                else: list_nameplate[numb] = ""
+
+                        ansi_storage = str()
+
+                    case "":
+                        continue
+
                 print(i, end="")
 
             print(f'{ansi_code("0")}): ', end='')
 
         ansi_storage = str()
-        for i in msg:
+        list_msg = list(msg)
+        for num, i in enumerate(list_msg):
             match i:
                 case'\ud7fc': # reset
                     print('\033[0m', end='')
@@ -278,14 +296,29 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     print('\x1B[22m', end="")
 
                 case "\uda00":
-                    print('\n')
+                    if not nobr: print('\n')
+                    else: print()
                     if msg == "\uda00":
                         break
 
                 # case '\udfe0': # input (wip)
                 #     print('\x1B[0m', end="")
 
-                # add ANSI() start and stop characters
+                # ANSI() start and stop characters
+                case "\udc00":
+                    ansi_storage = msg[msg.find("\udc00")+1 : msg.find('\udc01')]
+                    averylib.PrintAnsiCode(ansi_storage)
+                    for numb, name in enumerate(list_msg):
+                        if numb < num: continue
+                        else:
+                            if name == "\udc01": list_msg[numb] = ""; break
+                            else: list_msg[numb] = ""
+
+                    msg = msg.replace(f"\udc00{ansi_storage}\udc01", f"{'\udc02' * (len(ansi_storage) + 2)}")
+                    ansi_storage = str()
+
+                case "":
+                    continue
 
                 case _:
                     print(i, end="", flush=True)
