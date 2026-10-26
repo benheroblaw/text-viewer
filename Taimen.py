@@ -17,12 +17,18 @@ def GetLineIndent(text_indent=0):
 def Taimen(file='', path=""):
   """Text display"""
 
+  skipWhitespace = True
 
   # ooh-hoo-hoo we're doing imports :D
   try: file_contents = averylib.readfile(file).splitlines()
   except FileNotFoundError: return
   # this line removes empty entries \/
   file_contents = [x for x in file_contents if x]
+  if "SKIP_WHITESPACE>FALSE" in file_contents:
+    skipWhitespace = False
+    for num, name in enumerate(file_contents):
+      if name == "SKIP_WHITESPACE>FALSE":
+        file_contents[num] = ""
   imported = list()
   for num, i in enumerate(file_contents):
     if i.startswith("IMPORT>") and "ESC>" not in i:
@@ -72,6 +78,7 @@ def Taimen(file='', path=""):
 
       # set up some variables
       nobr = False
+      if skipWhitespace: nobr = True
       continue_text = False
       clear = 'none'
       portrait, nameplate = '<\\none/>', '<\\none/>'
@@ -100,6 +107,7 @@ def Taimen(file='', path=""):
               "SPD",
               "NMPLT",
               "INDNT",
+              "NOBR",
               # reset
               "RES",
               "RESET",
@@ -423,7 +431,7 @@ def Taimen(file='', path=""):
           if i == "\uda00":
             print('\n')
           else:
-            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
+            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr, skipWhitespace)
 
           print(averylib.AnsiCode("0"), end='')
 
