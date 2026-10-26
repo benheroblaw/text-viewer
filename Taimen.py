@@ -70,6 +70,7 @@ def Taimen(file='', path=""):
         i = i.replace(comment, "")
         i = i.removeprefix(' ')
 
+      # set up some variables
       nobr = False
       continue_text = False
       clear = 'none'
@@ -91,6 +92,14 @@ def Taimen(file='', path=""):
               "CLRA",
               "CLRB",
               "ANSI",
+              "BLD",
+              "BOLD",
+              "ITAL",
+              "PORT",
+              "IMPORT",
+              "SPD",
+              "NMPLT",
+              "INDNT",
               # reset
               "RES",
               "RESET",
@@ -126,14 +135,6 @@ def Taimen(file='', path=""):
               "BLK",
               "ORN",
               # other stuff
-              "BLD",
-              "BOLD",
-              "ITAL",
-              "PORT",
-              "IMPORT",
-              "SPD",
-              "NMPLT",
-              "INDNT",
             ]
 
             formatDef = i.replace("DEF>", '', 1)

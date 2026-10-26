@@ -1,3 +1,5 @@
-ANSI(0;31)Ansi code: 0;31
-RED>Red
-ANSI(0;35)Ansi code: 0;35
+DEF> BGAQU>, ANSI()
+
+ANSI(38;5;20)Ansi code: 38;5;20
+
+NMPLT(ANSI(38;5;30)Nameplate)

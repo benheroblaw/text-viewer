@@ -1,3 +1,9 @@
+v0.4 - ansi codes!
+    finally got ansi codes working!
+        now you can use any of the 255 available colors in terminals!
+        (and every other ansi code)
+        notably: they do not work in nameplates yet. im workin on it
+
 v0.3.1 - small changing
     little tweaks
 
