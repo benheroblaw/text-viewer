@@ -12,7 +12,7 @@ v0.3.1 - small changing
         how would i remove it from the message tho?
 
 v0.3 - averylib
-    updated everything to averylib (i renamed extra)
+    updated everything to averylib (i renamed extra :P)
 
 v0.2.2 - import adjustments
     "IMPORT>" can now take multiple names!
