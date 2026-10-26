@@ -1,19 +1,19 @@
 import os, averylib
 
-# settings
+# Options
 
 def Sixgill():
-  """Settings"""
+  """Options"""
   while True:
     averylib.clear()
     size = os.get_terminal_size()
-    print("Settings")
+    print("Options")
     print("\ndist: ", end="")
     if "portable" in os.listdir("extra/"): print("portable")
     else: print("base")
-    print("\n0. Back\n1. Update\n2. Default Text Speed\n3. Folder Display\n4. Default Indent\n5. Show Tags (experimental)\n6. Show nameplates")
+    print("\n0. Back\n1. Update\n2. Creation Tools (in progress)\n3. Default Text Speed\n4. Folder Display\n5. Default Indent\n6. Show Tags (experimental)\n7. Show nameplates")
     if averylib.readline("options.txt", 3) != "0":
-      print("7. Sort Tags (experimental)")
+      print("8. Sort Tags (experimental)")
     try: opt_sel = input("\n> ")
     except KeyboardInterrupt: break
     try:
@@ -34,9 +34,40 @@ def Sixgill():
       os.system("printf '%b' 'updating... '; git pull origin release")
       input("Restart to finish updating\n> ")
 
-    # text speed
     elif opt_sel == 2:
-      print("Settings\n\nCurrent speed: " + averylib.readline("options.txt", 1))
+      print("Options")
+      print()
+      print("Creation Tools")
+      print()
+      print("1. Create story")
+      print("2. meta.json Template")
+
+      try: creation_sel = input("\n> ")
+      except KeyboardInterrupt: break
+
+      try:
+        creation_sel = int(creation_sel)
+        # selection = int(selection)
+        averylib.clear()
+      except ValueError:
+        input("Input a number\n> ")
+        averylib.clear()
+        continue
+
+      if creation_sel == 2:
+        averylib.clear()
+        print("Where would you like to create the meta.json?")
+
+        meta_location = input("\n> ")
+        
+        os.makedirs(os.path.abspath(meta_location))
+
+        try: averylib.createfile(os.path.abspath(meta_location) + "meta.json")
+        except FileExistsError: print(f"meta.json exists in {os.path.abspath(meta_location)}!")
+
+    # text speed
+    elif opt_sel == 3:
+      print("Options\n\nCurrent speed: " + averylib.readline("options.txt", 1))
       print("New speed (in seconds):")
       try: speed = input("\n> ")
       except KeyboardInterrupt: continue
@@ -51,10 +82,10 @@ def Sixgill():
       input("succeeded! > ")
 
     # set folder display
-    elif opt_sel == 3:
+    elif opt_sel == 4:
       while True:
         averylib.clear()
-        print("Settings\n\nDisplaying: ", end="")
+        print("Options\n\nDisplaying: ", end="")
         if averylib.readline("options.txt", 2) == "0":
           print("raw")
         elif averylib.readline("options.txt", 2) == "1":
@@ -96,10 +127,10 @@ def Sixgill():
         else: continue
 
     # set indent
-    elif opt_sel == 4:
+    elif opt_sel == 5:
       while True:
         averylib.clear()
-        print(f"Settings\n\nIndent before text: {averylib.readline("options.txt", 5)}")
+        print(f"Options\n\nIndent before text: {averylib.readline("options.txt", 5)}")
         print("New indent:\n")
         try: new_indent = input("> ")
         except KeyboardInterrupt: break
@@ -114,10 +145,10 @@ def Sixgill():
         break
 
     # show tags
-    elif opt_sel == 5:
+    elif opt_sel == 6:
       while True:
         averylib.clear()
-        print("Settings\n\nShowing tags: ", end="")
+        print("Options\n\nShowing tags: ", end="")
         if averylib.readline("options.txt", 3) == "0":
           print("false")
         else:
@@ -143,10 +174,10 @@ def Sixgill():
           continue
 
     # show nameplates
-    elif opt_sel == 6:
+    elif opt_sel == 7:
       while True:
         averylib.clear()
-        print("Settings\n\nWARNING: Writers may not have characters introduce themselves.\n\nShowing nameplates: ".strip(), end="")
+        print("Options\n\nWARNING: Writers may not have characters introduce themselves.\n\nShowing nameplates: ".strip(), end="")
         if averylib.readline("options.txt", 6) == "0":
           print("false")
         else:
@@ -172,10 +203,10 @@ def Sixgill():
           continue
 
     # sort tags
-    elif opt_sel == 7:
+    elif opt_sel == 8:
       while True:
         averylib.clear()
-        print("Settings\n\nSorting tags: ", end="")
+        print("Options\n\nSorting tags: ", end="")
         if averylib.readline("options.txt", 4) == "0":
           print("false")
         else:

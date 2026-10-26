@@ -1,4 +1,4 @@
-import os, textwrap, fish, averylib, json, importlib, time
+import os, textwrap, fish, averylib, json, importlib
 importlib.reload(fish)
 
 # folder selector
@@ -63,7 +63,7 @@ def Barracuda():
         else:
             averylib.writefile('options.txt', averylib.readline('options.txt', 1) + '\n1')
             continue
-        print(averylib.AnsiCode("0;1") + "\n0. Settings" + averylib.AnsiCode("0"))
+        print(averylib.AnsiCode("0;1") + "\n0. Options" + averylib.AnsiCode("0"))
 
         # show tags
         if averylib.readline('options.txt', 3) == '1':

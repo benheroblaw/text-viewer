@@ -113,6 +113,8 @@ def rmdupes(inputFile):
   outputFile = '\n'.join(outputFile)
   writefile(inputFile, outputFile)
 
+Signed32BitIntegerLimit = 2147483647
+
 
 if os.path.exists("./averylib.cmd"):
   print("running averylib.cmd")
