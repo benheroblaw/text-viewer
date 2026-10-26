@@ -35,8 +35,8 @@ if 'portable' not in os.listdir('extra/'):
     os.makedirs(terminalPath)
   os.chdir(terminalPath)
 
-import extra
-try: extra.createfile('options.txt', "\
+import averylib
+try: averylib.createfile('options.txt', "\
   0.025\n\
   2\n\
   1\n\
@@ -44,7 +44,6 @@ try: extra.createfile('options.txt', "\
   0\n\
   1\n\
   "
-  .strip()
 )
 except FileExistsError: print('options.txt exists, continuing...')
 
@@ -57,7 +56,7 @@ import fish, importlib, genCollections
 while __name__ == '__main__':
   # are we in debug mode?
   debug = False
-  if 'debug' in extra.readfile('options.txt'):
+  if 'debug' in averylib.readfile('options.txt'):
     debug = True
 
   # debug: print the absolute cwd
@@ -73,19 +72,19 @@ while __name__ == '__main__':
       print("chmodding chkdeps.bash...")
     os.system('chmod +x ./chkdeps.bash')
     if debug:
-      print("chmodded chkdeps!\nrunning chkdeps...")
+      print("chmodded chkdeps!")
+      print()
     os.system("./chkdeps.bash")
-    print("done with chkdeps")
     print()
 
   # update with git (system-dependent)
   if debug:
     print("updating with git...")
   if os.name == 'posix':
-    os.system('printf "%b" "Updating... "; git pull origin ' + extra.readfile('./extra/origin'))
+    os.system('printf "%b" "Updating... "; git pull origin ' + averylib.readfile('./extra/origin'))
   elif os.name == "nt":
     print("Updating...")
-    os.system("git pull origin " + extra.readfile('./extra/origin'))
+    os.system("git pull origin " + averylib.readfile('./extra/origin'))
   print()
 
   # generate symlinks for collections
@@ -96,7 +95,7 @@ while __name__ == '__main__':
 
   # reload everything (doesn't work fully goddammit)
   print('\33]0;loading... please wait :3\a', end='')
-  extra.clear()
+  averylib.clear()
   print('reloading viewer...')
   importlib.reload(fish)
   print('reloaded!\n')

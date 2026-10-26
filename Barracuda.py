@@ -1,4 +1,4 @@
-import os, textwrap, fish, extra, json, importlib, time
+import os, textwrap, fish, averylib, json, importlib, time
 importlib.reload(fish)
 
 # folder selector
@@ -29,11 +29,11 @@ def Barracuda():
 
         folders.sort()
 
-        extra.clear()
+        averylib.clear()
         size = os.get_terminal_size()
 
         # raw
-        if extra.readline('options.txt', 2) == '1':
+        if averylib.readline('options.txt', 2) == '1':
             output = str(folders)
             output = output.removeprefix('[')
             output = output.removesuffix(']')
@@ -41,10 +41,10 @@ def Barracuda():
             print('Folders in ./content: ')
             print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
         # pretty
-        elif extra.readline('options.txt', 2) == '0':
+        elif averylib.readline('options.txt', 2) == '0':
             print('./content/...')
         # use meta.json titles
-        elif extra.readline('options.txt', 2) == '2':
+        elif averylib.readline('options.txt', 2) == '2':
             output = str(folders)
             output = output.removeprefix('[')
             output = output.removesuffix(']')
@@ -52,7 +52,7 @@ def Barracuda():
             print('Folders in ./content: ')
             print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
         # use meta.json titles and folder names
-        elif extra.readline('options.txt', 2) == '3':
+        elif averylib.readline('options.txt', 2) == '3':
             output = str(folders)
             output = output.removeprefix('[')
             output = output.removesuffix(']')
@@ -61,64 +61,64 @@ def Barracuda():
             print(textwrap.fill(str(output), size.columns, break_on_hyphens=False, subsequent_indent=files_indent, initial_indent=' '))
         # neither
         else:
-            extra.writefile('options.txt', extra.readline('options.txt', 1) + '\n1')
+            averylib.writefile('options.txt', averylib.readline('options.txt', 1) + '\n1')
             continue
-        print("\n0. " + "\033[1m" + "Settings" + "\033[0m")
+        print(averylib.AnsiCode("0;1") + "\n0. Settings" + averylib.AnsiCode("0"))
 
         # show tags
-        if extra.readline('options.txt', 3) == '1':
+        if averylib.readline('options.txt', 3) == '1':
             # print(textwrap.fill('Folders in ./content: ' + str(folders), size.columns, break_on_hyphens=False) + '\n\n0. Options')
             pass
         # don't show tags
-        elif extra.readline('options.txt', 3) == '0':
+        elif averylib.readline('options.txt', 3) == '0':
             # print('./content/...\n\n0. Options')
             pass
         # neither
         else:
-            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n0')
+            averylib.writefile('options.txt', f'{averylib.readline('options.txt', 1)}\n{averylib.readline('options.txt', 2)}\n0')
             continue
 
         # sort tags
-        if extra.readline('options.txt', 4) == '1':
+        if averylib.readline('options.txt', 4) == '1':
             pass
         # don't sort tags
-        elif extra.readline('options.txt', 4) == '0':
+        elif averylib.readline('options.txt', 4) == '0':
             pass
         # neither
         else:
-            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
+            averylib.writefile('options.txt', f'{averylib.readline('options.txt', 1)}\n{averylib.readline('options.txt', 2)}\n{averylib.readline('options.txt', 3)}\n0')
             continue
 
-        if extra.readline('options.txt', 4) == '1':
+        if averylib.readline('options.txt', 4) == '1':
             pass
-        elif extra.readline('options.txt', 4) == '0':
+        elif averylib.readline('options.txt', 4) == '0':
             pass
         # neither
         else:
-            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
+            averylib.writefile('options.txt', f'{averylib.readline('options.txt', 1)}\n{averylib.readline('options.txt', 2)}\n{averylib.readline('options.txt', 3)}\n0')
             continue
-        if extra.readline('options.txt', 4) == '1':
+        if averylib.readline('options.txt', 4) == '1':
             pass
-        elif extra.readline('options.txt', 4) == '0':
+        elif averylib.readline('options.txt', 4) == '0':
             pass
         # neither
         else:
-            extra.writefile('options.txt', f'{extra.readline('options.txt', 1)}\n{extra.readline('options.txt', 2)}\n{extra.readline('options.txt', 3)}\n0')
+            averylib.writefile('options.txt', f'{averylib.readline('options.txt', 1)}\n{averylib.readline('options.txt', 2)}\n{averylib.readline('options.txt', 3)}\n0')
             continue
 
-        folder_display = extra.readline('options.txt', 2)
-        show_tags = extra.readline('options.txt', 3)
+        folder_display = averylib.readline('options.txt', 2)
+        show_tags = averylib.readline('options.txt', 3)
 
         # pretty
         if folder_display == '1':
             for i, x in enumerate(folders):
-                print(str(i+1) + '. ' + "\033[1m" + folders_pretty[i] + "\033[0m")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folders_pretty[i] + averylib.AnsiCode("0"))
         # meta.json titles
         elif folder_display == '2':
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    metaJson = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))
+                    metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
                     if "title" in metaJson:
                         folderTitle = metaJson["title"]
                         if folderTitle.strip() != "":
@@ -130,13 +130,13 @@ def Barracuda():
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0"))
         # meta.json titles with folder names
         elif folder_display == '3':
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    metaJson = json.loads(extra.readfile(f'./content/{folders[num]}/meta.json'))
+                    metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
                     if "title" in metaJson:
                         folderTitle = metaJson["title"]
                         if folderTitle.strip() != "":
@@ -148,11 +148,11 @@ def Barracuda():
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + "\033[1m" + folderTitles[i] + "\033[0m" + f" ({folders[i]})")
+                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0") + f" ({folders[i]})")
         # raw
         else:
             for i, x in enumerate(folders):
-                print(str(i+1) + "\033[1m" + '. .../' + folders[i] + "\033[0m")
+                print(str(i+1) + averylib.AnsiCode("1") + '. .../' + folders[i] + averylib.AnsiCode("0"))
 
         try: selection = input('\n> ')
         except KeyboardInterrupt: break
@@ -161,7 +161,7 @@ def Barracuda():
             if sel == -1:
                 sel = folder_last +1
             selection = int(selection)
-            extra.clear()
+            averylib.clear()
         except ValueError:
             print("Input a number")
             continue

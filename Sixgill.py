@@ -1,28 +1,28 @@
-import os, extra
+import os, averylib
 
 # settings
 
 def Sixgill():
   """Settings"""
   while True:
-    extra.clear()
+    averylib.clear()
     size = os.get_terminal_size()
     print("Settings")
     print("\ndist: ", end="")
     if "portable" in os.listdir("extra/"): print("portable")
     else: print("base")
     print("\n0. Back\n1. Update\n2. Default Text Speed\n3. Folder Display\n4. Default Indent\n5. Show Tags (experimental)\n6. Show nameplates")
-    if extra.readline("options.txt", 3) != "0":
+    if averylib.readline("options.txt", 3) != "0":
       print("7. Sort Tags (experimental)")
     try: opt_sel = input("\n> ")
     except KeyboardInterrupt: break
     try:
       opt_sel = int(opt_sel)
       # selection = int(selection)
-      extra.clear()
+      averylib.clear()
     except ValueError:
       input("Input a number\n> ")
-      extra.clear()
+      averylib.clear()
       continue
 
     # cancel
@@ -36,7 +36,7 @@ def Sixgill():
 
     # text speed
     elif opt_sel == 2:
-      print("Settings\n\nCurrent speed: " + extra.readline("options.txt", 1))
+      print("Settings\n\nCurrent speed: " + averylib.readline("options.txt", 1))
       print("New speed (in seconds):")
       try: speed = input("\n> ")
       except KeyboardInterrupt: continue
@@ -46,22 +46,22 @@ def Sixgill():
       except ValueError:
         input("Input a number\n> ")
         continue
-      extra.writeline("options.txt", 1, speed)
+      averylib.writeline("options.txt", 1, speed)
       # text.speed = float(speed)
       input("succeeded! > ")
 
     # set folder display
     elif opt_sel == 3:
       while True:
-        extra.clear()
+        averylib.clear()
         print("Settings\n\nDisplaying: ", end="")
-        if extra.readline("options.txt", 2) == "0":
+        if averylib.readline("options.txt", 2) == "0":
           print("raw")
-        elif extra.readline("options.txt", 2) == "1":
+        elif averylib.readline("options.txt", 2) == "1":
           print("formatted folder names")
-        elif extra.readline("options.txt", 2) == "2":
+        elif averylib.readline("options.txt", 2) == "2":
           print("defined titles")
-        elif extra.readline("options.txt", 2) == "3":
+        elif averylib.readline("options.txt", 2) == "3":
           print("defined titles with folder names")
         print("Display as:\n\n1. Defined Titles\n2. Defined Titles with Folder Names\n3. Formatted\n4. Raw\n")
         try: file_display = input("> ")
@@ -75,22 +75,22 @@ def Sixgill():
 
         # defined titles
         if file_display == 1:
-          extra.writeline("options.txt", 2, "2")
+          averylib.writeline("options.txt", 2, "2")
           input("succeeded! > ")
           break
         # defined titles with folder names
         elif file_display == 2:
-          extra.writeline("options.txt", 2, "3")
+          averylib.writeline("options.txt", 2, "3")
           input("succeeded! > ")
           break
         # formatted
         elif file_display == 3:
-          extra.writeline("options.txt", 2, "1")
+          averylib.writeline("options.txt", 2, "1")
           input("succeeded! > ")
           break
         # raw
         elif file_display == 4:
-          extra.writeline("options.txt", 2, "0")
+          averylib.writeline("options.txt", 2, "0")
           input("succeeded! > ")
           break
         else: continue
@@ -98,8 +98,8 @@ def Sixgill():
     # set indent
     elif opt_sel == 4:
       while True:
-        extra.clear()
-        print(f"Settings\n\nIndent before text: {extra.readline("options.txt", 5)}")
+        averylib.clear()
+        print(f"Settings\n\nIndent before text: {averylib.readline("options.txt", 5)}")
         print("New indent:\n")
         try: new_indent = input("> ")
         except KeyboardInterrupt: break
@@ -109,16 +109,16 @@ def Sixgill():
         except ValueError:
           input("Input a number\n> ")
           continue
-        extra.writeline("options.txt", 5, new_indent)
+        averylib.writeline("options.txt", 5, new_indent)
         input("succeeded! > ")
         break
 
     # show tags
     elif opt_sel == 5:
       while True:
-        extra.clear()
+        averylib.clear()
         print("Settings\n\nShowing tags: ", end="")
-        if extra.readline("options.txt", 3) == "0":
+        if averylib.readline("options.txt", 3) == "0":
           print("false")
         else:
           print("true")
@@ -132,11 +132,11 @@ def Sixgill():
         except ValueError: continue
 
         if tags_shown == 1:
-          extra.writeline("options.txt", 3, 0)
+          averylib.writeline("options.txt", 3, 0)
           input("succeeded! > ")
           break
         elif tags_shown == 2:
-          extra.writeline("options.txt", 3, 1)
+          averylib.writeline("options.txt", 3, 1)
           input("succeeded! > ")
           break
         else:
@@ -145,9 +145,9 @@ def Sixgill():
     # show nameplates
     elif opt_sel == 6:
       while True:
-        extra.clear()
+        averylib.clear()
         print("Settings\n\nWARNING: Writers may not have characters introduce themselves.\n\nShowing nameplates: ".strip(), end="")
-        if extra.readline("options.txt", 6) == "0":
+        if averylib.readline("options.txt", 6) == "0":
           print("false")
         else:
           print("true")
@@ -161,11 +161,11 @@ def Sixgill():
         except ValueError: continue
 
         if nameplates == 1:
-          extra.writeline("options.txt", 6, "1")
+          averylib.writeline("options.txt", 6, "1")
           input("succeeded! > ")
           break
         elif nameplates == 2:
-          extra.writeline("options.txt", 6, "0")
+          averylib.writeline("options.txt", 6, "0")
           input("succeeded! > ")
           break
         else:
@@ -174,9 +174,9 @@ def Sixgill():
     # sort tags
     elif opt_sel == 7:
       while True:
-        extra.clear()
+        averylib.clear()
         print("Settings\n\nSorting tags: ", end="")
-        if extra.readline("options.txt", 4) == "0":
+        if averylib.readline("options.txt", 4) == "0":
           print("false")
         else:
           print("true")
@@ -190,11 +190,11 @@ def Sixgill():
         except ValueError: continue
 
         if tags_shown == 1:
-          extra.writeline("options.txt", 4, "0")
+          averylib.writeline("options.txt", 4, "0")
           input("succeeded! > ")
           break
         elif tags_shown == 2:
-          extra.writeline("options.txt", 4, "1")
+          averylib.writeline("options.txt", 4, "1")
           input("succeeded! > ")
           break
         else:

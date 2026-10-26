@@ -1,4 +1,4 @@
-import os, extra
+import os, averylib
 
 def generate(logging=False, debug=False):
   ospath = ''
@@ -6,10 +6,10 @@ def generate(logging=False, debug=False):
     ospath = '~/.local/share/bhrobla/'
   elif os.name == 'nt':
     ospath = '~/AppData/Local/bhrobla/'
-  extra_path = os.path.expanduser(ospath + extra.readfile('extra/path').strip())
-  print('\033[0;38;5;255m' + 'generating collections...')
+  extra_path = os.path.expanduser(ospath + averylib.readfile('extra/path').strip())
+  print(averylib.AnsiCode('0;38;5;255') + 'generating collections...')
   if debug:
-    print('\033[0;32m' + 'debug mode!' + '\033[0;38;5;255m')
+    print(averylib.AnsiCode('0;32;1') + 'debug mode!' + averylib.AnsiCode('0;38;5;255'))
   print()
   if logging:
     print(f'first directory: {str(os.getcwd())}\n\nfolders with .folders:')
@@ -35,7 +35,7 @@ def generate(logging=False, debug=False):
           if logging:
             print(f'  {str(os.getcwd())}')
 
-          folders = extra.readfile(".folders").splitlines()
+          folders = averylib.readfile(".folders").splitlines()
           for number, folder in enumerate(folders):
             if folder.startswith('#'):
               if logging:
@@ -49,10 +49,11 @@ def generate(logging=False, debug=False):
                   if direct.endswith('.scri'):
                     # direct = direct.replace("'", "\\'")
                     if logging:
-                      print(f'  {direct}')
+                      print(f'\r  {direct}')
                     if os.name == "posix":
                       # print(f"{folder}/{str(direct)}")
-                      os.system(f'printf "%b" "   "; ln -s -f -v "{folder}/{str(direct)}"')
+                      os.system(f'printf "%b" "\r   "; ln -s -f "{folder}/{str(direct)}"')
+                      print("\r" + averylib.AnsiCode("0;32") + "   linked!" + averylib.AnsiCode("38;5;255"))
                     elif os.name == "nt":
                       command = f"mklink {folder.replace("/", "\\")}\\{str(direct)} {os.path.abspath(".")}\\"
                       # print(os.path.abspath("."))
@@ -64,7 +65,7 @@ def generate(logging=False, debug=False):
           os.chdir(extra_path)
 
   print('\nremoving broken links in folders:')
-  ignored = extra.readfile("extra/ignored").strip().splitlines()
+  ignored = averylib.readfile("extra/ignored").strip().splitlines()
   for path in dirs_to_search:
     # for i in ignored:
     if path not in ignored:
@@ -74,12 +75,12 @@ def generate(logging=False, debug=False):
           # output = i.name.replace('\'', '\\\'')
           output = i.name.replace('"', '\\"')
           if os.name == "posix":
-            os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b\n" ""'.replace('//', '/').replace("\\\\", "\\"))
+            os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b" ""'.replace('//', '/').replace("\\\\", "\\"))
           elif os.name == "nt":
             os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/').replace("/", "\\"))
   print()
 
-  print('\033[0;0;0m', end='')
+  averylib.PrintAnsiCode("0")
 
   if debug:
     input('done, waiting for input: ')

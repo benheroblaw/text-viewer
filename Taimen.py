@@ -1,7 +1,16 @@
-import text, extra
+import text, averylib
 
-def ansi_code(code=""):
-  return f"\033[{code}m"
+def GetLineIndent(text_indent=0):
+  """Finds and prints the indent"""
+
+  # just in case
+  line_indent = ""
+
+  try:
+    line_indent = " " * int(averylib.readline("options.txt", 5))
+    line_indent += " " * text_indent
+  except: line_indent = ""
+  print(line_indent, end="")
 
 # text stuff
 
@@ -9,78 +18,88 @@ def Taimen(file='', path=""):
   """Text display"""
 
 
-  # ooh-hoo-hoo we're doing imports :P
-  file_contents = extra.readfile(file).splitlines()
+  # ooh-hoo-hoo we're doing imports :D
+  try: file_contents = averylib.readfile(file).splitlines()
+  except FileNotFoundError: return
+  # this line removes empty entries \/
   file_contents = [x for x in file_contents if x]
   imported = list()
   for num, i in enumerate(file_contents):
     if i.startswith("IMPORT>") and "ESC>" not in i:
-      # output = file.replace("")
       modules = i.replace("IMPORT>", "", 1).split(",")
       file_contents[num] = ""
       for statement in modules:
         if statement != "":
           imported_raw = str()
+          # look for a .defs file
           try:
-            imported_raw = extra.readfile(path + "/" + statement.strip() + ".defs")
+            imported_raw = averylib.readfile(path + "/" + statement.strip() + ".defs")
             for i in imported_raw.splitlines():
               if i.startswith("DEF>"):
                 imported.append(i)
-            # break
+          # look for a .def file
           except FileNotFoundError:
             try:
-              imported_raw = extra.readfile(path + "/" + statement.strip() + ".def")
+              imported_raw = averylib.readfile(path + "/" + statement.strip() + ".def")
               for i in imported_raw.splitlines():
                 if i.startswith("DEF>"):
                   imported.append(i)
+            # well shit :P
             except FileNotFoundError:
-              try:
-                print('\033[0;31m' + f"Import {statement.strip()} not found!" + "\033[0m")
-                line_indent = " " * int(extra.readline("options.txt", 5))
-                line_indent += " " * text_indent
-              except: line_indent = ""
-              input(f"\n{line_indent}Return > ")
+              print(averylib.AnsiCode("0;31") + f"Import \"{statement.strip()}\" not found!" + averylib.AnsiCode("0"))
+              print()
+              GetLineIndent(); input("Return > ")
               return
   file_contents = imported + file_contents
   file_contents = [x for x in file_contents if x]
 
   try:
-    formatNames = []
-    formatDefs = []
-
-    # if not file.endswith(".scri"):
-    #   file += ".scri"
+    formatNames = list()
+    formatDefs = list()
+    text_indent = 0
 
     # format everything
     for num, i in enumerate(file_contents):
       if 'CMT>' in i:
-        continue
+        comment = i[i.find('CMT>'):]
+        i = i.replace(comment, "")
+        i = i.removeprefix(' ')
+        i = i.removesuffix(' ')
       if 'CMT<' in i:
-        comment = i[i.find('CMT<')+4 : i.find('>')]
-        i = i.replace(f"CMT<{comment}>", "")
+        comment = i[i.find('CMT<') : i.find('>')+1]
+        i = i.replace(comment, "")
         i = i.removeprefix(' ')
 
+      # set up some variables
       nobr = False
       continue_text = False
       clear = 'none'
       portrait, nameplate = '<\\none/>', '<\\none/>'
-      # usingDefs = False
-      text_indent = 0
 
       if i != '':
-        textSpeed = float(extra.readline("options.txt", 1).replace("text-speed = ", ""))
+        textSpeed = float(averylib.readline("options.txt", 1).replace("text-speed = ", ""))
 
         if 'ESC>' not in i:
 
           # adding definitions for strings of format commands
           if "DEF>" in i:
-            disallowedNames = [
+            disallowed_names = [
+              # functions
               "DEF",
               "ESC",
               "CMT",
               "CONT",
               "CLRA",
               "CLRB",
+              "ANSI",
+              "BLD",
+              "BOLD",
+              "ITAL",
+              "PORT",
+              "IMPORT",
+              "SPD",
+              "NMPLT",
+              "INDNT",
               # reset
               "RES",
               "RESET",
@@ -96,6 +115,7 @@ def Taimen(file='', path=""):
               "BGLME",
               "BGGRY",
               "BGBLK",
+              "BGORN",
               # light colors
               "LGRN",
               "LGRY",
@@ -113,15 +133,8 @@ def Taimen(file='', path=""):
               "LME",
               "GRY",
               "BLK",
+              "ORN",
               # other stuff
-              "BLD",
-              "BOLD",
-              "ITAL",
-              "PORT",
-              "IMPORT",
-              "SPD",
-              "NMPLT",
-              "INDNT",
             ]
 
             formatDef = i.replace("DEF>", '', 1)
@@ -129,27 +142,36 @@ def Taimen(file='', path=""):
             params = formatDef.split(',', 2)
             # make sure the thing has a definition
             if params[0] == "":
-              print(ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + ansi_code("0"))
+              print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
               print()
               break
             # strip everything
             for num, x in enumerate(params):
               params[num] = params[num].strip()
             # no redefining builtins.
-            if params[0].upper().removesuffix(">") in disallowedNames:
-              print("\033[0;31m" + f"Error on line {num+1}: Cannot redefine built-in command \"{params[0].upper().removesuffix(">")}>\"" + "\033[0m")
+            if params[0].upper().removesuffix(">") in disallowed_names:
+              print(averylib.AnsiCode("0;31") + f"Error on line {num+1}: Cannot redefine built-in command \"{params[0].upper().removesuffix(">")}>\"" + averylib.AnsiCode("0"))
               print()
               break
             # add a greater-than sign in case you forgot :)
-            if not params[0].endswith(">"):
+            if not params[0].endswith(">") and not params[0].endswith(":"):
               params[0] += '>'
+            if params[0].endswith(":") and not params[0].endswith(": "):
+              params[0] += " "
             formatNames.insert(0, params[0])
             # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
             except IndexError:
-              print('\033[0;31m' + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + ansi_code(0));
+              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code(0));
             # usingDefs = True
             continue
+
+          # check for custom format cmds
+          # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
+          if formatNames != []:
+            for num, name in enumerate(formatNames):
+              if formatNames[num] in i:
+                i = i.replace(formatNames[num], formatDefs[num])
 
           if "CONT>" in i:
             continue_text = True
@@ -170,13 +192,6 @@ def Taimen(file='', path=""):
           if "BR>" in i or "BREAK>" in i:
             i = i.replace("BR>", "\uda00")
             i = i.replace("BREAK>", "\uda00")
-
-          # check for custom format cmds
-          # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
-          if formatNames != []:
-            for num, name in enumerate(formatNames):
-              if formatNames[num] in i:
-                i = i.replace(formatNames[num], formatDefs[num])
 
           # reset
           if 'RES>' in i:
@@ -307,12 +322,16 @@ def Taimen(file='', path=""):
             portrait = i[i.find('PORT(') + 5 : i.find(')')]
             i = i.replace(f"PORT({portrait})", "", 1)
             i = i.removeprefix(' ')
+          # or ansi code
+          elif i.startswith("ANSI("):
+            ansi = i[i.find('ANSI(') + 5 : i.find(')')]
+            i = i.replace(f"ANSI({ansi})", f"\udc00{ansi}\udc01")
           # or speed
           elif i.startswith('SPD('):
             try:
               textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              print(averylib.AnsiCode("0;31") + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + averylib.AnsiCode("0"));
               continue
             i = i.replace(f"SPD({textSpeed})", "", 1)
             i = i.replace(f"SPD({int(textSpeed)})", "", 1)
@@ -321,14 +340,14 @@ def Taimen(file='', path=""):
             nameplate = i[i.find('NMPLT(') + 6 : i.find(')')]
             i = i.replace(f"NMPLT({nameplate})", '', 1)
             i = i.removeprefix(' ')
-            if extra.readline("options.txt", 6) == "0":
+            if averylib.readline("options.txt", 6) == "0":
               nameplate = "<\\none/>"
           # or indent
           elif i.startswith("INDNT("):
             try:
               text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              print(averylib.AnsiCode("0;31") + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + averylib.AnsiCode("0"));
               continue
             i = i.replace(f"INDNT({text_indent})", '', 1)
 
@@ -337,10 +356,14 @@ def Taimen(file='', path=""):
             try:
               textSpeed = float(i[i.find('SPD(') + 4 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              print(averylib.AnsiCode("0;31") + f"error: Speed \"{i[i.find('SPD(') + 4 : i.find(')')]}\" is not a valid number!" + averylib.AnsiCode("0"));
               continue
             i = i.replace(f"SPD({textSpeed})", '', 1)
             i = i.replace(f"SPD({int(textSpeed)})", "", 1)
+
+          if i.startswith("ANSI("):
+            ansi = i[i.find('ANSI(') + 5 : i.find(')')]
+            i = i.replace(f"ANSI({ansi})", f"\udc00{ansi}\udc01")
 
           if 'PORT(' in i:
             portrait = i[i.find('PORT(') + 5 : i.find(')')]
@@ -351,14 +374,14 @@ def Taimen(file='', path=""):
             nameplate = i[i.find('NMPLT(') + 6 : i.find(')')]
             i = i.replace(f"NMPLT({nameplate})", '', 1)
             i = i.removeprefix(' ')
-            if extra.readline("options.txt", 6) == "0":
+            if averylib.readline("options.txt", 6) == "0":
               nameplate = "<\\none/>"
 
           if 'INDNT(' in i:
             try:
               text_indent = int(i[i.find('INDNT(') + 6 : i.find(')')])
             except ValueError:
-              print('\033[0;31m' + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + '\033[0m');
+              print(averylib.AnsiCode("0;31") + f"error: Indent \"{i[i.find('INDNT(') + 6 : i.find(')')]}\" is not a valid number!" + averylib.AnsiCode("0"));
               continue
             i = i.replace(f"INDNT({text_indent})", '', 1)
 
@@ -395,32 +418,23 @@ def Taimen(file='', path=""):
 
         i = i.replace('ESC>', '', 1)
 
-        # set the indent
-        try:
-          line_indent = " " * int(extra.readline("options.txt", 5))
-          line_indent += " " * text_indent
-        except: line_indent = ""
-
         # pass everything to text display
         if i.strip() != "":
-          print(line_indent, end="")
           if i == "\uda00":
             print('\n')
           else:
-            text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
+            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
 
-          print('\033[0m', end='')
-
-    # properly indent return text
-    try:
-      line_indent = " " * int(extra.readline("options.txt", 5))
-      line_indent += " " * text_indent
-    except: line_indent = ""
+          print(averylib.AnsiCode("0"), end='')
 
     # let the user know the script is done
-    endInput = input(f"{line_indent}Return > ")
-    extra.clear()
+    if nobr:
+      print()
+    GetLineIndent(text_indent); endInput = input("Return > ")
+    averylib.clear()
     if endInput == "replay":
       Taimen(file, path)
+      return
+    return
 
   except KeyboardInterrupt: pass

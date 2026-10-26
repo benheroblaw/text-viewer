@@ -1,4 +1,4 @@
-import os, json, extra, textwrap, time
+import os, json, averylib, textwrap, time
 
 # meta handling
 def Mako(folder, sel, folders_pretty, folder_display, show_tags):
@@ -34,7 +34,7 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
   # newer json meta file
   if 'meta.json' in os.listdir('./content/' + folder):
     try:
-      meta_json = json.loads(extra.readfile(f'./content/{folder}/meta.json'))
+      meta_json = json.loads(averylib.readfile(f'./content/{folder}/meta.json'))
 
 
       # Capitalized
@@ -107,7 +107,7 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
 
 
       # print meta
-      extra.clear()
+      averylib.clear()
       if meta_title.strip() != '':
         size = os.get_terminal_size()
         print(textwrap.fill('Title:    ' + "\033[1m" + meta_title + "\033[m", size.columns))
@@ -136,7 +136,7 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
       if meta_tags != [] and show_tags == '1':
         print('\nTags:  ' +
               "\033[1m", end='')
-        if extra.readline('options.txt', 4) == '1':
+        if averylib.readline('options.txt', 4) == '1':
           meta_tags.sort()
         meta_tags_display = str(meta_tags).removeprefix('[')
         meta_tags_display = meta_tags_display.removesuffix(']')
@@ -146,7 +146,7 @@ def Mako(folder, sel, folders_pretty, folder_display, show_tags):
         print("\033[m", end="")
       if meta_ships != [] and show_tags == '1':
         print('Ships: ', end="\033[1m")
-        if extra.readline('options.txt', 4) == '1':
+        if averylib.readline('options.txt', 4) == '1':
           meta_ships.sort()
         meta_ships_display = str(meta_ships).removeprefix('[')
         meta_ships_display = meta_ships_display.removesuffix(']')

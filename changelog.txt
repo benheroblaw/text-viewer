@@ -1,3 +1,19 @@
+v0.4 - ansi codes!
+    finally got ansi codes working!
+        now you can use any of the 255 available colors in terminals!
+        (and every other ansi code)
+        notably: they do not work in nameplates yet. im workin on it
+
+v0.3.1 - small changing
+    little tweaks
+
+    still working on allowing ansi codes!
+        i think the best plan is to make ANSI() print a start character and a stop character.
+        how would i remove it from the message tho?
+
+v0.3 - averylib
+    updated everything to averylib (i renamed extra)
+
 v0.2.2 - import adjustments
     "IMPORT>" can now take multiple names!
         separated with commas! (just like python!)
