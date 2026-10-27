@@ -23,16 +23,16 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
 							if "title" in metaJson:
 								folderTitle = json.loads(averylib.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
 								if folderTitle.strip() != "":
-									chapter_output.append("\033[1m" + f'{folderTitle}\033[0m/' )
+									chapter_output.append(f'{folderTitle}\033[0m/' )
 									folders.append(name)
 								else:
-									chapter_output.append("\033[1m" + f"{name}/")
+									chapter_output.append(f"{name}/")
 									folders.append(name)
 							else:
-								chapter_output.append("\033[1m" + str(name) + "/" + averylib.ansi_code("0"))
+								chapter_output.append(str(name) + "/" + averylib.ansi_code("0"))
 								folders.append(name)
 						else:
-							chapter_output.append("\033[1m" + f"{name}/")
+							chapter_output.append(f"{name}/")
 							folders.append(name)
 
 				elif folder_display == '3':
@@ -42,21 +42,21 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
 							if "title" in metaJson:
 								folderTitle = json.loads(averylib.readfile(f'./content/{folder}/{name}/meta.json'))["title"]
 								if folderTitle.strip() != "":
-									chapter_output.append("\033[1m" + f'{folderTitle} \033[0m({name})' + "/")
+									chapter_output.append(f'{folderTitle} \033[0m({name})' + "/")
 									folders.append(name)
 								else:
-									chapter_output.append("\033[1m" + f"{name}/")
+									chapter_output.append(f"{name}/")
 									folders.append(name)
 							else:
-								chapter_output.append("\033[1m" + str(name) + "/" + averylib.ansi_code("0"))
+								chapter_output.append(str(name) + "/" + averylib.ansi_code("0"))
 								folders.append(name)
 						else:
-							chapter_output.append("\033[1m" + f"{name}/")
+							chapter_output.append(f"{name}/")
 							folders.append(name)
 
 				else:
 					if os.path.isdir(os.path.abspath('./content/' + folder + "/" + name)) and not name.startswith("."):
-						chapter_output.append("\033[1m" + str(name) + "/" + averylib.ansi_code("0"))
+						chapter_output.append(str(name) + "/" + averylib.ansi_code("0"))
 						folders.append(name)
 			chapter_raw_output += folders
 
@@ -105,9 +105,9 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
 			# print all the meta stuff
 			fish.Mako(folder, sel, folders_pretty, folder_display, show_tags)
 
-			print(averylib.ansi_code("0;38;5;255;1") + '\n0. ' + 'Back' + averylib.ansi_code("0"))
+			print(averylib.ansi_code("0;1") + '\n0. ' + 'Back' + averylib.ansi_code("0"))
 			for i, x in enumerate(chapters):
-				print(str(i+1) + '. ' + str(chapters_pretty[i]) + averylib.ansi_code("0")) #'Chapter ' + str(i+1) + ': ' +
+				print(averylib.ansi_code("0;1") + str(i+1) + '. ' + averylib.ansi_code("0") + str(chapters_pretty[i]) + averylib.ansi_code("0"))
 			try: chap_select = input('\n> ')
 			except KeyboardInterrupt: break
 			try:

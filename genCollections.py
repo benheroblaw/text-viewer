@@ -16,7 +16,7 @@ def generate(logging=False, debug=False):
   dirs_to_search = list()
   starting_dirs = list()
   for i in os.listdir(os.path.join(".", "content")):
-    if ".git" not in i and not i.endswith(".git"):
+    if ".git" not in i and not i.endswith(".git") and os.path.isdir(os.path.abspath(os.path.join(".", "content", i))):
       starting_dirs.append(os.path.abspath(os.path.join(".", "content", i)))
   for num, name in enumerate(starting_dirs):
     if ".git" in name or name.endswith(".git"):

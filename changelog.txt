@@ -1,3 +1,8 @@
+v0.5 - story creation wizard!
+    this thing can now help you make a story super quick! the wizard is in Options>Creation Tools
+
+    there's also tools to make meta.jsons and .scris
+
 v0.4 - ansi codes!
     finally got ansi codes working!
         now you can use any of the 255 available colors in terminals!

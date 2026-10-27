@@ -35,35 +35,115 @@ def Sixgill():
       input("Restart to finish updating\n> ")
 
     elif opt_sel == 2:
-      print("Options")
-      print()
-      print("Creation Tools")
-      print()
-      print("1. Create story")
-      print("2. meta.json Template")
-
-      try: creation_sel = input("\n> ")
-      except KeyboardInterrupt: break
-
-      try:
-        creation_sel = int(creation_sel)
-        # selection = int(selection)
+      while True:
         averylib.clear()
-      except ValueError:
-        input("Input a number\n> ")
-        averylib.clear()
-        continue
+        print("Options")
+        print()
+        print("Creation Tools")
+        print()
+        print("0. Back")
+        print("1. New Story")
+        print("2. New meta.json")
+        print("3. New .scri")
 
-      if creation_sel == 2:
-        averylib.clear()
-        print("Where would you like to create the meta.json?")
+        try: creation_sel = input("\n> ")
+        except KeyboardInterrupt: break
 
-        meta_location = input("\n> ")
-        
-        os.makedirs(os.path.abspath(meta_location))
+        try:
+          creation_sel = int(creation_sel)
+          # selection = int(selection)
+          averylib.clear()
+        except ValueError:
+          input("Input a number\n> ")
+          averylib.clear()
+          continue
 
-        try: averylib.createfile(os.path.abspath(meta_location) + "meta.json")
-        except FileExistsError: print(f"meta.json exists in {os.path.abspath(meta_location)}!")
+        if creation_sel == 0:
+          break
+        if creation_sel == 1:
+          averylib.clear()
+
+          try:
+            # get directory name
+            dirName = input("Folder name? ")
+            while not dirName:
+              print("Folder name cannot be blank.")
+              dirName = input("Folder name? ")
+
+            # (optionally) get title
+            title = input("Title? (leave blank for none) ")
+
+            # (optionally) get author
+            author = input("Author? (leave blank for none) ")
+
+            # get rating
+            ratings = ["0", "1", "2", "3", "g", "t", "m", "e"]
+            rating = input("Rating? (0-3, g, t, m, e) ")
+            while rating not in ratings:
+              print("Rating must be one of: 0-3, g, t, m, e.")
+              rating = input("Rating? ")
+            if rating == "g": rating = "0"
+            if rating == "t": rating = "1"
+            if rating == "m": rating = "2"
+            if rating == "e": rating = "3"
+
+            # do we make a template.scri?
+            makeScri = input("Make a template.scri file? (y/n) ").lower()
+            while makeScri not in ["y", "n"]:
+              print("Yes or no:")
+              makeScri = input("Make a template.scri file? ").lower()
+
+            # do we make a templates.def?
+            makeDefs = input("Make a templates.def file? (y/n) ").lower()
+            while makeDefs not in ["y", "n"]:
+              print("Yes or no:")
+              makeDefs = input("Make a templates.def file? ").lower()
+
+            averylib.clear()
+            print("Creating story...")
+            print()
+
+            print("making folder...")
+            if not os.path.exists(f"./content/{dirName}"):
+              os.makedirs(os.path.join("./content", dirName))
+              print()
+
+              print("adding meta.json...")
+              createMetaJson(
+                f'./content/{dirName}',
+                '{\n    \"$schema\": \"https://benheroblaw.github.io/meta_schema.json\",\n' + f'    "author": "{author}",\n' + f'    "title": "{title}",\n' + f'    "rating": {rating}\n' +
+                '}' + "",
+                doOutput=False
+              )
+              print()
+
+              if makeScri == "y":
+                print("adding template.scri...")
+                try: averylib.createfile(os.path.abspath(os.path.join("./content", dirName, "template.scri")), "IMPORT> template\n\nTemplateDef: Template")
+                except FileExistsError: print("template.scri exists, continuing...")
+                print()
+
+              if makeDefs == "y":
+                print("adding templates.def...")
+                try: averylib.createfile(os.path.abspath(os.path.join("./content", dirName, "template.def")), "DEF> TemplateDef:, NMPLT(TemplateDef)BOLD>")
+                except FileExistsError: print("template.def exists, continuing...")
+                print()
+
+              input('done!\n> ')
+          except KeyboardInterrupt: pass
+
+          else:
+            print(averylib.AnsiCode("0;31;1") + "Error: Cannot create new story in existing folder!" + averylib.AnsiCode("0"))
+            input("> ")
+
+        elif creation_sel == 2:
+          averylib.clear()
+          print("Where would you like to create the meta.json?")
+
+          meta_location = input("\n> ")
+
+          createMetaJson(meta_location)
+
 
     # text speed
     elif opt_sel == 3:
@@ -232,3 +312,21 @@ def Sixgill():
           continue
 
     continue
+
+def createMetaJson(
+  meta_location="",
+  metaContents="{\n    \"$schema\": \"https://benheroblaw.github.io/meta_schema.json\"\n }",
+  doInput = True,
+  doOutput = True
+):
+  if not os.path.exists(os.path.abspath(meta_location)):
+    os.makedirs(os.path.abspath(meta_location))
+
+  try:
+    averylib.createfile(os.path.join(os.path.abspath(meta_location), "meta.json"), metaContents)
+    if doOutput:
+      print("created file!")
+      if doInput:
+        input("> ")
+  except FileExistsError:
+    print(f"meta.json exists in {os.path.abspath(meta_location)}!")

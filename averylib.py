@@ -34,9 +34,6 @@ def createfile(file="", contents=""):
   with open(file, "x") as f:
     f.write(contents)
 
-def terminalName(name):
-  print("\33]0;"+name+"\a", end="", flush=True)
-
 def writefile(file="", contents=""):
   """Overwrites a file."""
   with open(file, "w") as f:
@@ -93,12 +90,15 @@ def newline(file=""):
 
 # terminal management
 def clear():
-  """Clears the terminal; cross-platform."""
+  """Clears the terminal; supports Linux and Windows"""
   os.system(clearCommand)
   print(textReset, end="")
 def pos(x, y):
   """Returns the position of the cursor."""
   return "\x1b[" + str(y) + ";" + str(x) + "H"
+
+def terminalName(name):
+  print("\33]0;"+name+"\a", end="", flush=True)
 
 def done(end=""):
   """Prints a cute little \"done!\" message"""

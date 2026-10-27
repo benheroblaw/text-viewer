@@ -147,12 +147,15 @@ def Taimen(file='', path=""):
 
             formatDef = i.replace("DEF>", '', 1)
             i = i.replace(f"DEF>{formatDef}", '')
-            params = formatDef.split(',', 2)
+            params = formatDef.split(',', 2) or formatDefs.split(":", 2)
             # make sure the thing has a definition
             if params[0] == "":
-              print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
-              print()
-              break
+              params = formatDef.split(":", 2)
+              if params[0] == "":
+                print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
+                print()
+                break
+              else: params[0] += ":"
             # strip everything
             for num, x in enumerate(params):
               params[num] = params[num].strip()
@@ -170,7 +173,7 @@ def Taimen(file='', path=""):
             # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
             except IndexError:
-              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code(0));
+              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'));
             # usingDefs = True
             continue
 
