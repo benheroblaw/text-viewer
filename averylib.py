@@ -119,6 +119,7 @@ Signed32BitIntegerLimit = 2147483647
 if os.path.exists("./averylib.cmd"):
   print("running averylib.cmd")
   exec(readfile("averylib.cmd"))
-  clear()
+else:
+  print("no averylib.cmd")
 
 print('averylib: done loading!\n')

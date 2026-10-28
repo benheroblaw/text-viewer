@@ -106,28 +106,28 @@ def Sixgill():
             print("making folder...")
             if not os.path.exists(f"./content/{dirName}"):
               os.makedirs(os.path.join("./content", dirName))
-              print()
 
               print("adding meta.json...")
               createMetaJson(
                 f'./content/{dirName}',
-                '{\n    \"$schema\": \"https://benheroblaw.github.io/meta_schema.json\",\n' + f'    "author": "{author}",\n' + f'    "title": "{title}",\n' + f'    "rating": {rating}\n' +
+                '{\n' +
+                f'    \"$schema\": \"https://benheroblaw.github.io/meta_schema.json\",\n' +
+                f'    "author":    "{author}",\n' +
+                f'    "title":     "{title}",\n' +
+                f'    "rating":    {rating}\n' +
                 '}' + "",
                 doOutput=False
               )
-              print()
 
               if makeScri == "y":
                 print("adding template.scri...")
                 try: averylib.createfile(os.path.abspath(os.path.join("./content", dirName, "template.scri")), "IMPORT> template\n\nTemplateDef: Template")
                 except FileExistsError: print("template.scri exists, continuing...")
-                print()
 
               if makeDefs == "y":
                 print("adding templates.def...")
                 try: averylib.createfile(os.path.abspath(os.path.join("./content", dirName, "template.def")), "DEF> TemplateDef:, NMPLT(TemplateDef)BOLD>")
                 except FileExistsError: print("template.def exists, continuing...")
-                print()
 
               input('done!\n> ')
           except KeyboardInterrupt: pass
@@ -143,6 +143,29 @@ def Sixgill():
           meta_location = input("\n> ")
 
           createMetaJson(meta_location)
+
+        elif creation_sel == 3:
+          averylib.clear()
+          print(f"What will you call the .scri file?")
+          scriName = input("> ")
+
+          scriName = scriName.removesuffix(".scri")
+
+          print(f"\nWhere would you like to create {scriName}.scri?")
+          scri_location = input("> ")
+
+          print(f"\nWhat imports will {scriName}.scri have? (separated by spaces; leave blank for none)")
+          scriImports = input("> ")
+
+          scriContents = ""
+          if scriImports != "":
+            scriImports = scriImports.split()
+            scriContents = "IMPORT> "
+            for i in scriImports:
+              scriContents += i + ", "
+            scriContents = scriContents.removesuffix(", ")
+
+          createScri(scri_location, scriContents, scriName)
 
 
     # text speed
@@ -330,3 +353,16 @@ def createMetaJson(
         input("> ")
   except FileExistsError:
     print(f"meta.json exists in {os.path.abspath(meta_location)}!")
+
+def createScri(scri_location="", scriContents="BOLD>Template", scriName="__DEFAULT__", doInput = True, doOutput = True):
+  if not os.path.exists(os.path.abspath(scri_location)):
+    os.makedirs(os.path.abspath(scri_location))
+
+  try:
+    averylib.createfile(os.path.join(os.path.abspath(scri_location), f"{scriName}.scri"), scriContents)
+    if doOutput:
+      print("created file!")
+      if doInput:
+        input("> ")
+  except FileExistsError:
+    print(f"meta.json exists in {os.path.abspath(scri_location)}!")
