@@ -8,6 +8,7 @@ CYN>Cyan
 PUR>Purple
 LME>Lime
 BLK>Black
+ORN>Orange
 BGWHI>Background White
 BGBLU>Background Blue
 BGRED>Background Red
@@ -18,6 +19,7 @@ BGCYN>Background Cyan
 BGPUR>Background Purple
 BGLME>Background Lime
 BGBLK>Background Black
+BGORN>Background Orange
 BGWHI>BLU>Background white with blue
 BGRED>BLK>BOLD>Bold background red with black
 BOLD>Bold

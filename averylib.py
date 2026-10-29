@@ -20,10 +20,12 @@ def AnsiCode(code=""):
   return ansi_code(code)
 
 def print_ansi_code(code="", end=""):
-  """Prints the string, formatted as an ansi code."""
+  """Prints the string, formatted as an ansi code.
+  """
   print(ansi_code(code), end=end)
 def PrintAnsiCode(code="", end=""):
-  """Prints the string, formatted as an ansi code."""
+  """Prints the string, formatted as an ansi code.
+  """
   print_ansi_code(code, end)
 
 textReset = ansi_code("0")

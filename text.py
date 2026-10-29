@@ -20,6 +20,88 @@ def ansi_code(code=""):
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "x", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "X", "T", "U", "V", "W", "X", "Y", "Z", ' ']
 
+special_chars = [
+    "\ud7fc",
+    "\ud7fd",
+    "\ud7fe",
+    "\ud7ff",
+    "\ud800",
+    "\ud801",
+    "\ud802",
+    "\ud803",
+    "\ud804",
+    "\ud805",
+    "\ud806",
+    "\ud807",
+    "\ud808",
+    "\ud809",
+    "\ud80a",
+    "\ud80b",
+    "\udb00",
+    "\udb01",
+    "\udb02",
+    "\udb03",
+    "\udb04",
+    "\udb05",
+    "\udb06",
+    "\udb07",
+    "\udb08",
+    "\udb09",
+    "\udb0a",
+    "\udb0b",
+    "\udff0",
+    "\udff1",
+    "\udff2",
+    "\udff3",
+    "\udc00",
+    "\udc00",
+    "\udc01",
+    "\udc01",
+    "\ud7fc",
+    "\ud7fd",
+    "\ud7fe",
+    "\ud7ff",
+    "\ud800",
+    "\ud801",
+    "\ud802",
+    "\ud803",
+    "\ud804",
+    "\ud805",
+    "\ud806",
+    "\ud807",
+    "\ud808",
+    "\ud809",
+    "\ud80a",
+    "\ud80b",
+    "\ud80c",
+    "\udb00",
+    "\udb01",
+    "\udb02",
+    "\udb03",
+    "\udb04",
+    "\udb05",
+    "\udb06",
+    "\udb07",
+    "\udb08",
+    "\udb09",
+    "\udb0a",
+    "\udb0b",
+    "\udff0",
+    "\udff1",
+    "\udff2",
+    "\udff3",
+    "\uda00",
+    "\uda00",
+    "\udfe0",
+    "\udc00",
+    "\udc00",
+    "\udc01",
+    "\udc01",
+    "\udc00",
+    "\udc01",
+    "\udc02",
+]
+
 def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', nameplate="<\\none/>", nobr=False, skipWhitespace=True):
     """All-purpose text thing."""
     size = os.get_terminal_size()
@@ -30,7 +112,10 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
         averylib.clear()
     # noinput(msg, msgSpeed)
     # cursor.show()
-    if msg != "":
+    msgStripped = msg
+    for i in special_chars:
+        msgStripped.replace(i, "")
+    if msgStripped != "":
         if portrait != '<\\none/>':
             print(f'({portrait}) ', end='')
         elif nameplate != '<\\none/>':
@@ -39,7 +124,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
             ansi_storage = str()
             for numb, i in enumerate(list_nameplate):
                 match i:
-                    case'\ud7fc': # reset
+                    case '\ud7fc': # reset
                         print('\033[m', end='')
                         continue
 
@@ -199,107 +284,140 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                 # colors
                 case '\ud7fd': # red
                     print('\033[38;5;196m', end='')
+                    continue
 
                 case '\ud7fe': # blue
                     print('\033[38;5;20m', end='')
+                    continue
 
                 case '\ud7ff': # green
                     print('\033[38;5;34m', end="")
+                    continue
 
                 case '\ud800': # yellow
                     print('\033[38;5;220m', end="")
+                    continue
 
                 case '\ud801': # pink
                     print('\033[38;5;206m', end="")
+                    continue
 
                 case '\ud802': # cyan
                     print('\033[38;5;51m', end='')
+                    continue
 
                 case '\ud803': # purple
                     print('\033[38;5;57m', end='')
+                    continue
 
                 case '\ud804': # white
                     print('\033[38;5;255m', end='')
+                    continue
 
                 case '\ud805': # lime
                     print('\033[38;5;40m', end='')
+                    continue
 
                 case '\ud806': # gray
                     print('\033[38;5;240m', end="")
+                    continue
 
                 case '\ud807': # light green
                     print('\033[38;5;46m', end="")
+                    continue
 
                 case '\ud808': # light gray
                     print('\033[38;5;248m', end="")
+                    continue
 
                 case '\ud809': # light blue
                     print('\033[38;5;45m', end="")
+                    continue
 
                 case '\ud80a': # dark gray
                     print('\033[38;5;234m', end="")
+                    continue
 
                 case "\ud80b": # black
                     print("\033[38;5;0m", end="")
+                    continue
 
                 case "\ud80c":
                     print(ansi_code("38;5;202"), end="")
+                    continue
 
                 # background colors
                 case "\udb00": # background white
                     print(ansi_code("48;5;255"), end="")
+                    continue
 
                 case "\udb01": # background red
                     print(ansi_code("48;5;196"), end="")
+                    continue
 
                 case "\udb02": # background blue
                     print(ansi_code("48;5;20"), end="")
+                    continue
 
                 case "\udb03": # background green
                     print(ansi_code("48;5;34"), end="")
+                    continue
 
                 case "\udb04": # background yellow
                     print(ansi_code("48;5;220"), end="")
+                    continue
 
                 case "\udb05": # background pink
                     print(ansi_code("48;5;206"), end="")
+                    continue
 
                 case "\udb06": # background cyan
                     print(ansi_code("48;5;51"), end="")
+                    continue
 
                 case "\udb07": # background purple
                     print(ansi_code("48;5;57"), end="")
+                    continue
 
                 case "\udb08": # background lime
                     print(ansi_code("48;5;40"), end="")
+                    continue
 
                 case "\udb09": # background gray
                     print(ansi_code("48;5;240"), end="")
+                    continue
 
                 case "\udb0a": # background black
                     print(ansi_code("48;5;0"), end="")
+                    continue
 
                 case "\udb0b": # background orange
                     print(ansi_code("48;5;202"), end="")
+                    continue
 
                 # advanced formatting
                 case '\udff0': # italic start
                     print('\x1B[3m', end="")
+                    continue
 
                 case '\udff1': # italic end
                     print('\x1B[23m', end="")
+                    continue
 
                 case '\udff2': # bold start
                     print('\x1B[1m', end="")
+                    continue
 
                 case '\udff3': # bold end
                     print('\x1B[22m', end="")
+                    continue
 
                 case "\uda00":
                     if not nobr: print('\n')
                     else: print()
                     if msg == "\uda00":
                         break
+                    continue
 
                 # case '\udfe0': # input (wip)
                 #     print('\x1B[0m', end="")
@@ -325,7 +443,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     time.sleep(msgSpeed)
 
 
-        averylib.PrintAnsiCode(averylib.textReset)
+        averylib.PrintAnsiCode("0")
         time.sleep(msgSpeed)
         if not cont:
             input()

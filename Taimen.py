@@ -17,17 +17,17 @@ def GetLineIndent(text_indent=0):
 def Taimen(file='', path=""):
   """Text display"""
 
-  skipWhitespace = True
+  skipWhitespace = False
 
   # ooh-hoo-hoo we're doing imports :D
   try: file_contents = averylib.readfile(file).splitlines()
   except FileNotFoundError: return
   # this line removes empty entries \/
   file_contents = [x for x in file_contents if x]
-  if "SKIP_WHITESPACE>FALSE" in file_contents:
-    skipWhitespace = False
+  if "SKIP_WHITESPACE>TRUE" in file_contents:
+    skipWhitespace = True
     for num, name in enumerate(file_contents):
-      if name == "SKIP_WHITESPACE>FALSE":
+      if name == "SKIP_WHITESPACE>TRUE":
         file_contents[num] = ""
   imported = list()
   for num, i in enumerate(file_contents):
@@ -78,7 +78,7 @@ def Taimen(file='', path=""):
 
       # set up some variables
       nobr = False
-      if skipWhitespace: nobr = True
+      # if skipWhitespace: nobr = True
       continue_text = False
       clear = 'none'
       portrait, nameplate = '<\\none/>', '<\\none/>'
@@ -145,22 +145,24 @@ def Taimen(file='', path=""):
               # other stuff
             ]
 
-            formatDef = i.replace("DEF>", '', 1)
+            formatDef = i.replace("DEF>", '', 1).strip()
             i = i.replace(f"DEF>{formatDef}", '')
-            params = formatDef.split(',', 2) or formatDefs.split(":", 2)
+            if "," in formatDef:
+              params = formatDef.split(',', 2)
+            elif ":" in formatDef:
+              params = formatDef.split(":", 2)
+              params[0] += ":"
+            else:
+              print(
+                averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{i}\"; did you miss a comma?" + averylib.ansi_code('0')
+                )
             # make sure the thing has a definition
             if params[0] == "":
-              params = formatDef.split(":", 2)
-              if params[0] == "":
-                print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
-                print()
-                break
-              else: params[0] += ":"
-            # strip everything
-            for num, x in enumerate(params):
-              params[num] = params[num].strip()
+              print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
+              print()
+              break
             # no redefining builtins.
-            if params[0].upper().removesuffix(">") in disallowed_names:
+            if params[0].upper().removesuffix(">").removesuffix(":") in disallowed_names:
               print(averylib.AnsiCode("0;31") + f"Error on line {num+1}: Cannot redefine built-in command \"{params[0].upper().removesuffix(">")}>\"" + averylib.AnsiCode("0"))
               print()
               break
@@ -168,16 +170,20 @@ def Taimen(file='', path=""):
             if not params[0].endswith(">") and not params[0].endswith(":"):
               params[0] += '>'
             if params[0].endswith(":") and not params[0].endswith(": "):
+              formatNames.insert(0, params[0])
+              try: formatDefs.insert(0, params[1].replace(" ", ""))
+              except IndexError:
+                print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'))
               params[0] += " "
             formatNames.insert(0, params[0])
             # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
             except IndexError:
-              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'));
+              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'))
             # usingDefs = True
             continue
 
-          # check for custom format cmds
+          # check for custom format commands
           # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
           if formatNames != []:
             for num, name in enumerate(formatNames):
