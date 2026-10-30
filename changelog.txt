@@ -1,3 +1,6 @@
+v0.5.1 - import changes
+    definition files will now be imported in their entirety!
+
 v0.5 - story creation wizard!
     this thing can now help you make a story super quick! the wizard is in Options>Creation Tools
 

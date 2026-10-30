@@ -39,15 +39,13 @@ def Taimen(file='', path=""):
           try:
             imported_raw = averylib.readfile(path + "/" + statement.strip() + ".defs")
             for i in imported_raw.splitlines():
-              if i.startswith("DEF>") or i.startswith("CONFIG>"):
-                imported.append(i)
+              imported.append(i)
           # look for a .def file
           except FileNotFoundError:
             try:
               imported_raw = averylib.readfile(path + "/" + statement.strip() + ".def")
               for i in imported_raw.splitlines():
-                if i.startswith("DEF>") or i.startswith("CONFIG>"):
-                  imported.append(i)
+                imported.append(i)
             # well shit :P
             except FileNotFoundError:
               print(averylib.AnsiCode("0;31") + f"Import \"{statement.strip()}\" not found!" + averylib.AnsiCode("0"))
