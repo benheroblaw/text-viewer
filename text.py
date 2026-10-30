@@ -108,14 +108,14 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
     msg = textwrap.fill(msg, size.columns, drop_whitespace=False)
     # msg = r'{msg}'/
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
-    if clear == 'before':
+    if clear == 'before' or clear == "both":
         averylib.clear()
     # noinput(msg, msgSpeed)
     # cursor.show()
     msgStripped = msg
     for i in special_chars:
         msgStripped.replace(i, "")
-    if msgStripped != "":
+    if msgStripped != "" or msgStripped == "" and not skipWhitespace:
         if portrait != '<\\none/>':
             print(f'({portrait}) ', end='')
         elif nameplate != '<\\none/>':
@@ -125,134 +125,134 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
             for numb, i in enumerate(list_nameplate):
                 match i:
                     case '\ud7fc': # reset
-                        print('\033[m', end='')
+                        averylib.PrintAnsiCode("0")
                         continue
 
                     # colors
                     case '\ud7fd': # red
-                        print('\033[38;5;196m', end='')
+                        averylib.PrintAnsiCode("38;5;196")
                         continue
 
                     case '\ud7fe': # blue
-                        print('\033[38;5;20m', end='')
+                        averylib.PrintAnsiCode("38;5;20")
                         continue
 
                     case '\ud7ff': # green
-                        print('\033[38;5;34m', end="")
+                        averylib.PrintAnsiCode("38;5;34")
                         continue
 
                     case '\ud800': # yellow
-                        print('\033[38;5;220m', end="")
+                        averylib.PrintAnsiCode("38;5;220")
                         continue
 
                     case '\ud801': # pink
-                        print('\033[38;5;206m', end="")
+                        averylib.PrintAnsiCode("38;5;206")
                         continue
 
                     case '\ud802': # cyan
-                        print('\033[38;5;51m', end='')
+                        averylib.PrintAnsiCode("38;5;51")
                         continue
 
                     case '\ud803': # purple
-                        print('\033[38;5;57m', end='')
+                        averylib.PrintAnsiCode("38;5;57")
                         continue
 
                     case '\ud804': # white
-                        print('\033[38;5;255m', end='')
+                        averylib.PrintAnsiCode("38;5;255")
                         continue
 
                     case '\ud805': # lime
-                        print('\033[38;5;40m', end='')
+                        averylib.PrintAnsiCode("38;5;40")
                         continue
 
                     case '\ud806': # gray
-                        print('\033[38;5;240m', end="")
+                        averylib.PrintAnsiCode("38;5;240")
                         continue
 
                     case '\ud807': # light green
-                        print('\033[38;5;46m', end="")
+                        averylib.PrintAnsiCode("38;5;46")
                         continue
 
                     case '\ud808': # light gray
-                        print('\033[38;5;248m', end="")
+                        averylib.PrintAnsiCode("38;5;248")
                         continue
 
                     case '\ud809': # light blue
-                        print('\033[38;5;45m', end="")
+                        averylib.PrintAnsiCode("38;5;45")
                         continue
 
                     case '\ud80a': # dark gray
-                        print('\033[38;5;234m', end="")
+                        averylib.PrintAnsiCode("38;5;234")
                         continue
 
                     case "\ud80b": # black
-                        print("\033[38;5;0m", end="")
+                        averylib.PrintAnsiCode("38;5;0m")
                         continue
 
                     # background colors
                     case "\udb00": # background white
-                        print(ansi_code("48;5;255"), end="")
+                        averylib.PrintAnsiCode("48;5;255")
                         continue
 
                     case "\udb01": # background red
-                        print(ansi_code("48;5;196"), end="")
+                        averylib.PrintAnsiCode("48;5;196")
                         continue
 
                     case "\udb02": # background blue
-                        print(ansi_code("48;5;20"), end="")
+                        averylib.PrintAnsiCode("48;5;20")
                         continue
 
                     case "\udb03": # background green
-                        print(ansi_code("48;5;34"), end="")
+                        averylib.PrintAnsiCode("48;5;34")
                         continue
 
                     case "\udb04": # background yellow
-                        print(ansi_code("48;5;220"), end="")
+                        averylib.PrintAnsiCode("48;5;220")
                         continue
 
                     case "\udb05": # background pink
-                        print(ansi_code("48;5;206"), end="")
+                        averylib.PrintAnsiCode("48;5;206")
                         continue
 
                     case "\udb06": # background cyan
-                        print(ansi_code("48;5;51"), end="")
+                        averylib.PrintAnsiCode("48;5;51")
                         continue
 
                     case "\udb07": # background purple
-                        print(ansi_code("48;5;57"), end="")
+                        averylib.PrintAnsiCode("48;5;57")
                         continue
 
                     case "\udb08": # background lime
-                        print(ansi_code("48;5;40"), end="")
+                        averylib.PrintAnsiCode("48;5;40")
                         continue
 
                     case "\udb09": # background gray
-                        print(ansi_code("48;5;240"), end="")
+                        averylib.PrintAnsiCode("48;5;240")
                         continue
 
                     case "\udb0a": # background black
-                        print(ansi_code("48;5;0"), end="")
+                        averylib.PrintAnsiCode("48;5;0")
                         continue
 
                     case "\udb0b": # background orange
-                        print(ansi_code("48;5;202"), end="")
+                        averylib.PrintAnsiCode("48;5;202")
                         continue
 
                     # advanced formatting
                     case '\udff0': # italic start
-                        print('\033[3m', end="")
+                        averylib.PrintAnsiCode("3")
                         continue
 
                     case '\udff1': # italic end
-                        print('\033[23m', end="")
+                        averylib.PrintAnsiCode("23")
                         continue
 
                     case '\udff2': # bold start
-                        print('\x1B[1m', end="")
+                        averylib.PrintAnsiCode('1m')
                         continue
 
                     case '\udff3': # bold end
-                        print('\x1B[22m', end="")
+                        averylib.PrintAnsiCode('22m')
                         continue
 
                     # ANSI() start and stop characters
@@ -279,137 +279,137 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
         for num, i in enumerate(list_msg):
             match i:
                 case'\ud7fc': # reset
-                    print('\033[0m', end='')
+                    averylib.PrintAnsiCode("0")
 
                 # colors
                 case '\ud7fd': # red
-                    print('\033[38;5;196m', end='')
+                    averylib.PrintAnsiCode("38;5;196")
                     continue
 
                 case '\ud7fe': # blue
-                    print('\033[38;5;20m', end='')
+                    averylib.PrintAnsiCode("38;5;20")
                     continue
 
                 case '\ud7ff': # green
-                    print('\033[38;5;34m', end="")
+                    averylib.PrintAnsiCode("38;5;34")
                     continue
 
                 case '\ud800': # yellow
-                    print('\033[38;5;220m', end="")
+                    averylib.PrintAnsiCode("38;5;220")
                     continue
 
                 case '\ud801': # pink
-                    print('\033[38;5;206m', end="")
+                    averylib.PrintAnsiCode("38;5;206")
                     continue
 
                 case '\ud802': # cyan
-                    print('\033[38;5;51m', end='')
+                    averylib.PrintAnsiCode("38;5;51")
                     continue
 
                 case '\ud803': # purple
-                    print('\033[38;5;57m', end='')
+                    averylib.PrintAnsiCode("38;5;57")
                     continue
 
                 case '\ud804': # white
-                    print('\033[38;5;255m', end='')
+                    averylib.PrintAnsiCode("38;5;255")
                     continue
 
                 case '\ud805': # lime
-                    print('\033[38;5;40m', end='')
+                    averylib.PrintAnsiCode("38;5;40")
                     continue
 
                 case '\ud806': # gray
-                    print('\033[38;5;240m', end="")
+                    averylib.PrintAnsiCode("38;5;240")
                     continue
 
                 case '\ud807': # light green
-                    print('\033[38;5;46m', end="")
+                    averylib.PrintAnsiCode("38;5;46")
                     continue
 
                 case '\ud808': # light gray
-                    print('\033[38;5;248m', end="")
+                    averylib.PrintAnsiCode("38;5;248")
                     continue
 
                 case '\ud809': # light blue
-                    print('\033[38;5;45m', end="")
+                    averylib.PrintAnsiCode("38;5;45")
                     continue
 
                 case '\ud80a': # dark gray
-                    print('\033[38;5;234m', end="")
+                    averylib.PrintAnsiCode("38;5;234")
                     continue
 
                 case "\ud80b": # black
-                    print("\033[38;5;0m", end="")
+                    averylib.PrintAnsiCode("38;5;0m")
                     continue
 
                 case "\ud80c":
-                    print(ansi_code("38;5;202"), end="")
+                    averylib.PrintAnsiCode("38;5;202")
                     continue
 
                 # background colors
                 case "\udb00": # background white
-                    print(ansi_code("48;5;255"), end="")
+                    averylib.PrintAnsiCode("48;5;255")
                     continue
 
                 case "\udb01": # background red
-                    print(ansi_code("48;5;196"), end="")
+                    averylib.PrintAnsiCode("48;5;196")
                     continue
 
                 case "\udb02": # background blue
-                    print(ansi_code("48;5;20"), end="")
+                    averylib.PrintAnsiCode("48;5;20")
                     continue
 
                 case "\udb03": # background green
-                    print(ansi_code("48;5;34"), end="")
+                    averylib.PrintAnsiCode("48;5;34")
                     continue
 
                 case "\udb04": # background yellow
-                    print(ansi_code("48;5;220"), end="")
+                    averylib.PrintAnsiCode("48;5;220")
                     continue
 
                 case "\udb05": # background pink
-                    print(ansi_code("48;5;206"), end="")
+                    averylib.PrintAnsiCode("48;5;206")
                     continue
 
                 case "\udb06": # background cyan
-                    print(ansi_code("48;5;51"), end="")
+                    averylib.PrintAnsiCode("48;5;51")
                     continue
 
                 case "\udb07": # background purple
-                    print(ansi_code("48;5;57"), end="")
+                    averylib.PrintAnsiCode("48;5;57")
                     continue
 
                 case "\udb08": # background lime
-                    print(ansi_code("48;5;40"), end="")
+                    averylib.PrintAnsiCode("48;5;40")
                     continue
 
                 case "\udb09": # background gray
-                    print(ansi_code("48;5;240"), end="")
+                    averylib.PrintAnsiCode("48;5;240")
                     continue
 
                 case "\udb0a": # background black
-                    print(ansi_code("48;5;0"), end="")
+                    averylib.PrintAnsiCode("48;5;0")
                     continue
 
                 case "\udb0b": # background orange
-                    print(ansi_code("48;5;202"), end="")
+                    averylib.PrintAnsiCode("48;5;202")
                     continue
 
                 # advanced formatting
                 case '\udff0': # italic start
-                    print('\x1B[3m', end="")
+                    averylib.PrintAnsiCode('3m')
                     continue
 
                 case '\udff1': # italic end
-                    print('\x1B[23m', end="")
+                    averylib.PrintAnsiCode('23m')
                     continue
 
                 case '\udff2': # bold start
-                    print('\x1B[1m', end="")
+                    averylib.PrintAnsiCode('1m')
                     continue
 
                 case '\udff3': # bold end
-                    print('\x1B[22m', end="")
+                    averylib.PrintAnsiCode('22m')
                     continue
 
                 case "\uda00":
@@ -418,9 +418,6 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
                     if msg == "\uda00":
                         break
                     continue
-
-                # case '\udfe0': # input (wip)
-                #     print('\x1B[0m', end="")
 
                 # ANSI() start and stop characters
                 case "\udc00":
@@ -463,7 +460,7 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
         else:
             print()
 
-        if clear == 'after':
+        if clear == 'after' or clear == "both":
             averylib.clear()
 
 # def formatt(i=""):
