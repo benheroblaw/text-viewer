@@ -53,7 +53,6 @@ def Taimen(file='', path=""):
               GetLineIndent(); input("Return > ")
               return
   file_contents = imported + file_contents
-  # file_contents = [x for x in file_contents if x]
 
   try:
     formatNames = list()

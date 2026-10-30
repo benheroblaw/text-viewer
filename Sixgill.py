@@ -111,10 +111,10 @@ def Sixgill():
               createMetaJson(
                 f'./content/{dirName}',
                 '{\n' +
-                f'    \"$schema\": \"https://benheroblaw.github.io/meta_schema.json\",\n' +
-                f'    "author":    "{author}",\n' +
-                f'    "title":     "{title}",\n' +
-                f'    "rating":    {rating}\n' +
+                f'    "$schema": "https://benheroblaw.github.io/meta_schema.json",\n' +
+                f'    "author":  "{author}",\n' +
+                f'    "title":   "{title}",\n' +
+                f'    "rating":  {rating}\n' +
                 '}' + "",
                 doOutput=False
               )

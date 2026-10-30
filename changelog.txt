@@ -1,3 +1,7 @@
+v0.6 - config commands!
+    did you hate having to add NOBR> to line after line? well, here's your solution!
+        the only config command so far is "CONFIG>keep_whitespace", and as explained by its name, it respects your empty lines after the first non-DEF> and non-CONFIG> line!
+
 v0.5.1 - import changes
     definition files will now be imported in their entirety!
 
@@ -9,7 +13,7 @@ v0.5 - story creation wizard!
 v0.4 - ansi codes!
     finally got ansi codes working!
         now you can use any of the 255 available colors in terminals!
-        (and every other ansi code)
+        (and every other ansi code i guess)
         notably: they do not work in nameplates yet. im workin on it
 
 v0.3.1 - small changing
