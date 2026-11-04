@@ -44,7 +44,7 @@ def generate(logging=False, debug=False):
               folder = os.path.abspath(f'{folder}')
               print(f'\nfile path to search: {folder}')
               try:
-                print('files to link:')
+                print(' files to link:')
                 for direct in os.listdir(folder):
                   if direct.endswith('.scri'):
                     # direct = direct.replace("'", "\\'")
