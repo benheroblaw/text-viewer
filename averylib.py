@@ -20,10 +20,12 @@ def AnsiCode(code=""):
   return ansi_code(code)
 
 def print_ansi_code(code="", end=""):
-  """Prints the string, formatted as an ansi code."""
+  """Prints the string, formatted as an ansi code.
+  """
   print(ansi_code(code), end=end)
 def PrintAnsiCode(code="", end=""):
-  """Prints the string, formatted as an ansi code."""
+  """Prints the string, formatted as an ansi code.
+  """
   print_ansi_code(code, end)
 
 textReset = ansi_code("0")
@@ -33,9 +35,6 @@ def createfile(file="", contents=""):
   """Creates a file, errors if the file exists."""
   with open(file, "x") as f:
     f.write(contents)
-
-def terminalName(name):
-  print("\33]0;"+name+"\a", end="", flush=True)
 
 def writefile(file="", contents=""):
   """Overwrites a file."""
@@ -93,12 +92,15 @@ def newline(file=""):
 
 # terminal management
 def clear():
-  """Clears the terminal; cross-platform."""
+  """Clears the terminal; supports Linux and Windows"""
   os.system(clearCommand)
   print(textReset, end="")
 def pos(x, y):
   """Returns the position of the cursor."""
   return "\x1b[" + str(y) + ";" + str(x) + "H"
+
+def terminalName(name):
+  print("\33]0;"+name+"\a", end="", flush=True)
 
 def done(end=""):
   """Prints a cute little \"done!\" message"""
@@ -113,10 +115,13 @@ def rmdupes(inputFile):
   outputFile = '\n'.join(outputFile)
   writefile(inputFile, outputFile)
 
+Signed32BitIntegerLimit = 2147483647
+
 
 if os.path.exists("./averylib.cmd"):
   print("running averylib.cmd")
   exec(readfile("averylib.cmd"))
-  clear()
+else:
+  print("no averylib.cmd")
 
 print('averylib: done loading!\n')

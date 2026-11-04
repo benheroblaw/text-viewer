@@ -17,12 +17,16 @@ def GetLineIndent(text_indent=0):
 def Taimen(file='', path=""):
   """Text display"""
 
+  skipWhitespace = False
 
   # ooh-hoo-hoo we're doing imports :D
   try: file_contents = averylib.readfile(file).splitlines()
   except FileNotFoundError: return
-  # this line removes empty entries \/
-  file_contents = [x for x in file_contents if x]
+  if "SKIP_WHITESPACE>TRUE" in file_contents:
+    skipWhitespace = True
+    for num, name in enumerate(file_contents):
+      if name == "SKIP_WHITESPACE>TRUE":
+        file_contents[num] = ""
   imported = list()
   for num, i in enumerate(file_contents):
     if i.startswith("IMPORT>") and "ESC>" not in i:
@@ -35,15 +39,13 @@ def Taimen(file='', path=""):
           try:
             imported_raw = averylib.readfile(path + "/" + statement.strip() + ".defs")
             for i in imported_raw.splitlines():
-              if i.startswith("DEF>"):
-                imported.append(i)
+              imported.append(i)
           # look for a .def file
           except FileNotFoundError:
             try:
               imported_raw = averylib.readfile(path + "/" + statement.strip() + ".def")
               for i in imported_raw.splitlines():
-                if i.startswith("DEF>"):
-                  imported.append(i)
+                imported.append(i)
             # well shit :P
             except FileNotFoundError:
               print(averylib.AnsiCode("0;31") + f"Import \"{statement.strip()}\" not found!" + averylib.AnsiCode("0"))
@@ -51,12 +53,14 @@ def Taimen(file='', path=""):
               GetLineIndent(); input("Return > ")
               return
   file_contents = imported + file_contents
-  file_contents = [x for x in file_contents if x]
 
   try:
     formatNames = list()
     formatDefs = list()
     text_indent = 0
+
+    skipWhitespace = True
+    after_first_line = False
 
     # format everything
     for num, i in enumerate(file_contents):
@@ -72,11 +76,17 @@ def Taimen(file='', path=""):
 
       # set up some variables
       nobr = False
+      if not skipWhitespace: nobr = True
       continue_text = False
       clear = 'none'
       portrait, nameplate = '<\\none/>', '<\\none/>'
 
-      if i != '':
+      if "CONFIG>keep_whitespace" in i:
+        skipWhitespace = False
+        i = i.replace("CONFIG>keep_whitespace", "")
+        continue
+
+      if i != '' or i == "" and not skipWhitespace and after_first_line:
         textSpeed = float(averylib.readline("options.txt", 1).replace("text-speed = ", ""))
 
         if 'ESC>' not in i:
@@ -100,6 +110,7 @@ def Taimen(file='', path=""):
               "SPD",
               "NMPLT",
               "INDNT",
+              "NOBR",
               # reset
               "RES",
               "RESET",
@@ -137,19 +148,24 @@ def Taimen(file='', path=""):
               # other stuff
             ]
 
-            formatDef = i.replace("DEF>", '', 1)
+            formatDef = i.replace("DEF>", '', 1).strip()
             i = i.replace(f"DEF>{formatDef}", '')
-            params = formatDef.split(',', 2)
+            if "," in formatDef:
+              params = formatDef.split(',', 2)
+            elif ":" in formatDef:
+              params = formatDef.split(":", 2)
+              params[0] += ":"
+            else:
+              print(
+                averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{i}\"; did you miss a comma?" + averylib.ansi_code('0')
+                )
             # make sure the thing has a definition
             if params[0] == "":
               print(averylib.ansi_code("0;31") + f"Error on line {num+1}: Missing name for definition" + averylib.ansi_code("0"))
               print()
               break
-            # strip everything
-            for num, x in enumerate(params):
-              params[num] = params[num].strip()
             # no redefining builtins.
-            if params[0].upper().removesuffix(">") in disallowed_names:
+            if params[0].upper().removesuffix(">").removesuffix(":") in disallowed_names:
               print(averylib.AnsiCode("0;31") + f"Error on line {num+1}: Cannot redefine built-in command \"{params[0].upper().removesuffix(">")}>\"" + averylib.AnsiCode("0"))
               print()
               break
@@ -157,16 +173,21 @@ def Taimen(file='', path=""):
             if not params[0].endswith(">") and not params[0].endswith(":"):
               params[0] += '>'
             if params[0].endswith(":") and not params[0].endswith(": "):
+              formatNames.insert(0, params[0])
+              try: formatDefs.insert(0, params[1].replace(" ", ""))
+              except IndexError:
+                print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'))
               params[0] += " "
             formatNames.insert(0, params[0])
             # remove every space from the defs
             try: formatDefs.insert(0, params[1].replace(" ", ""))
             except IndexError:
-              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code(0));
+              print(averylib.AnsiCode('0;31') + f"Error on line {num+1}: No second argument in \"{params[0]}\"; did you miss a comma?" + averylib.ansi_code('0'))
             # usingDefs = True
             continue
+          after_first_line = True
 
-          # check for custom format cmds
+          # check for custom format commands
           # HOLY FUCKING SHIT IT WORKS!!!!!!!!!!!!!!!!!!!!! YEAAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!
           if formatNames != []:
             for num, name in enumerate(formatNames):
@@ -175,19 +196,23 @@ def Taimen(file='', path=""):
 
           if "CONT>" in i:
             continue_text = True
-            i = i.replace('CONT>', '', 1)
+            i = i.replace('CONT>', '')
 
           if 'NOBR>' in i:
             nobr = True
-            i = i.replace('NOBR>', '', 1)
+            i = i.replace('NOBR>', '')
 
           if 'CLRA>' in i:
             clear = 'after'
-            i = i.replace('CLRA>', '', 1)
+            i = i.replace('CLRA>', '')
 
           if 'CLRB>' in i:
             clear = 'before'
-            i = i.replace('CLRB>', '', 1)
+            i = i.replace('CLRB>', '')
+
+          if "CLRA>" in i and "CLRB>" in i:
+            clear = "both"
+            i = i.replace("CLRA>", "").replace("CLRB>", "")
 
           if "BR>" in i or "BREAK>" in i:
             i = i.replace("BR>", "\uda00")
@@ -419,11 +444,13 @@ def Taimen(file='', path=""):
         i = i.replace('ESC>', '', 1)
 
         # pass everything to text display
-        if i.strip() != "":
+        if i.strip() != "" or i.strip() == "" and not skipWhitespace:
           if i == "\uda00":
             print('\n')
+          if i == "":
+            print()
           else:
-            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr)
+            GetLineIndent(text_indent); text.display(i, textSpeed, continue_text, clear, portrait, nameplate, nobr, skipWhitespace)
 
           print(averylib.AnsiCode("0"), end='')
 

@@ -1,9 +1,9 @@
-Barracuda:  folder selector
+Barracuda: folder selector
 
-Candiru:    chapter selector
+Candiru: chapter selector
 
-Mako:       meta handling
+Mako: meta handling
 
-Sixgill:    settings
+Sixgill: settings
 
-Taimen:     text stuff
+Taimen: text stuff

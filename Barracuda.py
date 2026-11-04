@@ -1,4 +1,4 @@
-import os, textwrap, fish, averylib, json, importlib, time
+import os, textwrap, fish, averylib, json, importlib
 importlib.reload(fish)
 
 # folder selector
@@ -63,7 +63,7 @@ def Barracuda():
         else:
             averylib.writefile('options.txt', averylib.readline('options.txt', 1) + '\n1')
             continue
-        print(averylib.AnsiCode("0;1") + "\n0. Settings" + averylib.AnsiCode("0"))
+        print(averylib.AnsiCode("0;1") + "\n0. Options" + averylib.AnsiCode("0"))
 
         # show tags
         if averylib.readline('options.txt', 3) == '1':
@@ -112,47 +112,53 @@ def Barracuda():
         # pretty
         if folder_display == '1':
             for i, x in enumerate(folders):
-                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folders_pretty[i] + averylib.AnsiCode("0"))
+                print(averylib.AnsiCode("0;1") + str(i+1) + '. ' + averylib.AnsiCode("1") + folders_pretty[i] + averylib.AnsiCode("0"))
         # meta.json titles
         elif folder_display == '2':
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
-                    if "title" in metaJson:
-                        folderTitle = metaJson["title"]
-                        if folderTitle.strip() != "":
-                            folderTitles.append(folderTitle + "/")
+                    try:
+                        metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
+                        if "title" in metaJson:
+                            folderTitle = metaJson["title"]
+                            if folderTitle.strip() != "":
+                                folderTitles.append(folderTitle + "/")
+                            else:
+                                folderTitles.append(folders_pretty[num] + "/")
                         else:
                             folderTitles.append(folders_pretty[num] + "/")
-                    else:
-                        folderTitles.append(folders_pretty[num] + "/")
+                    except json.decoder.JSONDecodeError:
+                        folderTitles.append(name + "/" + averylib.AnsiCode("0"))
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0"))
+                print(averylib.AnsiCode("0;1") + str(i+1) + '. ' + averylib.AnsiCode("0") + folderTitles[i] + averylib.AnsiCode("0"))
         # meta.json titles with folder names
         elif folder_display == '3':
             folderTitles = []
             for num, name in enumerate(folders):
                 if "meta.json" in os.listdir(f"./content/{name}"):
-                    metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
-                    if "title" in metaJson:
-                        folderTitle = metaJson["title"]
-                        if folderTitle.strip() != "":
-                            folderTitles.append(folderTitle + "/")
+                    try:
+                        metaJson = json.loads(averylib.readfile(f'./content/{folders[num]}/meta.json'))
+                        if "title" in metaJson:
+                            folderTitle = metaJson["title"]
+                            if folderTitle.strip() != "":
+                                folderTitles.append(folderTitle + "/")
+                            else:
+                                folderTitles.append(folders_pretty[num] + "/")
                         else:
                             folderTitles.append(folders_pretty[num] + "/")
-                    else:
-                        folderTitles.append(folders_pretty[num] + "/")
+                    except json.decoder.JSONDecodeError:
+                        folderTitles.append(name + '/' + averylib.AnsiCode("0"))
                 else:
                     folderTitles.append(folders_pretty[num] + "/")
             for i, x in enumerate(folderTitles):
-                print(str(i+1) + '. ' + averylib.AnsiCode("1") + folderTitles[i] + averylib.AnsiCode("0") + f" ({folders[i]})")
+                print(averylib.AnsiCode("0;1") + str(i+1) + '. ' + averylib.AnsiCode("0") + folderTitles[i] + averylib.AnsiCode("0") + f" ({folders[i]})")
         # raw
         else:
             for i, x in enumerate(folders):
-                print(str(i+1) + averylib.AnsiCode("1") + '. .../' + folders[i] + averylib.AnsiCode("0"))
+                print(averylib.AnsiCode("0;1") + str(i+1) + '.' + averylib.AnsiCode("0") + '.../' + folders[i] + averylib.AnsiCode("0"))
 
         try: selection = input('\n> ')
         except KeyboardInterrupt: break
