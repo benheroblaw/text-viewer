@@ -102,7 +102,7 @@ special_chars = [
     "\udc02",
 ]
 
-def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', nameplate="<\\none/>", nobr=False, skipWhitespace=True):
+def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', nameplate="<\\none/>", nobr=False, skipWhitespace=True, text_indent = 0):
     """All-purpose text thing."""
     size = os.get_terminal_size()
     msg = textwrap.fill(msg, size.columns, drop_whitespace=False)
@@ -110,6 +110,13 @@ def display(msg="", msgSpeed=0, cont=False, clear='none', portrait='<\\none/>', 
     # msgSpeed = float(readline("options.txt", 1).replace("text-speed = ", ""))
     if clear == 'before' or clear == "both":
         averylib.clear()
+        line_indent = ""
+
+        try:
+            line_indent = " " * int(averylib.readline("options.txt", 5))
+            line_indent += " " * text_indent
+        except: line_indent = ""
+        print(line_indent, end="")
     # noinput(msg, msgSpeed)
     # cursor.show()
     msgStripped = msg

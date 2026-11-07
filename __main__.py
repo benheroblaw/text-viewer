@@ -49,53 +49,59 @@ except FileExistsError: print('options.txt exists, continuing...')
 
 
 
-import fish, importlib, genCollections
+import fish, importlib, genCollections, traceback, datetime, sys
 
 
 
 while __name__ == '__main__':
-  # are we in debug mode?
-  debug = False
-  if 'debug' in averylib.readfile('options.txt'):
-    debug = True
+  try:
+    averylib.clear()
+    # are we in debug mode?
+    debug = False
+    if 'debug' in averylib.readfile('options.txt'):
+      debug = True
 
-  # debug: print the absolute cwd
-  if debug:
-    print(f'current working directory: {os.path.abspath(".")}')
-
-  # set the window title
-  print('\n\33]0;loading... please wait :3\a', end='')
-
-  # if we're on unix, run chkdeps.bash
-  if os.name == 'posix':
+    # debug: print the absolute cwd
     if debug:
-      print("chmodding chkdeps.bash...")
-    os.system('chmod +x ./chkdeps.bash')
-    if debug:
-      print("chmodded chkdeps!")
+      print(f'current working directory: {os.path.abspath(".")}')
+
+    # set the window title
+    print('\n\33]0;loading... please wait :3\a', end='')
+
+    # if we're on unix, run chkdeps.bash
+    if os.name == 'posix':
+      if debug:
+        print("chmodding chkdeps.bash...")
+      os.system('chmod +x ./chkdeps.bash')
+      if debug:
+        print("chmodded chkdeps!")
+        print()
+      os.system("./chkdeps.bash")
       print()
-    os.system("./chkdeps.bash")
+
+    # update with git (system-dependent)
+    if debug:
+      print("updating with git...")
+    if os.name == 'posix':
+      os.system('printf "%b\n" "Updating... "; git pull origin ' + averylib.readfile('./extra/origin'))
+    elif os.name == "nt":
+      print("Updating...")
+      os.system("git pull origin " + averylib.readfile('./extra/origin'))
     print()
 
-  # update with git (system-dependent)
-  if debug:
-    print("updating with git...")
-  if os.name == 'posix':
-    os.system('printf "%b" "Updating... "; git pull origin ' + averylib.readfile('./extra/origin'))
-  elif os.name == "nt":
-    print("Updating...")
-    os.system("git pull origin " + averylib.readfile('./extra/origin'))
-  print()
+    # generate symlinks for collections
+    genCollections.generate(debug, debug)
 
-  # generate symlinks for collections
-  genCollections.generate(debug, debug)
+    # pass to barracuda
+    fish.Barracuda()
 
-  # pass to barracuda
-  fish.Barracuda()
+    # reload everything (doesn't work fully goddammit)
+    os.system("rm ./__pycache__/*")
+    print('\33]0;loading... please wait :3\a', end='')
+    averylib.clear()
+    print('reloading viewer...')
+    importlib.reload(fish)
+    print('reloaded!\n')
 
-  # reload everything (doesn't work fully goddammit)
-  print('\33]0;loading... please wait :3\a', end='')
-  averylib.clear()
-  print('reloading viewer...')
-  importlib.reload(fish)
-  print('reloaded!\n')
+  # except KeyboardInterrupt: continue
+  except: averylib.Error()

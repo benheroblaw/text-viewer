@@ -71,11 +71,13 @@ def generate(logging=False, debug=False):
     if path not in ignored:
       for i in os.scandir(path):
         if i.is_dir() and i.name not in ignored:
-          print(" " + i.name)
+          averylib.print_bold("\r " + i.name)
           # output = i.name.replace('\'', '\\\'')
           output = i.name.replace('"', '\\"')
           if os.name == "posix":
-            os.system(f'printf "%b" "  "; find "{path}/{output}/*.scri" -xtype l -delete; printf "%b" ""'.replace('//', '/').replace("\\\\", "\\"))
+            averylib.PrintAnsiCode("0")
+            os.system(f'printf "%b" "\r  "; find -wholename "{path}/{output}/*.scri" -xtype l -delete; printf "%b" ""'.replace('//', '/').replace("\\\\", "\\"))
+            averylib.PrintAnsiCode("0;38;5;255")
           elif os.name == "nt":
             os.system(f'find {extra_path}/content/{output}/*.scri -xtype l -delete'.replace('//', '/').replace("/", "\\"))
   print()

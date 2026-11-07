@@ -1,9 +1,18 @@
+v0.6.1 - error screen and bugfixes!
+    when an error occurs, instead of crashing, the text viewer pulls up a little screen!
+        (also writes the traceback to a file)
+
+    misc bugfixes and tweaks
+
 v0.6 - config commands!
-    did you hate having to add NOBR> to line after line? well, here's your solution!
-        the only config command so far is "CONFIG>keep_whitespace", and as explained by its name, it respects your empty lines after the first non-DEF> and non-CONFIG> line!
+    added CONFIG>
+        did you hate having to add NOBR> to line after line? well, here's your solution!
+            the only config command so far is "CONFIG>keep_whitespace", and as explained by its name, it respects your empty lines after the first non-DEF> and non-CONFIG> line!
+
+    CONFIG>s will be used if they are in definition files
 
 v0.5.1 - import changes
-    definition files will now be imported in their entirety!
+    definition files are now imported in their entirety!
 
 v0.5 - story creation wizard!
     this thing can now help you make a story super quick! the wizard is in Options>Creation Tools
@@ -32,7 +41,7 @@ v0.2.2 - import adjustments
 
 v0.2.1 - random bug fixing
     fixed an oversight that would crash the viewer if there was a meta.json without a "title" key
-        this happened because I assumed that the meta.json would always have a "title" key
+        this happened because the code assumed that the meta.json would always have a "title" key
 
     fixed some crashes that might not have been in release :P
 
@@ -56,6 +65,7 @@ v0.2 - a bunch of shit
     added defs? i think?
         you can label a series of format codes with one name to use later
         you can also make a .def or .defs file with a bunch of those for modularity :3
+            these are called definition files!
 
 v0.1 - when I started counting
     made Candiru/chapter viewer recursive

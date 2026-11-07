@@ -125,10 +125,12 @@ def Candiru(sel, folder_last, folder, folders_pretty, folder_display, show_tags)
 					os.path.join('./content', folder, chapter_list[chapters[chap_sel]])
 					)
 				if os.path.isdir( path ):
-					Candiru(sel, folder_last, os.path.join(folder, chapter_list[chapters[chap_sel]]), folders_pretty, folder_display, show_tags)
+					try: Candiru(sel, folder_last, os.path.join(folder, chapter_list[chapters[chap_sel]]), folders_pretty, folder_display, show_tags)
+					except: averylib.Error()
 				# except: print(f"Could not find key...")
 				else:
 					if not chapters[chap_sel].endswith(".scri"):
 						chapters[chap_sel] += ".scri"
 					# chap_story = averylib.readfile().splitlines()
-					fish.Taimen(os.path.join('./content', folder, chapter_list[chapters[chap_sel]]), './content/' + folder)
+					try: fish.Taimen(os.path.join('./content', folder, chapter_list[chapters[chap_sel]]), './content/' + folder)
+					except: averylib.Error()

@@ -1,14 +1,18 @@
-# main
-from Barracuda import *
+from averylib import Error
 
-# chapters
-from Candiru import *
+try:
+    # main
+    from Barracuda import *
 
-# meta printing
-from Mako import *
+    # chapters
+    from Candiru import *
 
-# settings
-from Sixgill import *
+    # meta printing
+    from Mako import *
 
-# text handling
-from Taimen import *
+    # settings
+    from Sixgill import *
+
+    # text handling
+    from Taimen import *
+except: Error()
