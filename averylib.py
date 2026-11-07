@@ -1,5 +1,5 @@
 # my little cross-platform library :}
-import os, time, random, sys, json
+import os, time, random, sys, json, traceback, datetime, subprocess
 
 clearCommand = ""
 if os.name == "posix":
@@ -27,6 +27,9 @@ def PrintAnsiCode(code="", end=""):
   """Prints the string, formatted as an ansi code.
   """
   print_ansi_code(code, end)
+
+def print_bold(msg="", end="\n\r"):
+  print(ansi_code("1") + msg + ansi_code("0"), end=end)
 
 textReset = ansi_code("0")
 
@@ -116,6 +119,34 @@ def rmdupes(inputFile):
   writefile(inputFile, outputFile)
 
 Signed32BitIntegerLimit = 2147483647
+
+def Error():
+  """Should handle any error."""
+  ErrorScreen()
+  print("(" + ErrorLog() + ")")
+  print()
+  try:
+    input('Exit > ')
+    print("Exiting...")
+    exit()
+  except: exit()
+
+def ErrorScreen():
+  """Prints a screen that tells you an exception has occurred"""
+  clear()
+  print(AnsiCode("0;1;31") + "An uncaught exception has occurred!" + AnsiCode("0"))
+  traceback.print_exc();
+  print()
+  print_bold("Please contact benheroblaw with this crash report!")
+
+def ErrorLog():
+  """Writes the exception to a file"""
+  if not os.path.exists("./logs"):
+    os.makedirs("./logs")
+  logName = datetime.datetime.now().strftime("%m-%d-%Y_%H:%M:%S_crashreport.txt")
+  writefile(f"./logs/{logName}", traceback.format_exc().strip())
+
+  return f"Crash report has been saved to {os.path.abspath(os.path.join(".", "logs", logName))}"
 
 
 if os.path.exists("./averylib.cmd"):

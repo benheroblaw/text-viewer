@@ -174,11 +174,13 @@ def Barracuda():
 
         # settings
         if selection == 0:
-            fish.Sixgill()
+            try: fish.Sixgill()
+            except: averylib.Error()
 
         # pass it to Candiru
         elif selection <= len(folders):
-            fish.Candiru(sel, folder_last, folders[sel], folders_pretty, folder_display, show_tags)
+            try: fish.Candiru(sel, folder_last, folders[sel], folders_pretty, folder_display, show_tags)
+            except: averylib.Error()
 
         else:
             input('wtf')
