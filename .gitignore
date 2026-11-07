@@ -54,3 +54,4 @@ content/zzz-zzz-collection_generator/tests/portraits.scri
 content/zzz-zzz-collection_generator/tests/speed.scri
 content/zzz-zzz-collection_generator/tests/syntax_text.scri
 run_the_thing.sh
+logs/

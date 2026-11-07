@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "__main__.py", line 94, in <module>
-    try: fish.Barracuda()
-         ^^^^^^^^^^^^^^^^
-  File "/home/benheroblaw/.local/share/bhrobla/text-viewer-dev/Barracuda.py", line 163, in Barracuda
-    try: selection = input('\n> ')
-                     ^^^^^^^^^^^^^
-KeyboardInterrupt

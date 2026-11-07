@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "__main__.py", line 93, in <module>
-    genCollections.generate(debug, debug)
-  File "/home/benheroblaw/.local/share/bhrobla/text-viewer-dev/genCollections.py", line 75, in generate
-    for i in paths.sort():
-TypeError: 'NoneType' object is not iterable

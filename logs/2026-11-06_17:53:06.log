@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "__main__.py", line 94, in <module>
-    try: fish.Barracuda()
-         ^^^^^^^^^^^^^^^^
-KeyboardInterrupt

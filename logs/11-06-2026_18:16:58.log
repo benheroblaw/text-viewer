@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "__main__.py", line 92, in <module>
-    genCollections.generate(debug, debug)
-  File "/home/benheroblaw/.local/share/bhrobla/text-viewer-dev/genCollections.py", line 88, in generate
-    input('done, waiting for input: ')
-KeyboardInterrupt
