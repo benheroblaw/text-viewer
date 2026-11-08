@@ -77,9 +77,8 @@ def Taimen(file='', path=""):
         clear = 'none'
         portrait, nameplate = '<\\none/>', '<\\none/>'
 
-        if "CONFIG>keep_whitespace" in i:
+        if "CONFIG>keep_whitespace" in i.replace(" ", ""):
           skipWhitespace = False
-          i = i.replace("CONFIG>keep_whitespace", "")
           continue
 
         if i != '' or i == "" and not skipWhitespace and after_first_line:
@@ -455,7 +454,7 @@ def Taimen(file='', path=""):
       # let the user know the script is done
       if nobr:
         print()
-      GetLineIndent(text_indent); endInput = input("Return > ")
+      GetLineIndent(text_indent); endInput = input("End >")
       averylib.clear()
       if endInput == "replay":
         try: Taimen(file, path)
