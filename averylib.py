@@ -122,14 +122,14 @@ Signed32BitIntegerLimit = 2147483647
 
 def Error():
   """Should handle any error."""
-  ErrorScreen()
-  print("(" + ErrorLog() + ")")
-  print()
   try:
+    ErrorScreen()
+    print("(" + ErrorLog() + ")")
+    print()
     input('Exit > ')
     print("Exiting...")
     exit()
-  except: exit()
+  except KeyboardInterrupt: print("Exiting..."); exit()
 
 def ErrorScreen():
   """Prints a screen that tells you an exception has occurred"""
@@ -137,14 +137,14 @@ def ErrorScreen():
   print(AnsiCode("0;1;31") + "An uncaught exception has occurred!" + AnsiCode("0"))
   traceback.print_exc();
   print()
-  print_bold("Please contact benheroblaw with this crash report!")
+  print_bold("Please submit this crash report to benheroblaw!")
 
 def ErrorLog():
   """Writes the exception to a file"""
   if not os.path.exists("./logs"):
     os.makedirs("./logs")
-  logName = datetime.datetime.now().strftime("%m-%d-%Y_%H:%M:%S_crashreport.txt")
-  writefile(f"./logs/{logName}", traceback.format_exc().strip())
+  logName = datetime.datetime.now().strftime("%m-%d-%Y_%H-%M-%S_crashreport.txt")
+  writefile(os.path.join(os.path.abspath("."), "logs", logName), traceback.format_exc().strip())
 
   return f"Crash report has been saved to {os.path.abspath(os.path.join(".", "logs", logName))}"
 
